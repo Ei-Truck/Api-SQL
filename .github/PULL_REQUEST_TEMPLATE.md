@@ -23,7 +23,7 @@
 
 **EM INGLÊS, ESCREVA ASSIM**
 <br>
-tipo(escopo):pequena descrição
+### tipo(escopo):pequena descrição
 
 
 ### 🏷️ Nome da PR
