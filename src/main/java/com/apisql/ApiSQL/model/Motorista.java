@@ -1,7 +1,14 @@
 package com.apisql.ApiSQL.model;
 
-import jakarta.persistence.*;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Column;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.JoinColumn;
 
 @Entity
 @Table(name = "tb_motorista")
@@ -43,7 +50,7 @@ public class Motorista {
     @Column(nullable = false)
     private Boolean isinactive = false;
 
-  
+
 
     public Long getId() {
         return id;
