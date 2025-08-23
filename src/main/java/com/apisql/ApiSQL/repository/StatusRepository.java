@@ -1,9 +1,9 @@
 package com.apisql.ApiSQL.repository;
 
-import com.apisql.ApiSQL.model.Unidade;
+import com.apisql.ApiSQL.model.Status;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface UnidadeRepository extends JpaRepository<Unidade, Long> {
+public interface StatusRepository extends JpaRepository<Status, Long> {
 }
