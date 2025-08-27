@@ -1,16 +1,26 @@
 package com.apisql.ApiSQL.config;
 
-import io.swagger.v3.oas.annotations.OpenAPIDefinition;
-import io.swagger.v3.oas.annotations.info.Info;
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.info.Contact;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import io.swagger.v3.oas.models.info.Info;
+
 
 @Configuration
-@OpenAPIDefinition(
-        info = @Info(
-                title = "API-SQL",
-                version = "1.0",
-                description = "API em Spring que consome um banco SQL"
-        )
-)
+
 public class SwaggerConfig {
+        @Bean
+        public OpenAPI customOpenAPI() {
+                return new OpenAPI()
+                        .info(new Info()
+                                .title("API Motoristas")
+                                .version("1.0")
+                                .description("Documentação da API de Motoristas")
+                                .contact(new Contact()
+                                        .name("Seu Nome")
+                                        .email("seuemail@empresa.com")
+                                )
+                        );
+        }
 }

@@ -1,4 +1,4 @@
-package com.apisql.ApiSQL.controller;
+package com.apisql.ApiSQL.controller.health;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
