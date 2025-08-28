@@ -20,7 +20,7 @@ public class UnidadeService {
         return unidadeRepository.findAll();
     }
 
-    public Optional<Unidade> findById(Long id) {
+    public Optional<Unidade> findById(Integer id) {
         return unidadeRepository.findById(id);
     }
 
@@ -28,7 +28,7 @@ public class UnidadeService {
         return unidadeRepository.save(unidade);
     }
 
-    public void deleteById(Long id) {
+    public void deleteById(Integer id) {
         unidadeRepository.deleteById(id);
     }
 }

@@ -43,7 +43,7 @@ public class SegmentoController {
     })
     @GetMapping("/{id}")
     public ResponseEntity<Segmento> getById(
-            @Parameter(description = "ID do segmento") @PathVariable Long id) {
+            @Parameter(description = "ID do segmento") @PathVariable Integer id) {
         return segmentoService.findById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
@@ -63,7 +63,7 @@ public class SegmentoController {
     })
     @PutMapping("/{id}")
     public ResponseEntity<Segmento> update(
-            @PathVariable Long id,
+            @PathVariable Integer id,
             @RequestBody Segmento segmento) {
         return segmentoService.findById(id)
                 .map(existing -> {
@@ -79,7 +79,7 @@ public class SegmentoController {
             @ApiResponse(responseCode = "404", description = "Segmento não encontrado")
     })
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Long id) {
+    public ResponseEntity<Void> delete(@PathVariable Integer id) {
         if (segmentoService.findById(id).isPresent()) {
             segmentoService.deleteById(id);
             return ResponseEntity.noContent().build();

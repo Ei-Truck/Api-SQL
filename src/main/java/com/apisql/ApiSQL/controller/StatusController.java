@@ -43,7 +43,7 @@ public class StatusController {
     })
     @GetMapping("/{id}")
     public ResponseEntity<Status> getById(
-            @Parameter(description = "ID do status") @PathVariable Long id) {
+            @Parameter(description = "ID do status") @PathVariable Integer id) {
         return statusService.findById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
@@ -63,7 +63,7 @@ public class StatusController {
     })
     @PutMapping("/{id}")
     public ResponseEntity<Status> update(
-            @PathVariable Long id,
+            @PathVariable Integer id,
             @RequestBody Status status) {
         return statusService.findById(id)
                 .map(existing -> {
@@ -79,7 +79,7 @@ public class StatusController {
             @ApiResponse(responseCode = "404", description = "Status não encontrado")
     })
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Long id) {
+    public ResponseEntity<Void> delete(@PathVariable Integer id) {
         if (statusService.findById(id).isPresent()) {
             statusService.deleteById(id);
             return ResponseEntity.noContent().build();

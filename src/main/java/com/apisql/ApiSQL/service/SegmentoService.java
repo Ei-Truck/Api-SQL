@@ -21,7 +21,7 @@ public class SegmentoService {
         return segmentoRepository.findAll();
     }
 
-    public Optional<Segmento> findById(Long id) {
+    public Optional<Segmento> findById(Integer id) {
         return segmentoRepository.findById(id);
     }
 
@@ -29,7 +29,7 @@ public class SegmentoService {
         return segmentoRepository.save(segmento);
     }
 
-    public void deleteById(Long id) {
+    public void deleteById(Integer id) {
         segmentoRepository.deleteById(id);
     }
 }

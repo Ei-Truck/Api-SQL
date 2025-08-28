@@ -43,7 +43,7 @@ public class UnidadeController {
     })
     @GetMapping("/{id}")
     public ResponseEntity<Unidade> getById(
-            @Parameter(description = "ID da unidade") @PathVariable Long id) {
+            @Parameter(description = "ID da unidade") @PathVariable Integer id) {
         return unidadeService.findById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
@@ -63,7 +63,7 @@ public class UnidadeController {
     })
     @PutMapping("/{id}")
     public ResponseEntity<Unidade> update(
-            @PathVariable Long id,
+            @PathVariable Integer id,
             @RequestBody Unidade unidade) {
         return unidadeService.findById(id)
                 .map(existing -> {
@@ -82,7 +82,7 @@ public class UnidadeController {
             @ApiResponse(responseCode = "404", description = "Unidade não encontrada")
     })
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Long id) {
+    public ResponseEntity<Void> delete(@PathVariable Integer id) {
         if (unidadeService.findById(id).isPresent()) {
             unidadeService.deleteById(id);
             return ResponseEntity.noContent().build();

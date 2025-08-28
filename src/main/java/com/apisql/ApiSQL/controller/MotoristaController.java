@@ -43,7 +43,7 @@ public class MotoristaController {
     })
     @GetMapping("/{id}")
     public ResponseEntity<Motorista> getById(
-            @Parameter(description = "ID do motorista") @PathVariable Long id) {
+            @Parameter(description = "ID do motorista") @PathVariable Integer id) {
         return motoristaService.buscarPorId(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
@@ -63,7 +63,7 @@ public class MotoristaController {
     })
     @PutMapping("/{id}")
     public ResponseEntity<Motorista> update(
-            @PathVariable Long id,
+            @PathVariable Integer id,
             @RequestBody Motorista motorista) {
         return motoristaService.buscarPorId(id)
                 .map(existing -> {
@@ -80,7 +80,7 @@ public class MotoristaController {
             @ApiResponse(responseCode = "404", description = "Motorista não encontrado")
     })
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Long id) {
+    public ResponseEntity<Void> delete(@PathVariable Integer id) {
         if (motoristaService.buscarPorId(id).isPresent()) {
             motoristaService.deletar(id);
             return ResponseEntity.noContent().build();

@@ -42,7 +42,7 @@ public class TipoRiscoController {
     })
     @GetMapping("/{id}")
     public ResponseEntity<TipoRisco> getById(
-            @Parameter(description = "ID do tipo de risco") @PathVariable Long id) {
+            @Parameter(description = "ID do tipo de risco") @PathVariable Integer id) {
         return tipoRiscoService.findById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
@@ -62,7 +62,7 @@ public class TipoRiscoController {
     })
     @PutMapping("/{id}")
     public ResponseEntity<TipoRisco> update(
-            @PathVariable Long id,
+            @PathVariable Integer id,
             @RequestBody TipoRisco tipoRisco) {
         return tipoRiscoService.findById(id)
                 .map(existing -> {
@@ -79,7 +79,7 @@ public class TipoRiscoController {
             @ApiResponse(responseCode = "404", description = "Tipo de risco não encontrado")
     })
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Long id) {
+    public ResponseEntity<Void> delete(@PathVariable Integer id) {
         if (tipoRiscoService.findById(id).isPresent()) {
             tipoRiscoService.deleteById(id);
             return ResponseEntity.noContent().build();
