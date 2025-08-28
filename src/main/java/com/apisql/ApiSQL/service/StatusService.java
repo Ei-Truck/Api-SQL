@@ -21,7 +21,7 @@ public class StatusService {
         return statusRepository.findAll();
     }
 
-    public Optional<Status> findById(Long id) {
+    public Optional<Status> findById(Integer id) {
         return statusRepository.findById(id);
     }
 
@@ -29,7 +29,7 @@ public class StatusService {
         return statusRepository.save(status);
     }
 
-    public void deleteById(Long id) {
+    public void deleteById(Integer id) {
         statusRepository.deleteById(id);
     }
 }

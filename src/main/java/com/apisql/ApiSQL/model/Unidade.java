@@ -14,7 +14,7 @@ import jakarta.persistence.Column;
 public class Unidade {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
 
     @ManyToOne
     @JoinColumn(name = "id_segmento")
@@ -32,8 +32,8 @@ public class Unidade {
     @Column(name = "isinactive")
     private Boolean isInactive = false;
 
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
+    public Integer getId() { return id; }
+    public void setId(Integer id) { this.id = id; }
 
     public Segmento getSegmento() { return segmento; }
     public void setSegmento(Segmento segmento) { this.segmento = segmento; }

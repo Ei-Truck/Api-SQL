@@ -19,7 +19,7 @@ public class MotoristaService {
         return repository.findAll();
     }
 
-    public Optional<Motorista> buscarPorId(Long id) {
+    public Optional<Motorista> buscarPorId(Integer id) {
         return repository.findById(id);
     }
 
@@ -27,7 +27,7 @@ public class MotoristaService {
         return repository.save(motorista);
     }
 
-    public Motorista atualizar(Long id, Motorista dados) {
+    public Motorista atualizar(Integer id, Motorista dados) {
         return repository.findById(id).map(m -> {
             m.setCpf(dados.getCpf());
             m.setUnidade(dados.getUnidade());
@@ -43,7 +43,7 @@ public class MotoristaService {
         }).orElseThrow(() -> new RuntimeException("Motorista não encontrado!"));
     }
 
-    public void deletar(Long id) {
+    public void deletar(Integer id) {
         if (repository.existsById(id)) {
             repository.deleteById(id);
         } else {

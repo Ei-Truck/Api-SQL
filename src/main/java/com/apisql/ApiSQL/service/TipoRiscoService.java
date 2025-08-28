@@ -20,7 +20,7 @@ public class TipoRiscoService {
         return tipoRiscoRepository.findAll();
     }
 
-    public Optional<TipoRisco> findById(Long id) {
+    public Optional<TipoRisco> findById(Integer id) {
         return tipoRiscoRepository.findById(id);
     }
 
@@ -28,7 +28,7 @@ public class TipoRiscoService {
         return tipoRiscoRepository.save(tipoRisco);
     }
 
-    public void deleteById(Long id) {
+    public void deleteById(Integer id) {
         tipoRiscoRepository.deleteById(id);
     }
 }
