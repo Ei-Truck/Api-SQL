@@ -36,9 +36,10 @@ public class Caminhao {
     @Column(length = 80, columnDefinition = "VARCHAR DEFAULT 'Não informado'")
     private String modelo = "Não informado";
 
+    @Column(name = "ano_fabricacao")
     private Integer anoFabricacao;
 
-    @Column(nullable = false)
+    @Column(name = "numero_frota",nullable = false)
     private Integer numeroFrota;
 
     @Column(name = "transaction_made", length = 20)

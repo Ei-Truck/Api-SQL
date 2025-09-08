@@ -7,6 +7,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Column;
 
+import java.time.LocalDateTime;
+
 @Entity
 @Table(name = "tb_tipo_risco")
 public class TipoRisco {
@@ -21,8 +23,23 @@ public class TipoRisco {
     @Column(name = "descricao", columnDefinition = "TEXT")
     private String descricao;
 
-    @Column(name = "isinactive")
+    @Column(name = "transaction_made", length = 20)
+    private String transactionMade;
+
+    @Column(name = "updated_at")
+    private LocalDateTime updatedAt;
+
+    @Column(nullable = false, name = "is_inactive")
     private Boolean isInactive = false;
+
+    public String getTransactionMade() {return transactionMade;}
+    public void setTransactionMade(String transactionMade) {this.transactionMade = transactionMade;}
+
+    public LocalDateTime getUpdatedAt() {return updatedAt;}
+    public void setUpdatedAt(LocalDateTime updatedAt) {this.updatedAt = updatedAt;}
+
+    public Boolean getInactive() {return isInactive;}
+    public void setInactive(Boolean inactive) {isInactive = inactive;}
 
     public Integer getId() { return id; }
     public void setId(Integer id) { this.id = id; }
