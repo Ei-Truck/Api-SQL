@@ -37,7 +37,6 @@ public class MotoristaService {
             m.setEmailEmpresa(dados.getEmailEmpresa());
             m.setTipoRisco(dados.getTipoRisco());
             m.setUrlFoto(dados.getUrlFoto());
-            m.setStatus(dados.getStatus());
             m.setIsinactive(dados.getIsinactive());
             return repository.save(m);
         }).orElseThrow(() -> new RuntimeException("Motorista não encontrado!"));

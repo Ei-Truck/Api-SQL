@@ -10,6 +10,8 @@ import jakarta.persistence.Column;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.JoinColumn;
 
+import java.time.LocalDateTime;
+
 @Entity
 @Table(name = "tb_motorista")
 public class Motorista {
@@ -37,18 +39,21 @@ public class Motorista {
     private String emailEmpresa;
 
     @ManyToOne
-    @JoinColumn(name = "risco", referencedColumnName = "id")
+    @JoinColumn(name = "id_tipo_risco", referencedColumnName = "id")
     private TipoRisco tipoRisco;
 
     @Column(name = "url_foto", length = 255)
     private String urlFoto = "Sem foto";
 
-    @ManyToOne
-    @JoinColumn(name = "id_status", referencedColumnName = "id")
-    private Status status;
 
-    @Column(nullable = false)
-    private Boolean isinactive = false;
+    @Column(name = "transaction_made", length = 20)
+    private String transactionMade;
+
+    @Column(name = "updated_at")
+    private LocalDateTime updatedAt;
+
+    @Column(nullable = false, name = "is_inactive")
+    private Boolean isInactive = false;
 
 
 
@@ -124,19 +129,11 @@ public class Motorista {
         this.urlFoto = urlFoto;
     }
 
-    public Status getStatus() {
-        return status;
+    public Boolean getIsInactive() {
+        return isInactive;
     }
 
-    public void setStatus(Status status) {
-        this.status = status;
-    }
-
-    public Boolean getIsinactive() {
-        return isinactive;
-    }
-
-    public void setIsinactive(Boolean isinactive) {
-        this.isinactive = isinactive;
+    public void setIsinactive(Boolean isInactive) {
+        this.isInactive = isInactive;
     }
 }

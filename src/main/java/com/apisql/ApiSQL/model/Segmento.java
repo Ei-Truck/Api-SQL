@@ -6,9 +6,9 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Column;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.JoinColumn;
 
+
+import java.time.LocalDateTime;
 
 
 @Entity
@@ -22,12 +22,15 @@ public class Segmento {
     @Column(name = "nome", nullable = false, unique = true, length = 40)
     private String nome;
 
-    @ManyToOne
-    @JoinColumn(name = "id_status")
-    private Status status;
+    @Column(name = "transaction_made", length = 20)
+    private String transactionMade;
 
-    @Column(name = "isinactive")
+    @Column(name = "updated_at")
+    private LocalDateTime updatedAt;
+
+    @Column(name = "is_inactive")
     private Boolean isInactive = false;
+
 
     // Getters e Setters
     public Integer getId() { return id; }
@@ -36,8 +39,6 @@ public class Segmento {
     public String getNome() { return nome; }
     public void setNome(String nome) { this.nome = nome; }
 
-    public Status getStatus() { return status; }
-    public void setStatus(Status status) { this.status = status; }
 
     public Boolean getIsInactive() { return isInactive; }
     public void setIsInactive(Boolean isInactive) { this.isInactive = isInactive; }
