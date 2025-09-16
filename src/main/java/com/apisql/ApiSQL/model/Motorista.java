@@ -133,7 +133,7 @@ public class Motorista {
         return isInactive;
     }
 
-    public void setIsinactive(Boolean isInactive) {
+    public void setIsInactive(Boolean isInactive) {
         this.isInactive = isInactive;
     }
 }
