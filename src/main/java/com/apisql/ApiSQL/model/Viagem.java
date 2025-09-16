@@ -25,7 +25,7 @@ public class Viagem {
     private Caminhao caminhao;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_motorista", nullable = false)
+    @JoinColumn(name = "id_motorista", nullable = true)
     private Motorista motorista;
 
     @ManyToOne(fetch = FetchType.LAZY)
