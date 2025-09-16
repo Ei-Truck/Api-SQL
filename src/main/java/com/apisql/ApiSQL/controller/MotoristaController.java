@@ -69,7 +69,7 @@ public class MotoristaController {
                 .map(existing -> {
                     existing.setNomeCompleto(motorista.getNomeCompleto());
                     existing.setCnh(motorista.getCnh());
-                    existing.setIsinactive(motorista.getIsInactive());
+                    existing.setIsInactive(motorista.getIsInactive());
                     return ResponseEntity.ok(motoristaService.salvar(existing));
                 }).orElse(ResponseEntity.notFound().build());
     }
