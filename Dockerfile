@@ -1,24 +1,33 @@
-# Etapa de build com Maven + Java 21
+# =============================
+# Etapa 1: Build com Maven + JDK 21
+# =============================
 FROM maven:3.9.4-eclipse-temurin-21 AS builder
+
+# Diretório de trabalho
 WORKDIR /app
 
-# Copia apenas o pom.xml primeiro para cache de dependências
+# Copia arquivos do projeto
 COPY pom.xml .
-RUN mvn dependency:go-offline -B
-
-# Copia o código-fonte
 COPY src ./src
 
-# Build com encoding UTF-8
-RUN mvn clean package -DskipTests -Dproject.build.sourceEncoding=UTF-8
+# Build do projeto sem testar, sem resource filtering
+RUN mvn clean package -DskipTests
 
-# Etapa de runtime com JDK 21 slim
+# =============================
+# Etapa 2: Runtime com JDK 21 slim
+# =============================
 FROM openjdk:21-jdk-slim
+
 WORKDIR /app
+
+# Copia o JAR gerado na etapa de build
 COPY --from=builder /app/target/*.jar app.jar
+
+# Porta que a API vai escutar
 EXPOSE 8080
 
-# Ativa o profile QA
+# Ativa o profile QA do Spring
 ENV SPRING_PROFILES_ACTIVE=qa
 
+# Comando para iniciar a aplicação
 ENTRYPOINT ["java","-jar","app.jar"]
