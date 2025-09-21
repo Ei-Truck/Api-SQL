@@ -32,21 +32,18 @@ public class ViagemService {
     }
 
     public ViagemDTO createViagem(ViagemDTO viagemDTO) {
-        // Encontra o caminhão pelo ID para associá-lo à viagem.
         Caminhao caminhao = caminhaoRepository.findById(viagemDTO.getCaminhao().getId())
                 .orElseThrow(() -> new EntityNotFoundException("Caminhão não encontrado com o ID: " + viagemDTO.getCaminhao().getId()));
 
-        // Converte o DTO para uma entidade.
         Viagem viagem = new Viagem();
         viagem.setDtHrInicio(viagemDTO.getDtHrInicio());
         viagem.setDtHrFim(viagemDTO.getDtHrFim());
         viagem.setKmViagem(viagemDTO.getKmViagem());
         viagem.setCaminhao(caminhao);
+        viagem.setWasAnalyzed(false);
 
-        // Salva a nova entidade no banco de dados.
         Viagem savedViagem = viagemRepository.save(viagem);
 
-        // Retorna o DTO da entidade salva.
         return new ViagemDTO(savedViagem);
     }
 }
