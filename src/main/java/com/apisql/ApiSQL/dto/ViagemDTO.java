@@ -11,6 +11,7 @@ public class ViagemDTO {
     private LocalDateTime dtHrFim;
     private String kmViagem;
     private CaminhaoDTO caminhao;
+    private Boolean wasAnalyzed = false;
 
     public ViagemDTO() {
     }
@@ -22,6 +23,7 @@ public class ViagemDTO {
             this.dtHrFim = viagem.getDtHrFim();
             this.kmViagem = viagem.getKmViagem();
             this.caminhao = new CaminhaoDTO(viagem.getCaminhao());
+            this.wasAnalyzed = viagem.getWasAnalyzed();
         }
     }
 
@@ -45,6 +47,9 @@ public class ViagemDTO {
     public CaminhaoDTO getCaminhao() {
         return caminhao;
     }
+    public Boolean getWasAnalyzed() {
+        return wasAnalyzed;
+    }
 
     // Setters
     public void setId(Integer id) {
@@ -65,5 +70,8 @@ public class ViagemDTO {
 
     public void setCaminhao(CaminhaoDTO caminhao) {
         this.caminhao = caminhao;
+    }
+    public void setWasAnalyzed(Boolean wasAnalyzed) {
+        this.wasAnalyzed = wasAnalyzed;
     }
 }
