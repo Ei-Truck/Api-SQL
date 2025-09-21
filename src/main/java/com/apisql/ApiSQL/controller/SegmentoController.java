@@ -2,7 +2,6 @@ package com.apisql.ApiSQL.controller;
 
 import com.apisql.ApiSQL.model.Segmento;
 import com.apisql.ApiSQL.service.SegmentoService;
-
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -10,15 +9,13 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
-
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @RestController
 @RequestMapping("/segmentos")
-@Tag(name = "Segmentos", description = "Gerenciamento de Segmentos")
+@Tag(name = "Segmentos", description = "Gerenciamento de segmentos")
 public class SegmentoController {
 
     private final SegmentoService segmentoService;
@@ -68,6 +65,8 @@ public class SegmentoController {
         return segmentoService.findById(id)
                 .map(existing -> {
                     existing.setNome(segmento.getNome());
+                    existing.setTransactionMade(segmento.getTransactionMade());
+                    existing.setUpdatedAt(segmento.getUpdatedAt());
                     existing.setIsInactive(segmento.getIsInactive());
                     return ResponseEntity.ok(segmentoService.save(existing));
                 }).orElse(ResponseEntity.notFound().build());

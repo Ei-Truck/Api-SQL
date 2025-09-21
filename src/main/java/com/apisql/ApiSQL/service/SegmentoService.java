@@ -1,10 +1,8 @@
 package com.apisql.ApiSQL.service;
 
-
 import com.apisql.ApiSQL.model.Segmento;
 import com.apisql.ApiSQL.repository.SegmentoRepository;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.Optional;
 

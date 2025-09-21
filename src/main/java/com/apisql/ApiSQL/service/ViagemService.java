@@ -1,54 +1,52 @@
 package com.apisql.ApiSQL.service;
 
-
+import com.apisql.ApiSQL.dto.ViagemDTO;
+import com.apisql.ApiSQL.model.Caminhao;
 import com.apisql.ApiSQL.model.Viagem;
+import com.apisql.ApiSQL.repository.CaminhaoRepository;
 import com.apisql.ApiSQL.repository.ViagemRepository;
+import jakarta.persistence.EntityNotFoundException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class ViagemService {
 
     private final ViagemRepository viagemRepository;
+    private final CaminhaoRepository caminhaoRepository;
 
-    public ViagemService(ViagemRepository viagemRepository) {
+    @Autowired
+    public ViagemService(ViagemRepository viagemRepository, CaminhaoRepository caminhaoRepository) {
         this.viagemRepository = viagemRepository;
+        this.caminhaoRepository = caminhaoRepository;
     }
 
-    public List<Viagem> listarTodas() {
-        return viagemRepository.findAll();
+    public List<ViagemDTO> getAllViagens() {
+        List<Viagem> viagens = viagemRepository.findAll();
+        return viagens.stream()
+                .map(ViagemDTO::new)
+                .collect(Collectors.toList());
     }
 
-    public Optional<Viagem> buscarPorId(Integer id) {
-        return viagemRepository.findById(id);
-    }
+    public ViagemDTO createViagem(ViagemDTO viagemDTO) {
+        // Encontra o caminhão pelo ID para associá-lo à viagem.
+        Caminhao caminhao = caminhaoRepository.findById(viagemDTO.getCaminhao().getId())
+                .orElseThrow(() -> new EntityNotFoundException("Caminhão não encontrado com o ID: " + viagemDTO.getCaminhao().getId()));
 
-    public Viagem salvar(Viagem viagem) {
-        return viagemRepository.save(viagem);
-    }
+        // Converte o DTO para uma entidade.
+        Viagem viagem = new Viagem();
+        viagem.setDtHrInicio(viagemDTO.getDtHrInicio());
+        viagem.setDtHrFim(viagemDTO.getDtHrFim());
+        viagem.setKmViagem(viagemDTO.getKmViagem());
+        viagem.setCaminhao(caminhao);
 
-    public Viagem atualizar(Integer id, Viagem viagemAtualizada) {
-        return viagemRepository.findById(id)
-                .map(viagem -> {
-                    viagem.setCaminhao(viagemAtualizada.getCaminhao());
-                    viagem.setMotorista(viagemAtualizada.getMotorista());
-                    viagem.setUsuario(viagemAtualizada.getUsuario());
-                    viagem.setOrigem(viagemAtualizada.getOrigem());
-                    viagem.setDestino(viagemAtualizada.getDestino());
-                    viagem.setDtHrInicio(viagemAtualizada.getDtHrInicio());
-                    viagem.setDtHrFim(viagemAtualizada.getDtHrFim());
-                    viagem.setTratativa(viagemAtualizada.getTratativa());
-                    viagem.setKmViagem(viagemAtualizada.getKmViagem());
-                    viagem.setIsInactive(viagemAtualizada.getIsInactive());
-                    return viagemRepository.save(viagem);
-                })
-                .orElseThrow(() -> new RuntimeException("Viagem não encontrada com id: " + id));
-    }
+        // Salva a nova entidade no banco de dados.
+        Viagem savedViagem = viagemRepository.save(viagem);
 
-    public void deletar(Integer id) {
-        viagemRepository.deleteById(id);
+        // Retorna o DTO da entidade salva.
+        return new ViagemDTO(savedViagem);
     }
 }
-

@@ -1,6 +1,5 @@
 package com.apisql.ApiSQL.model;
 
-import com.apisql.ApiSQL.model.Motorista;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -25,10 +24,6 @@ public class Viagem {
     private Caminhao caminhao;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_motorista", nullable = true)
-    private Motorista motorista;
-
-    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_usuario")
     private Usuario usuario;
 
@@ -46,97 +41,60 @@ public class Viagem {
     @Column(name = "dt_hr_fim")
     private LocalDateTime dtHrFim;
 
-    @Column(name = "tratativa", columnDefinition = "TEXT")
-    private String tratativa;
-
-    @Column(name = "km_viagem", columnDefinition = "VARCHAR DEFAULT 'Não informado'")
+    @Column(name = "km_viagem", length = 20)
     private String kmViagem;
 
-    @Column(name = "isinactive", columnDefinition = "BOOLEAN DEFAULT FALSE")
+    @Column(name = "was_analyzed")
+    private Boolean wasAnalyzed = false;
+
+    @Column(name = "transaction_made", length = 20)
+    private String transactionMade;
+
+    @Column(name = "updated_at")
+    private LocalDateTime updatedAt;
+
+    @Column(name = "is_inactive")
     private Boolean isInactive = false;
 
-    // Getters e Setters
-    public Integer getId() {
-        return id;
+    // Constructors
+    public Viagem() {
+        this.updatedAt = LocalDateTime.now();
     }
 
-    public Caminhao getCaminhao() {
-        return caminhao;
-    }
+    // Getters and Setters
+    public Integer getId() { return id; }
+    public void setId(Integer id) { this.id = id; }
 
-    public void setCaminhao(Caminhao caminhao) {
-        this.caminhao = caminhao;
-    }
+    public Caminhao getCaminhao() { return caminhao; }
+    public void setCaminhao(Caminhao caminhao) { this.caminhao = caminhao; }
 
-    public Motorista getMotorista() {
-        return motorista;
-    }
+    public Usuario getUsuario() { return usuario; }
+    public void setUsuario(Usuario usuario) { this.usuario = usuario; }
 
-    public void setMotorista(Motorista motorista) {
-        this.motorista = motorista;
-    }
+    public Localidade getOrigem() { return origem; }
+    public void setOrigem(Localidade origem) { this.origem = origem; }
 
-    public Usuario getUsuario() {
-        return usuario;
-    }
+    public Localidade getDestino() { return destino; }
+    public void setDestino(Localidade destino) { this.destino = destino; }
 
-    public void setUsuario(Usuario usuario) {
-        this.usuario = usuario;
-    }
+    public LocalDateTime getDtHrInicio() { return dtHrInicio; }
+    public void setDtHrInicio(LocalDateTime dtHrInicio) { this.dtHrInicio = dtHrInicio; }
 
-    public Localidade getOrigem() {
-        return origem;
-    }
+    public LocalDateTime getDtHrFim() { return dtHrFim; }
+    public void setDtHrFim(LocalDateTime dtHrFim) { this.dtHrFim = dtHrFim; }
 
-    public void setOrigem(Localidade origem) {
-        this.origem = origem;
-    }
+    public String getKmViagem() { return kmViagem; }
+    public void setKmViagem(String kmViagem) { this.kmViagem = kmViagem; }
 
-    public Localidade getDestino() {
-        return destino;
-    }
+    public Boolean getWasAnalyzed() { return wasAnalyzed; }
+    public void setWasAnalyzed(Boolean wasAnalyzed) { this.wasAnalyzed = wasAnalyzed; }
 
-    public void setDestino(Localidade destino) {
-        this.destino = destino;
-    }
+    public String getTransactionMade() { return transactionMade; }
+    public void setTransactionMade(String transactionMade) { this.transactionMade = transactionMade; }
 
-    public LocalDateTime getDtHrInicio() {
-        return dtHrInicio;
-    }
+    public LocalDateTime getUpdatedAt() { return updatedAt; }
+    public void setUpdatedAt(LocalDateTime updatedAt) { this.updatedAt = updatedAt; }
 
-    public void setDtHrInicio(LocalDateTime dtHrInicio) {
-        this.dtHrInicio = dtHrInicio;
-    }
-
-    public LocalDateTime getDtHrFim() {
-        return dtHrFim;
-    }
-
-    public void setDtHrFim(LocalDateTime dtHrFim) {
-        this.dtHrFim = dtHrFim;
-    }
-
-    public String getTratativa() {
-        return tratativa;
-    }
-
-    public void setTratativa(String tratativa) {
-        this.tratativa = tratativa;
-    }
-
-    public String getKmViagem() {
-        return kmViagem;
-    }
-
-    public void setKmViagem(String kmViagem) {
-        this.kmViagem = kmViagem;
-    }
-
-    public Boolean getIsInactive() {
-        return isInactive;
-    }
-
-    public void setIsInactive(Boolean isInactive) {
-        this.isInactive = isInactive;
-    }
+    public Boolean getIsInactive() { return isInactive; }
+    public void setIsInactive(Boolean isInactive) { this.isInactive = isInactive; }
 }

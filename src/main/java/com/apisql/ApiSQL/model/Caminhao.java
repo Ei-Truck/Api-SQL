@@ -1,14 +1,14 @@
 package com.apisql.ApiSQL.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Column;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.JoinColumn;
+import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 import java.time.LocalDateTime;
 
 @Entity
@@ -19,7 +19,7 @@ public class Caminhao {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(nullable = false, unique = true, length = 20)
+    @Column(name = "chassi", nullable = false, length = 20, unique = true)
     private String chassi;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -30,110 +30,63 @@ public class Caminhao {
     @JoinColumn(name = "id_unidade")
     private Unidade unidade;
 
-    @Column(nullable = false, unique = true, length = 10)
+    @Column(name = "placa", nullable = false, length = 10, unique = true)
     private String placa;
 
-    @Column(length = 80, columnDefinition = "VARCHAR DEFAULT 'Não informado'")
-    private String modelo = "Não informado";
+    @Column(name = "modelo", length = 80)
+    private String modelo;
 
     @Column(name = "ano_fabricacao")
     private Integer anoFabricacao;
 
-    @Column(name = "numero_frota",nullable = false)
+    @Column(name = "numero_frota", nullable = false)
     private Integer numeroFrota;
 
     @Column(name = "transaction_made", length = 20)
     private String transactionMade;
 
     @Column(name = "updated_at")
-    private LocalDateTime updatedAt = LocalDateTime.now();
+    private LocalDateTime updatedAt;
 
-    @Column(name = "is_inactive", columnDefinition = "BOOLEAN DEFAULT FALSE")
+    @Column(name = "is_inactive")
     private Boolean isInactive = false;
 
-    // Getters e Setters
-    public Integer getId() {
-        return id;
+    // Constructors
+    public Caminhao() {
+        this.updatedAt = LocalDateTime.now();
     }
 
-    public String getChassi() {
-        return chassi;
-    }
+    // Getters and Setters
+    public Integer getId() { return id; }
+    public void setId(Integer id) { this.id = id; }
 
-    public void setChassi(String chassi) {
-        this.chassi = chassi;
-    }
+    public String getChassi() { return chassi; }
+    public void setChassi(String chassi) { this.chassi = chassi; }
 
-    public Segmento getSegmento() {
-        return segmento;
-    }
+    public Segmento getSegmento() { return segmento; }
+    public void setSegmento(Segmento segmento) { this.segmento = segmento; }
 
-    public void setSegmento(Segmento segmento) {
-        this.segmento = segmento;
-    }
+    public Unidade getUnidade() { return unidade; }
+    public void setUnidade(Unidade unidade) { this.unidade = unidade; }
 
-    public Unidade getUnidade() {
-        return unidade;
-    }
+    public String getPlaca() { return placa; }
+    public void setPlaca(String placa) { this.placa = placa; }
 
-    public void setUnidade(Unidade unidade) {
-        this.unidade = unidade;
-    }
+    public String getModelo() { return modelo; }
+    public void setModelo(String modelo) { this.modelo = modelo; }
 
-    public String getPlaca() {
-        return placa;
-    }
+    public Integer getAnoFabricacao() { return anoFabricacao; }
+    public void setAnoFabricacao(Integer anoFabricacao) { this.anoFabricacao = anoFabricacao; }
 
-    public void setPlaca(String placa) {
-        this.placa = placa;
-    }
+    public Integer getNumeroFrota() { return numeroFrota; }
+    public void setNumeroFrota(Integer numeroFrota) { this.numeroFrota = numeroFrota; }
 
-    public String getModelo() {
-        return modelo;
-    }
+    public String getTransactionMade() { return transactionMade; }
+    public void setTransactionMade(String transactionMade) { this.transactionMade = transactionMade; }
 
-    public void setModelo(String modelo) {
-        this.modelo = modelo;
-    }
+    public LocalDateTime getUpdatedAt() { return updatedAt; }
+    public void setUpdatedAt(LocalDateTime updatedAt) { this.updatedAt = updatedAt; }
 
-    public Integer getAnoFabricacao() {
-        return anoFabricacao;
-    }
-
-    public void setAnoFabricacao(Integer anoFabricacao) {
-        this.anoFabricacao = anoFabricacao;
-    }
-
-    public Integer getNumeroFrota() {
-        return numeroFrota;
-    }
-
-    public void setNumeroFrota(Integer numeroFrota) {
-        this.numeroFrota = numeroFrota;
-    }
-
-    public String getTransactionMade() {
-        return transactionMade;
-    }
-
-    public void setTransactionMade(String transactionMade) {
-        this.transactionMade = transactionMade;
-    }
-
-    public LocalDateTime getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setUpdatedAt(LocalDateTime updatedAt) {
-        this.updatedAt = updatedAt;
-    }
-
-    public Boolean getIsInactive() {
-        return isInactive;
-    }
-
-    public void setIsInactive(Boolean isInactive) {
-        this.isInactive = isInactive;
-    }
+    public Boolean getIsInactive() { return isInactive; }
+    public void setIsInactive(Boolean isInactive) { this.isInactive = isInactive; }
 }
-
