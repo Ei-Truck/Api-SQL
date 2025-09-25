@@ -7,7 +7,7 @@ import org.springframework.web.client.RestTemplate;
 @Component
 public class KeepAliveTask {
 
-    private static final String URL = "https://sua-api.onrender.com/ping";
+    private static final String URL = "https://api-sql-qa.onrender.com/ping";
 
     @Scheduled(fixedRate = 600000) // a cada 10 minutos
     public void pingMyself() {
