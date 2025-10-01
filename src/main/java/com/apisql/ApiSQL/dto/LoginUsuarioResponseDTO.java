@@ -1,41 +1,33 @@
 package com.apisql.ApiSQL.dto;
 
-import java.time.LocalDateTime;
+import com.apisql.ApiSQL.model.Usuario;
 
 public class LoginUsuarioResponseDTO {
-    private Integer id;
-    private Integer idUsuario;
-    private LocalDateTime dtHrLogin;
+    private String token;
+    private String email;
+    private String nomeCompleto;
+    private String cargo; // novo campo
 
-    public LoginUsuarioResponseDTO() {}
-
-    public LoginUsuarioResponseDTO(Integer id, Integer idUsuario, LocalDateTime dtHrLogin) {
-        this.id = id;
-        this.idUsuario = idUsuario;
-        this.dtHrLogin = dtHrLogin;
+    public LoginUsuarioResponseDTO(String token, Usuario usuario) {
+        this.token = token;
+        this.email = usuario.getEmail();
+        this.nomeCompleto = usuario.getNomeCompleto();
+        this.cargo = usuario.getCargo().getNome(); // pega o nome do cargo
     }
 
-    public Integer getId() {
-        return id;
+    public String getToken() {
+        return token;
     }
 
-    public Integer getIdUsuario() {
-        return idUsuario;
+    public String getEmail() {
+        return email;
     }
 
-    public LocalDateTime getDtHrLogin() {
-        return dtHrLogin;
+    public String getNomeCompleto() {
+        return nomeCompleto;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public void setIdUsuario(Integer idUsuario) {
-        this.idUsuario = idUsuario;
-    }
-
-    public void setDtHrLogin(LocalDateTime dtHrLogin) {
-        this.dtHrLogin = dtHrLogin;
+    public String getCargo() {
+        return cargo;
     }
 }

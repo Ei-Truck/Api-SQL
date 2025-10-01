@@ -28,6 +28,11 @@ public class LoginUsuario {
         this.idUsuario = idUsuario;
         this.dtHrLogin = dtHrLogin;
     }
+    public LoginUsuario(Integer idUsuario) {
+        this.idUsuario = idUsuario;
+        this.dtHrLogin = LocalDateTime.now();
+    }
+
 
     public LoginUsuario() {
     }
