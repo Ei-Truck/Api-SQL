@@ -1,11 +1,7 @@
 package com.apisql.ApiSQL.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+
 import java.time.LocalDate;
 
 @Entity
@@ -19,6 +15,7 @@ public class Usuario {
     @Column(length = 15, nullable = false, unique = true)
     private String cpf;
 
+    // 🔹 Unidade (mantive como inteiro porque não mostrou o model tb_unidade ainda)
     @Column(name = "id_unidade")
     private Integer idUnidade;
 
@@ -43,10 +40,11 @@ public class Usuario {
     @Column(name = "id_status")
     private Integer idStatus;
 
-    @Column(name = "id_cargo", nullable = false)
-    private Integer idCargo;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "id_cargo", nullable = false)
+    private Cargo cargo;
 
-    @Column(name = "isinactive")
+    @Column(name = "is_inactive")
     private Boolean isInactive = false;
 
     // Getters e Setters
@@ -80,8 +78,8 @@ public class Usuario {
     public Integer getIdStatus() { return idStatus; }
     public void setIdStatus(Integer idStatus) { this.idStatus = idStatus; }
 
-    public Integer getIdCargo() { return idCargo; }
-    public void setIdCargo(Integer idCargo) { this.idCargo = idCargo; }
+    public Cargo getCargo() { return cargo; }
+    public void setCargo(Cargo cargo) { this.cargo = cargo; }
 
     public Boolean getIsInactive() { return isInactive; }
     public void setIsInactive(Boolean isInactive) { this.isInactive = isInactive; }
