@@ -1,7 +1,9 @@
 package com.apisql.ApiSQL.controller;
 
 import com.apisql.ApiSQL.dto.ViagemDTO;
+import com.apisql.ApiSQL.dto.view.RelatorioSimplesViagemDTO;
 import com.apisql.ApiSQL.service.ViagemService;
+import com.apisql.ApiSQL.service.view.RelatorioSimplesViagemService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -17,10 +19,12 @@ import java.util.List;
 public class ViagemController {
 
     private final ViagemService viagemService;
+    private final RelatorioSimplesViagemService relatorioSimplesViagemService;
 
     @Autowired
-    public ViagemController(ViagemService viagemService) {
+    public ViagemController(ViagemService viagemService, RelatorioSimplesViagemService relatorioSimplesViagemService) {
         this.viagemService = viagemService;
+        this.relatorioSimplesViagemService = relatorioSimplesViagemService;
     }
 
     @GetMapping
@@ -45,5 +49,10 @@ public class ViagemController {
     public ResponseEntity<ViagemDTO> createViagem(@RequestBody ViagemDTO viagemDTO) {
         ViagemDTO newViagem = viagemService.createViagem(viagemDTO);
         return new ResponseEntity<>(newViagem, HttpStatus.CREATED);
+    }
+
+    @GetMapping("/relatorio")
+    public List<RelatorioSimplesViagemDTO> getAllRelatorioViagem() {
+        return relatorioSimplesViagemService.findAll();
     }
 }
