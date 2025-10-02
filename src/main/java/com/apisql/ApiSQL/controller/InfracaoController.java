@@ -1,8 +1,10 @@
 package com.apisql.ApiSQL.controller;
 
+import com.apisql.ApiSQL.dto.view.RelatorioSemanalInfracoesDTO;
 import com.apisql.ApiSQL.model.Infracao;
 import com.apisql.ApiSQL.service.InfracaoService;
 
+import com.apisql.ApiSQL.service.view.RelatorioSemanalInfracoesService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -22,9 +24,11 @@ import java.util.List;
 public class InfracaoController {
 
     private final InfracaoService infracaoService;
+    private final RelatorioSemanalInfracoesService relatorioSemanalInfracoesService;
 
-    public InfracaoController(InfracaoService infracaoService) {
+    public InfracaoController(InfracaoService infracaoService, RelatorioSemanalInfracoesService relatorioSemanalInfracoesService) {
         this.infracaoService = infracaoService;
+        this.relatorioSemanalInfracoesService = relatorioSemanalInfracoesService;
     }
 
     @Operation(summary = "Lista todas as infrações")
@@ -94,5 +98,16 @@ public class InfracaoController {
         } else {
             return ResponseEntity.notFound().build();
         }
+    }
+
+    @Operation(summary = "Listar relatório",
+            description = "Lista um relatório semanal de infrações",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "Relatório obtido com sucesso"),
+                    @ApiResponse(responseCode = "500", description = "Erro interno do servidor")
+            })
+    @GetMapping("/relatorio")
+    public List<RelatorioSemanalInfracoesDTO> getAllRelatorioInfracoes() {
+        return relatorioSemanalInfracoesService.findAll();
     }
 }

@@ -7,12 +7,12 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public class RelatorioSimplesViagemRepository {
+public class RelatorioSemanalInfracoesRepository {
 
     @PersistenceContext
-    private EntityManager em;
+    EntityManager em;
 
-    public List<Object[]> buscarRelatorioSimplesViagem() {
-        return em.createNativeQuery("SELECT * FROM vw_relatorio_simples_viagem").getResultList();
+    public List<Object[]> buscarRelatorioSamanalInfracoes(){
+        return em.createNativeQuery("SELECT * FROM vw_relatorio_semanal_infracoes").getResultList();
     }
 }
