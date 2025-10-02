@@ -50,7 +50,12 @@ public class ViagemController {
         ViagemDTO newViagem = viagemService.createViagem(viagemDTO);
         return new ResponseEntity<>(newViagem, HttpStatus.CREATED);
     }
-
+    @Operation(summary = "Listar relatório",
+            description = "Lista um relatório simples da viagem",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "Relatório obtido com sucesso"),
+                    @ApiResponse(responseCode = "500", description = "Erro interno do servidor")
+            })
     @GetMapping("/relatorio")
     public List<RelatorioSimplesViagemDTO> getAllRelatorioViagem() {
         return relatorioSimplesViagemService.findAll();
