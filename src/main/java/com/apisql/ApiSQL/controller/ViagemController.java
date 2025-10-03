@@ -3,6 +3,7 @@ package com.apisql.ApiSQL.controller;
 import com.apisql.ApiSQL.dto.ViagemDTO;
 
 import com.apisql.ApiSQL.dto.view.RelatorioSimplesViagemDTO;
+import com.apisql.ApiSQL.openapi.ViagemOpenApi;
 import com.apisql.ApiSQL.service.ViagemService;
 import com.apisql.ApiSQL.service.view.RelatorioSimplesViagemService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,12 +37,8 @@ public class ViagemController implements ViagemOpenApi {
         ViagemDTO newViagem = viagemService.createViagem(viagemDTO);
         return new ResponseEntity<>(newViagem, HttpStatus.CREATED);
     }
-    @Operation(summary = "Listar relatório",
-            description = "Lista um relatório simples da viagem",
-            responses = {
-                    @ApiResponse(responseCode = "200", description = "Relatório obtido com sucesso"),
-                    @ApiResponse(responseCode = "500", description = "Erro interno do servidor")
-            })
+
+    @Override
     @GetMapping("/relatorio")
     public List<RelatorioSimplesViagemDTO> getAllRelatorioViagem() {
         return relatorioSimplesViagemService.findAll();

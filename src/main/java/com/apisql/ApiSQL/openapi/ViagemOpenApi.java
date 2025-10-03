@@ -1,6 +1,7 @@
 package com.apisql.ApiSQL.openapi;
 
 import com.apisql.ApiSQL.dto.ViagemDTO;
+import com.apisql.ApiSQL.dto.view.RelatorioSimplesViagemDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -28,4 +29,12 @@ public interface ViagemOpenApi {
                     @ApiResponse(responseCode = "500", description = "Erro interno do servidor")
             })
     ResponseEntity<ViagemDTO> createViagem(ViagemDTO viagemDTO);
+
+    @Operation(summary = "Listar relatório",
+            description = "Lista um relatório simples da viagem",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "Relatório obtido com sucesso"),
+                    @ApiResponse(responseCode = "500", description = "Erro interno do servidor")
+            })
+    List<RelatorioSimplesViagemDTO> getAllRelatorioViagem();
 }
