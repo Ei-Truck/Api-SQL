@@ -1,6 +1,7 @@
 package com.apisql.ApiSQL.controller;
 
 import com.apisql.ApiSQL.model.Caminhao;
+import com.apisql.ApiSQL.openapi.CaminhaoOpenApi;
 import com.apisql.ApiSQL.service.CaminhaoService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -8,15 +9,14 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/caminhoes")
-@Tag(name = "Caminhões", description = "Gerenciamento de caminhões")
-public class CaminhaoController {
+public class CaminhaoController implements CaminhaoOpenApi {
 
     private final CaminhaoService caminhaoService;
 
@@ -24,40 +24,28 @@ public class CaminhaoController {
         this.caminhaoService = caminhaoService;
     }
 
-    @Operation(summary = "Lista todos os caminhões")
-    @ApiResponse(responseCode = "200", description = "Lista retornada com sucesso")
+    @Override
     @GetMapping
     public List<Caminhao> getAll() {
         return caminhaoService.findAll();
     }
 
-    @Operation(summary = "Busca caminhão por ID")
-    @ApiResponses({
-            @ApiResponse(responseCode = "200", description = "Caminhão encontrado",
-                    content = @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = Caminhao.class))),
-            @ApiResponse(responseCode = "404", description = "Caminhão não encontrado")
-    })
+    @Override
     @GetMapping("/{id}")
     public ResponseEntity<Caminhao> getById(
-            @Parameter(description = "ID do caminhão") @PathVariable Integer id) {
+             @PathVariable Integer id) {
         return caminhaoService.findById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    @Operation(summary = "Cria um novo caminhão")
-    @ApiResponse(responseCode = "201", description = "Caminhão criado com sucesso")
+    @Override
     @PostMapping
     public Caminhao create(@RequestBody Caminhao caminhao) {
         return caminhaoService.save(caminhao);
     }
 
-    @Operation(summary = "Atualiza um caminhão existente")
-    @ApiResponses({
-            @ApiResponse(responseCode = "200", description = "Caminhão atualizado com sucesso"),
-            @ApiResponse(responseCode = "404", description = "Caminhão não encontrado")
-    })
+    @Override
     @PutMapping("/{id}")
     public ResponseEntity<Caminhao> update(
             @PathVariable Integer id,
@@ -78,11 +66,7 @@ public class CaminhaoController {
                 }).orElse(ResponseEntity.notFound().build());
     }
 
-    @Operation(summary = "Remove um caminhão pelo ID")
-    @ApiResponses({
-            @ApiResponse(responseCode = "204", description = "Caminhão removido com sucesso"),
-            @ApiResponse(responseCode = "404", description = "Caminhão não encontrado")
-    })
+    @Override
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Integer id) {
         if (caminhaoService.findById(id).isPresent()) {

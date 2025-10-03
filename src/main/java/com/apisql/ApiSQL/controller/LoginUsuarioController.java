@@ -1,18 +1,17 @@
 package com.apisql.ApiSQL.controller;
 
 import com.apisql.ApiSQL.dto.LoginUsuarioResponseDTO;
+import com.apisql.ApiSQL.openapi.LoginUsuarioOpenApi;
 import com.apisql.ApiSQL.service.LoginUsuarioService;
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@SecurityRequirement(name = "bearerAuth")
 @RestController
-@RequestMapping("/login-usuario")
-public class LoginUsuarioController {
+public class LoginUsuarioController implements LoginUsuarioOpenApi {
 
     private final LoginUsuarioService service;
 
@@ -20,19 +19,14 @@ public class LoginUsuarioController {
         this.service = service;
     }
 
-    @Operation(summary = "Lista todos os registros de login")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Lista retornada com sucesso")
-    })
+    @Override
     @GetMapping
     public ResponseEntity<List<LoginUsuarioResponseDTO>> listar() {
         return ResponseEntity.ok(service.listarTodos());
     }
 
-    @Operation(summary = "Lista todos os logins de um usuário específico")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Lista retornada com sucesso")
-    })
+
+    @Override
     @GetMapping("/usuario/{idUsuario}")
     public ResponseEntity<List<LoginUsuarioResponseDTO>> listarPorUsuario(@PathVariable Integer idUsuario) {
         return ResponseEntity.ok(service.listarPorUsuario(idUsuario));
