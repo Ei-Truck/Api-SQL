@@ -41,7 +41,7 @@ public class Viagem {
     @Column(name = "dt_hr_fim")
     private LocalDateTime dtHrFim;
 
-    @Column(name = "km_viagem", length = 20)
+    @Column(name = "km_viagem"      )
     private String kmViagem;
 
     @Column(name = "was_analyzed")
