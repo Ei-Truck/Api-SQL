@@ -3,12 +3,15 @@ package com.apisql.ApiSQL.dto;
 import com.apisql.ApiSQL.model.Usuario;
 
 public class LoginUsuarioResponseDTO {
+
+    private Integer id;
     private String token;
     private String email;
     private String nomeCompleto;
     private String cargo; // novo campo
 
     public LoginUsuarioResponseDTO(String token, Usuario usuario) {
+        this.id = usuario.getId();
         this.token = token;
         this.email = usuario.getEmail();
         this.nomeCompleto = usuario.getNomeCompleto();
@@ -29,5 +32,9 @@ public class LoginUsuarioResponseDTO {
 
     public String getCargo() {
         return cargo;
+    }
+
+    public Integer getId() {
+        return id;
     }
 }
