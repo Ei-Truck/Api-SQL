@@ -35,7 +35,7 @@ public class Usuario {
     private String hashSenha;
 
     @Column(name = "url_foto", length = 255)
-    private String urlFoto = "Sem foto";
+    private String urlFoto;
 
     @Column(name = "id_status")
     private Integer idStatus;
