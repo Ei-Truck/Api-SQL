@@ -7,13 +7,15 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import org.springframework.web.bind.annotation.GetMapping; 
+import org.springframework.web.bind.annotation.PathVariable;
 
 @RequestMapping("/login-usuario")
 public interface LoginUsuarioOpenApi {
 
     @Operation(summary = "Lista todos os registros de login")
     @ApiResponse(responseCode = "200", description = "Lista retornada com sucesso")
-    @GetMapping
+    @GetMapping // ADICIONADO
     ResponseEntity<List<LoginUsuarioResponseDTO>> listar();
 
     @Operation(summary = "Lista todos os logins de um usuário específico")

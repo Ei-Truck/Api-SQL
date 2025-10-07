@@ -2,25 +2,25 @@ package com.apisql.ApiSQL.dto;
 
 import com.apisql.ApiSQL.model.Caminhao;
 
-public class CaminhaoDTO {
+public class CaminhaoResponseDTO {
 
     private Integer id;
     private String placa;
     private String modelo;
     private Integer numeroFrota;
     private int anoFabricacao;
-    private SegmentoDTO segmento;
+    private SegmentoResponseDTO segmento;
 
-    public CaminhaoDTO() {
+    public CaminhaoResponseDTO() {
     }
 
-    public CaminhaoDTO(Caminhao caminhao) {
+    public CaminhaoResponseDTO(Caminhao caminhao) {
         this.id = caminhao.getId();
         this.placa = caminhao.getPlaca();
         this.modelo = caminhao.getModelo();
         this.numeroFrota = caminhao.getNumeroFrota();
         this.anoFabricacao = caminhao.getAnoFabricacao();
-        this.segmento = new SegmentoDTO(caminhao.getSegmento());
+        this.segmento = new SegmentoResponseDTO(caminhao.getSegmento());
     }
 
     public Integer getId() {
@@ -43,7 +43,7 @@ public class CaminhaoDTO {
         return anoFabricacao;
     }
 
-    public SegmentoDTO getSegmento() {
+    public SegmentoResponseDTO getSegmento() {
         return segmento;
     }
 
@@ -67,7 +67,7 @@ public class CaminhaoDTO {
         this.anoFabricacao = anoFabricacao;
     }
 
-    public void setSegmento(SegmentoDTO segmento) {
+    public void setSegmento(SegmentoResponseDTO segmento) {
         this.segmento = segmento;
     }
 }

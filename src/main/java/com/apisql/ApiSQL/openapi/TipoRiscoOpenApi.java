@@ -13,11 +13,13 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
+import org.springframework.web.bind.annotation.*;
 
 @RequestMapping("/tipos-risco")
 @Tag(name = "Tipos de Risco", description = "Gerenciamento dos Tipos de Risco")
 public interface TipoRiscoOpenApi {
     @Operation(summary = "Lista todos os tipos de risco")
+    @GetMapping // ADICIONADO
     List<TipoRisco> getAll();
 
     @Operation(summary = "Busca tipo de risco por ID")
@@ -27,17 +29,19 @@ public interface TipoRiscoOpenApi {
                             schema = @Schema(implementation = TipoRisco.class))),
             @ApiResponse(responseCode = "404", description = "Tipo de risco não encontrado")
     })
-    ResponseEntity<TipoRisco> getById(@Parameter(description = "ID do tipo de risco") Integer id);
+    @GetMapping("/{id}") // ADICIONADO
+    ResponseEntity<TipoRisco> getById(@Parameter(description = "ID do tipo de risco") @PathVariable Integer id); // ADICIONADO @PathVariable
 
     @Operation(summary = "Cria um novo tipo de risco")
     @ApiResponse(responseCode = "201", description = "Tipo de risco criado com sucesso")
-    TipoRisco create(TipoRisco tipoRisco);
+    @PostMapping // ADICIONADO
+    TipoRisco create(@RequestBody TipoRisco tipoRisco); // ADICIONADO @RequestBody
 
     @Operation(summary = "Remove um tipo de risco pelo ID")
     @ApiResponses({
             @ApiResponse(responseCode = "204", description = "Tipo de risco removido com sucesso"),
             @ApiResponse(responseCode = "404", description = "Tipo de risco não encontrado")
     })
+    @DeleteMapping("/{id}") // ADICIONADO
     ResponseEntity<Void> delete(@PathVariable Integer id);
-
 }

@@ -12,12 +12,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
+import org.springframework.web.bind.annotation.*;
 
 @RequestMapping("/status")
 @Tag(name = "Status", description = "Gerenciamento de Status dos usuários")
 public interface StatusOpenApi {
     @Operation(summary = "Lista todos os status")
     @ApiResponse(responseCode = "200", description = "Lista retornada com sucesso")
+    @GetMapping // ADICIONADO
     List<Status> getAll();
 
     @Operation(summary = "Busca status por ID")
@@ -27,17 +29,20 @@ public interface StatusOpenApi {
                             schema = @Schema(implementation = Status.class))),
             @ApiResponse(responseCode = "404", description = "Status não encontrado")
     })
+    @GetMapping("/{id}") // ADICIONADO
     ResponseEntity<Status> getById(
-            @Parameter(description = "ID do status") Integer id);
+            @Parameter(description = "ID do status") @PathVariable Integer id); // ADICIONADO @PathVariable
 
     @Operation(summary = "Cria um novo status")
     @ApiResponse(responseCode = "201", description = "Status criado com sucesso")
-    Status create(Status status);
+    @PostMapping // ADICIONADO
+    Status create(@RequestBody Status status); // ADICIONADO @RequestBody
 
     @Operation(summary = "Remove um status pelo ID")
     @ApiResponses({
             @ApiResponse(responseCode = "204", description = "Status removido com sucesso"),
             @ApiResponse(responseCode = "404", description = "Status não encontrado")
     })
-    ResponseEntity<Void> delete(Integer id);
+    @DeleteMapping("/{id}") // ADICIONADO
+    ResponseEntity<Void> delete(@PathVariable Integer id); // ADICIONADO @PathVariable
 }

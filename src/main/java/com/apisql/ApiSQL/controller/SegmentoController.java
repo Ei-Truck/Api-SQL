@@ -39,6 +39,11 @@ public class SegmentoController implements SegmentoOpenApi {
         return segmentoService.save(segmento);
     }
 
+    @Override
+    public ResponseEntity<Segmento> update(Integer id, Segmento segmento) {
+        return null;
+    }
+
 
     @Override
     @DeleteMapping("/{id}")

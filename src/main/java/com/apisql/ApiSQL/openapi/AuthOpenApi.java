@@ -1,12 +1,12 @@
 package com.apisql.ApiSQL.openapi;
 
-
 import com.apisql.ApiSQL.dto.LoginUsuarioRequestDTO;
 import com.apisql.ApiSQL.dto.LoginUsuarioResponseDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping; // ADICIONADO
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -17,5 +17,6 @@ public interface AuthOpenApi {
             @ApiResponse(responseCode = "200", description = "Login realizado com sucesso"),
             @ApiResponse(responseCode = "401", description = "Credenciais inválidas")
     })
+    @PostMapping // ADICIONADO
     ResponseEntity<LoginUsuarioResponseDTO> login(@RequestBody LoginUsuarioRequestDTO request);
 }

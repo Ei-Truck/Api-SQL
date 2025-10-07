@@ -42,6 +42,11 @@ public class LocalidadeController implements LocalidadeOpenApi {
     }
 
     @Override
+    public ResponseEntity<Localidade> update(Integer id, Localidade localidade) {
+        return null;
+    }
+
+    @Override
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Integer id) {
         if (localidadeService.findById(id).isPresent()) {
