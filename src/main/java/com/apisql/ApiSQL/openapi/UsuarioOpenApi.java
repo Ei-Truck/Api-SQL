@@ -9,10 +9,10 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 @Tag(name = "Usuários", description = "Endpoints para gerenciamento de usuários")
@@ -58,4 +58,10 @@ public interface UsuarioOpenApi {
     })
     ResponseEntity<Void> deletar(
             @Parameter(description = "ID do usuário a ser deletado", required = true) Integer id);
+
+    @Operation(summary = "Atualizar a foto do usuário")
+    @ApiResponse(responseCode = "200", description = "Atualizada com sucesso")
+    @PostMapping("/usuarios/{id}/foto")
+    ResponseEntity<Usuario> atualizarFoto(@PathVariable Integer id,
+                                          @RequestParam("file") MultipartFile file) throws IOException;
 }
