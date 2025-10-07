@@ -1,22 +1,15 @@
 package com.apisql.ApiSQL.controller;
 
 import com.apisql.ApiSQL.model.Segmento;
+import com.apisql.ApiSQL.openapi.SegmentoOpenApi;
 import com.apisql.ApiSQL.service.SegmentoService;
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/segmentos")
-@Tag(name = "Segmentos", description = "Gerenciamento de segmentos")
-public class SegmentoController {
+
+public class SegmentoController implements SegmentoOpenApi {
 
     private final SegmentoService segmentoService;
 
@@ -24,59 +17,30 @@ public class SegmentoController {
         this.segmentoService = segmentoService;
     }
 
-    @Operation(summary = "Lista todos os segmentos")
-    @ApiResponse(responseCode = "200", description = "Lista retornada com sucesso")
+
+    @Override
     @GetMapping
     public List<Segmento> getAll() {
         return segmentoService.findAll();
     }
 
-    @Operation(summary = "Busca segmento por ID")
-    @ApiResponses({
-            @ApiResponse(responseCode = "200", description = "Segmento encontrado",
-                    content = @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = Segmento.class))),
-            @ApiResponse(responseCode = "404", description = "Segmento não encontrado")
-    })
+    @Override
     @GetMapping("/{id}")
     public ResponseEntity<Segmento> getById(
-            @Parameter(description = "ID do segmento") @PathVariable Integer id) {
+             @PathVariable Integer id) {
         return segmentoService.findById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    @Operation(summary = "Cria um novo segmento")
-    @ApiResponse(responseCode = "201", description = "Segmento criado com sucesso")
+    @Override
     @PostMapping
     public Segmento create(@RequestBody Segmento segmento) {
         return segmentoService.save(segmento);
     }
 
-    @Operation(summary = "Atualiza um segmento existente")
-    @ApiResponses({
-            @ApiResponse(responseCode = "200", description = "Segmento atualizado com sucesso"),
-            @ApiResponse(responseCode = "404", description = "Segmento não encontrado")
-    })
-    @PutMapping("/{id}")
-    public ResponseEntity<Segmento> update(
-            @PathVariable Integer id,
-            @RequestBody Segmento segmento) {
-        return segmentoService.findById(id)
-                .map(existing -> {
-                    existing.setNome(segmento.getNome());
-                    existing.setTransactionMade(segmento.getTransactionMade());
-                    existing.setUpdatedAt(segmento.getUpdatedAt());
-                    existing.setIsInactive(segmento.getIsInactive());
-                    return ResponseEntity.ok(segmentoService.save(existing));
-                }).orElse(ResponseEntity.notFound().build());
-    }
 
-    @Operation(summary = "Remove um segmento pelo ID")
-    @ApiResponses({
-            @ApiResponse(responseCode = "204", description = "Segmento removido com sucesso"),
-            @ApiResponse(responseCode = "404", description = "Segmento não encontrado")
-    })
+    @Override
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Integer id) {
         if (segmentoService.findById(id).isPresent()) {

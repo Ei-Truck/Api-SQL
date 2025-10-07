@@ -1,6 +1,7 @@
 package com.apisql.ApiSQL.controller;
 
 import com.apisql.ApiSQL.model.Motorista;
+import com.apisql.ApiSQL.openapi.MotoristaOpenApi;
 import com.apisql.ApiSQL.service.MotoristaService;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -17,9 +18,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/motoristas")
-@Tag(name = "Motoristas", description = "Gerenciamento de Motoristas")
-public class MotoristaController {
+
+public class MotoristaController implements MotoristaOpenApi {
 
     private final MotoristaService motoristaService;
 
@@ -27,20 +27,14 @@ public class MotoristaController {
         this.motoristaService = motoristaService;
     }
 
-    @Operation(summary = "Lista todos os motoristas")
-    @ApiResponse(responseCode = "200", description = "Lista retornada com sucesso")
+    @Override
     @GetMapping
     public List<Motorista> getAll() {
         return motoristaService.listarTodos();
     }
 
-    @Operation(summary = "Busca motorista por ID")
-    @ApiResponses({
-            @ApiResponse(responseCode = "200", description = "Motorista encontrado",
-                    content = @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = Motorista.class))),
-            @ApiResponse(responseCode = "404", description = "Motorista não encontrado")
-    })
+
+    @Override
     @GetMapping("/{id}")
     public ResponseEntity<Motorista> getById(
             @Parameter(description = "ID do motorista") @PathVariable Integer id) {
@@ -49,18 +43,13 @@ public class MotoristaController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    @Operation(summary = "Cria um novo motorista")
-    @ApiResponse(responseCode = "201", description = "Motorista criado com sucesso")
+    @Override
     @PostMapping
     public Motorista create(@RequestBody Motorista motorista) {
         return motoristaService.salvar(motorista);
     }
 
-    @Operation(summary = "Atualiza um motorista existente")
-    @ApiResponses({
-            @ApiResponse(responseCode = "200", description = "Motorista atualizado com sucesso"),
-            @ApiResponse(responseCode = "404", description = "Motorista não encontrado")
-    })
+    @Override
     @PutMapping("/{id}")
     public ResponseEntity<Motorista> update(
             @PathVariable Integer id,
@@ -74,11 +63,7 @@ public class MotoristaController {
                 }).orElse(ResponseEntity.notFound().build());
     }
 
-    @Operation(summary = "Remove um motorista pelo ID")
-    @ApiResponses({
-            @ApiResponse(responseCode = "204", description = "Motorista removido com sucesso"),
-            @ApiResponse(responseCode = "404", description = "Motorista não encontrado")
-    })
+    @Override
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Integer id) {
         if (motoristaService.buscarPorId(id).isPresent()) {

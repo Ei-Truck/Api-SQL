@@ -1,6 +1,7 @@
 package com.apisql.ApiSQL.controller;
 
 import com.apisql.ApiSQL.model.TipoRisco;
+import com.apisql.ApiSQL.openapi.TipoRiscoOpenApi;
 import com.apisql.ApiSQL.service.TipoRiscoService;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -17,9 +18,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/tipos-risco")
-@Tag(name = "Tipos de Risco", description = "Gerenciamento dos Tipos de Risco")
-public class TipoRiscoController {
+
+public class TipoRiscoController implements TipoRiscoOpenApi {
 
     private final TipoRiscoService tipoRiscoService;
 
@@ -27,57 +27,27 @@ public class TipoRiscoController {
         this.tipoRiscoService = tipoRiscoService;
     }
 
-    @Operation(summary = "Lista todos os tipos de risco")
+    @Override
     @GetMapping
     public List<TipoRisco> getAll() {
         return tipoRiscoService.findAll();
     }
 
-    @Operation(summary = "Busca tipo de risco por ID")
-    @ApiResponses({
-            @ApiResponse(responseCode = "200", description = "Tipo de risco encontrado",
-                    content = @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = TipoRisco.class))),
-            @ApiResponse(responseCode = "404", description = "Tipo de risco não encontrado")
-    })
+    @Override
     @GetMapping("/{id}")
-    public ResponseEntity<TipoRisco> getById(
-            @Parameter(description = "ID do tipo de risco") @PathVariable Integer id) {
+    public ResponseEntity<TipoRisco> getById(@PathVariable Integer id) {
         return tipoRiscoService.findById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    @Operation(summary = "Cria um novo tipo de risco")
-    @ApiResponse(responseCode = "201", description = "Tipo de risco criado com sucesso")
+    @Override
     @PostMapping
     public TipoRisco create(@RequestBody TipoRisco tipoRisco) {
         return tipoRiscoService.save(tipoRisco);
     }
 
-    @Operation(summary = "Atualiza um tipo de risco existente")
-    @ApiResponses({
-            @ApiResponse(responseCode = "200", description = "Tipo de risco atualizado com sucesso"),
-            @ApiResponse(responseCode = "404", description = "Tipo de risco não encontrado")
-    })
-    @PutMapping("/{id}")
-    public ResponseEntity<TipoRisco> update(
-            @PathVariable Integer id,
-            @RequestBody TipoRisco tipoRisco) {
-        return tipoRiscoService.findById(id)
-                .map(existing -> {
-                    existing.setNome(tipoRisco.getNome());
-                    existing.setDescricao(tipoRisco.getDescricao());
-                    existing.setIsInactive(tipoRisco.getIsInactive());
-                    return ResponseEntity.ok(tipoRiscoService.save(existing));
-                }).orElse(ResponseEntity.notFound().build());
-    }
-
-    @Operation(summary = "Remove um tipo de risco pelo ID")
-    @ApiResponses({
-            @ApiResponse(responseCode = "204", description = "Tipo de risco removido com sucesso"),
-            @ApiResponse(responseCode = "404", description = "Tipo de risco não encontrado")
-    })
+    @Override
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Integer id) {
         if (tipoRiscoService.findById(id).isPresent()) {
