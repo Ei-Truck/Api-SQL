@@ -1,4 +1,3 @@
-// CaminhaoDTO.java
 package com.apisql.ApiSQL.dto;
 
 import com.apisql.ApiSQL.model.Caminhao;
@@ -16,17 +15,14 @@ public class CaminhaoDTO {
     }
 
     public CaminhaoDTO(Caminhao caminhao) {
-        if (caminhao != null) {
-            this.id = caminhao.getId();
-            this.placa = caminhao.getPlaca();
-            this.modelo = caminhao.getModelo();
-            this.numeroFrota = caminhao.getNumeroFrota();
-            this.anoFabricacao = caminhao.getAnoFabricacao();
-            this.segmento = new SegmentoDTO(caminhao.getSegmento());
-        }
+        this.id = caminhao.getId();
+        this.placa = caminhao.getPlaca();
+        this.modelo = caminhao.getModelo();
+        this.numeroFrota = caminhao.getNumeroFrota();
+        this.anoFabricacao = caminhao.getAnoFabricacao();
+        this.segmento = new SegmentoDTO(caminhao.getSegmento());
     }
 
-    // Getters
     public Integer getId() {
         return id;
     }
@@ -51,7 +47,6 @@ public class CaminhaoDTO {
         return segmento;
     }
 
-    // Setters
     public void setId(Integer id) {
         this.id = id;
     }
