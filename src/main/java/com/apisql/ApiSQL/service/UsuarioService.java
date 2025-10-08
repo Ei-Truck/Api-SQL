@@ -45,7 +45,6 @@ public class UsuarioService {
         PutObjectRequest request = PutObjectRequest.builder()
                 .bucket("eitruck")
                 .key(key)
-                .acl("public-read")
                 .build();
 
         PutObjectResponse response = s3Client.putObject(request, arquivo);
