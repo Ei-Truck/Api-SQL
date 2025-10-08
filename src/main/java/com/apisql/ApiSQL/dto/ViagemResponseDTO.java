@@ -4,25 +4,25 @@ package com.apisql.ApiSQL.dto;
 import com.apisql.ApiSQL.model.Viagem;
 import java.time.LocalDateTime;
 
-public class ViagemDTO {
+public class ViagemResponseDTO {
 
     private Integer id;
     private LocalDateTime dtHrInicio;
     private LocalDateTime dtHrFim;
     private String kmViagem;
-    private CaminhaoDTO caminhao;
+    private CaminhaoResponseDTO caminhao;
     private Boolean wasAnalyzed = false;
 
-    public ViagemDTO() {
+    public ViagemResponseDTO() {
     }
 
-    public ViagemDTO(Viagem viagem) {
+    public ViagemResponseDTO(Viagem viagem) {
         if (viagem != null) {
             this.id = viagem.getId();
             this.dtHrInicio = viagem.getDtHrInicio();
             this.dtHrFim = viagem.getDtHrFim();
             this.kmViagem = viagem.getKmViagem();
-            this.caminhao = new CaminhaoDTO(viagem.getCaminhao());
+            this.caminhao = new CaminhaoResponseDTO(viagem.getCaminhao());
             this.wasAnalyzed = viagem.getWasAnalyzed();
         }
     }
@@ -44,7 +44,7 @@ public class ViagemDTO {
         return kmViagem;
     }
 
-    public CaminhaoDTO getCaminhao() {
+    public CaminhaoResponseDTO getCaminhao() {
         return caminhao;
     }
     public Boolean getWasAnalyzed() {
@@ -68,7 +68,7 @@ public class ViagemDTO {
         this.kmViagem = kmViagem;
     }
 
-    public void setCaminhao(CaminhaoDTO caminhao) {
+    public void setCaminhao(CaminhaoResponseDTO caminhao) {
         this.caminhao = caminhao;
     }
     public void setWasAnalyzed(Boolean wasAnalyzed) {

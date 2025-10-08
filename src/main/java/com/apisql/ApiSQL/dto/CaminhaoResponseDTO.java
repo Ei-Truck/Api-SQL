@@ -2,7 +2,7 @@ package com.apisql.ApiSQL.dto;
 
 import com.apisql.ApiSQL.model.Caminhao;
 
-public class CaminhaoDTO {
+public class CaminhaoResponseDTO {
 
     private Integer id;
     private String placa;
@@ -11,10 +11,10 @@ public class CaminhaoDTO {
     private int anoFabricacao;
     private SegmentoDTO segmento;
 
-    public CaminhaoDTO() {
+    public CaminhaoResponseDTO() {
     }
 
-    public CaminhaoDTO(Caminhao caminhao) {
+    public CaminhaoResponseDTO(Caminhao caminhao) {
         this.id = caminhao.getId();
         this.placa = caminhao.getPlaca();
         this.modelo = caminhao.getModelo();

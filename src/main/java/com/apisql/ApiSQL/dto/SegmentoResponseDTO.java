@@ -3,15 +3,15 @@ package com.apisql.ApiSQL.dto;
 
 import com.apisql.ApiSQL.model.Segmento;
 
-public class SegmentoDTO {
+public class SegmentoResponseDTO {
 
     private Integer id;
     private String nome;
 
-    public SegmentoDTO() {
+    public SegmentoResponseDTO() {
     }
 
-    public SegmentoDTO(Segmento segmento) {
+    public SegmentoResponseDTO(Segmento segmento) {
         if (segmento != null) {
             this.id = segmento.getId();
             this.nome = segmento.getNome();
