@@ -1,6 +1,6 @@
 package com.apisql.ApiSQL.controller;
 
-import com.apisql.ApiSQL.dto.ViagemDTO;
+import com.apisql.ApiSQL.dto.ViagemResponseDTO;
 
 import com.apisql.ApiSQL.dto.view.RelatorioSimplesViagemDTO;
 import com.apisql.ApiSQL.openapi.ViagemOpenApi;
@@ -27,14 +27,14 @@ public class ViagemController implements ViagemOpenApi {
 
     @Override
     @GetMapping
-    public List<ViagemDTO> getAllViagens() {
+    public List<ViagemResponseDTO> getAllViagens() {
         return viagemService.getAllViagens();
     }
 
     @Override
     @PostMapping
-    public ResponseEntity<ViagemDTO> createViagem(@RequestBody ViagemDTO viagemDTO) {
-        ViagemDTO newViagem = viagemService.createViagem(viagemDTO);
+    public ResponseEntity<ViagemResponseDTO> createViagem(@RequestBody ViagemResponseDTO viagemResponseDTO) {
+        ViagemResponseDTO newViagem = viagemService.createViagem(viagemResponseDTO);
         return new ResponseEntity<>(newViagem, HttpStatus.CREATED);
     }
 
