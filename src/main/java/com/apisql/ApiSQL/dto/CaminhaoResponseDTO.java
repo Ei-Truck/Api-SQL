@@ -9,7 +9,7 @@ public class CaminhaoResponseDTO {
     private String modelo;
     private Integer numeroFrota;
     private int anoFabricacao;
-    private SegmentoDTO segmento;
+    private SegmentoResponseDTO segmento;
 
     public CaminhaoResponseDTO() {
     }
@@ -20,7 +20,7 @@ public class CaminhaoResponseDTO {
         this.modelo = caminhao.getModelo();
         this.numeroFrota = caminhao.getNumeroFrota();
         this.anoFabricacao = caminhao.getAnoFabricacao();
-        this.segmento = new SegmentoDTO(caminhao.getSegmento());
+        this.segmento = new SegmentoResponseDTO(caminhao.getSegmento());
     }
 
     public Integer getId() {
@@ -43,7 +43,7 @@ public class CaminhaoResponseDTO {
         return anoFabricacao;
     }
 
-    public SegmentoDTO getSegmento() {
+    public SegmentoResponseDTO getSegmento() {
         return segmento;
     }
 
@@ -67,7 +67,7 @@ public class CaminhaoResponseDTO {
         this.anoFabricacao = anoFabricacao;
     }
 
-    public void setSegmento(SegmentoDTO segmento) {
+    public void setSegmento(SegmentoResponseDTO segmento) {
         this.segmento = segmento;
     }
 }
