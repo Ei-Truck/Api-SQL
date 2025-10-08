@@ -40,7 +40,7 @@ public class UsuarioService {
     }
 
     public String uploadFoto(Integer usuarioId, Path arquivo) {
-        String key = "perfil/" + usuarioId + "/" + arquivo.getFileName().toString();
+        String key = "perfil/" + usuarioId + "/profile_" + usuarioId + ".jpg";
 
         PutObjectRequest request = PutObjectRequest.builder()
                 .bucket("eitruck")
