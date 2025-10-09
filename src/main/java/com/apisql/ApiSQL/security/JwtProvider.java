@@ -21,7 +21,6 @@ public class JwtProvider {
 
     private Key key;
 
-    // Inicializa a chave de assinatura
     private Key getKey() {
         if (this.key == null) {
             this.key = Keys.hmacShaKeyFor(secret.getBytes());
@@ -40,7 +39,6 @@ public class JwtProvider {
                 .compact();
     }
 
-    // Para uso no filtro de autenticação
     public boolean validateToken(String token) {
         try {
             Jwts.parserBuilder().setSigningKey(getKey()).build().parseClaimsJws(token);
@@ -50,7 +48,6 @@ public class JwtProvider {
         }
     }
 
-    // Para uso no filtro de autenticação
     public String getEmailFromToken(String token) {
         return Jwts.parserBuilder().setSigningKey(getKey()).build().parseClaimsJws(token).getBody().getSubject();
     }

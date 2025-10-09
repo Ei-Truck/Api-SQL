@@ -17,6 +17,6 @@ public interface AuthOpenApi {
             @ApiResponse(responseCode = "200", description = "Login realizado com sucesso"),
             @ApiResponse(responseCode = "401", description = "Credenciais inválidas")
     })
-    @PostMapping // ADICIONADO
+    @PostMapping
     ResponseEntity<LoginUsuarioResponseDTO> login(@RequestBody LoginUsuarioRequestDTO request);
 }

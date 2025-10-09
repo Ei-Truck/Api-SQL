@@ -1,9 +1,20 @@
 package com.apisql.ApiSQL.service;
 
+import com.apisql.ApiSQL.dto.UsuarioResponseDTO;
+import com.apisql.ApiSQL.model.Cargo;
+import com.apisql.ApiSQL.model.Unidade;
 import com.apisql.ApiSQL.model.Usuario;
+import com.apisql.ApiSQL.repository.CargoRepository;
+import com.apisql.ApiSQL.repository.UnidadeRepository;
 import com.apisql.ApiSQL.repository.UsuarioRepository;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.persistence.EntityNotFoundException;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.server.ResponseStatusException;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -11,24 +22,36 @@ import java.util.Optional;
 public class UsuarioService {
 
     private final UsuarioRepository usuarioRepository;
+    private final UnidadeRepository unidadeRepository;
+    private final CargoRepository cargoRepository;
+    private final ObjectMapper objectMapper;
 
-    public UsuarioService(UsuarioRepository usuarioRepository) {
+    public UsuarioService(UsuarioRepository usuarioRepository, ObjectMapper objectMapper, UnidadeRepository unidadeRepository, CargoRepository cargoRepository) {
         this.usuarioRepository = usuarioRepository;
+        this.objectMapper = objectMapper;
+        this.unidadeRepository = unidadeRepository;
+        this.cargoRepository = cargoRepository;
     }
 
-    public List<Usuario> listarTodos() {
-        return usuarioRepository.findAll();
+    public List<UsuarioResponseDTO> findAll() {
+        List<Usuario> usuarios = usuarioRepository.findAll();
+        return usuarios.stream()
+                .map(u -> objectMapper.convertValue(u, UsuarioResponseDTO.class))
+                .toList();
     }
 
-    public Optional<Usuario> buscarPorId(Integer id) {
-        return usuarioRepository.findById(id);
+    public UsuarioResponseDTO findById(Integer id) {
+        Optional<Usuario> response = usuarioRepository.findById(id);
+        if (response.isPresent()) {
+            return objectMapper.convertValue(response.get(), UsuarioResponseDTO.class);
+        }
+        throw new EntityNotFoundException("Usuário não encontrado com ID: " + id);
     }
 
-    public Usuario salvar(Usuario usuario) {
-        return usuarioRepository.save(usuario);
-    }
-
-    public void deletar(Integer id) {
+    public void deleteById(Integer id) {
+        if (!usuarioRepository.existsById(id)) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuário com id:" + id + " não encontrado para exclusão");
+        }
         usuarioRepository.deleteById(id);
     }
 }

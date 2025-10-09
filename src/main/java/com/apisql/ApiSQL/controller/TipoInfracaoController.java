@@ -1,59 +1,58 @@
 package com.apisql.ApiSQL.controller;
 
-import com.apisql.ApiSQL.model.TipoInfracao;
+import com.apisql.ApiSQL.dto.TipoInfracaoRequestDTO;
+import com.apisql.ApiSQL.dto.TipoInfracaoResponseDTO;
 import com.apisql.ApiSQL.openapi.TipoInfracaoOpenApi;
 import com.apisql.ApiSQL.service.TipoInfracaoService;
-
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import io.swagger.v3.oas.annotations.tags.Tag;
-
+import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
+@RequestMapping("/tipo-infracao")
 public class TipoInfracaoController implements TipoInfracaoOpenApi {
 
-    private final TipoInfracaoService service;
+    private final TipoInfracaoService tipoInfracaoService;
 
-    public TipoInfracaoController(TipoInfracaoService service) {
-        this.service = service;
+    public TipoInfracaoController(TipoInfracaoService tipoInfracaoService) {
+        this.tipoInfracaoService = tipoInfracaoService;
     }
 
-
+    @Override
     @GetMapping
-    public List<TipoInfracao> getAll() {
-        return service.findAll();
+    public ResponseEntity<List<TipoInfracaoResponseDTO>> findAll() {
+        List<TipoInfracaoResponseDTO> infracoes = tipoInfracaoService.findAll();
+        return ResponseEntity.ok(infracoes);
     }
 
-
+    @Override
     @GetMapping("/{id}")
-    public ResponseEntity<TipoInfracao> getById(@PathVariable Integer id) {
-        return service.findById(id)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+    public ResponseEntity<TipoInfracaoResponseDTO> findById(@PathVariable Integer id) {
+        TipoInfracaoResponseDTO infracao = tipoInfracaoService.findById(id);
+        return ResponseEntity.ok(infracao);
     }
 
+    @Override
     @PostMapping
-    public TipoInfracao create(@RequestBody TipoInfracao tipoInfracao) {
-        return service.save(tipoInfracao);
+    public ResponseEntity<TipoInfracaoResponseDTO> save(@Valid @RequestBody TipoInfracaoRequestDTO dto) {
+        TipoInfracaoResponseDTO savedInfracao = tipoInfracaoService.save(dto);
+        return new ResponseEntity<>(savedInfracao, HttpStatus.CREATED);
     }
 
+    @Override
+    @PutMapping("/{id}")
+    public ResponseEntity<TipoInfracaoResponseDTO> update(@PathVariable Integer id, @Valid @RequestBody TipoInfracaoRequestDTO dto) {
+        TipoInfracaoResponseDTO updatedInfracao = tipoInfracaoService.update(id, dto);
+        return ResponseEntity.ok(updatedInfracao);
+    }
 
-
+    @Override
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Integer id) {
-        if (service.findById(id).isPresent()) {
-            service.deleteById(id);
-            return ResponseEntity.noContent().build();
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+    public ResponseEntity<Void> deleteById(@PathVariable Integer id) {
+        tipoInfracaoService.deleteById(id);
+        return ResponseEntity.noContent().build();
     }
 }

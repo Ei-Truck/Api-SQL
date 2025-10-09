@@ -15,7 +15,7 @@ public interface LoginUsuarioOpenApi {
 
     @Operation(summary = "Lista todos os registros de login")
     @ApiResponse(responseCode = "200", description = "Lista retornada com sucesso")
-    @GetMapping // ADICIONADO
+    @GetMapping
     ResponseEntity<List<LoginUsuarioResponseDTO>> listar();
 
     @Operation(summary = "Lista todos os logins de um usuário específico")

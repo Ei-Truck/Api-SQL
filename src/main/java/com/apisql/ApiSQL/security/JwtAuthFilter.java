@@ -18,7 +18,7 @@ import java.io.IOException;
 public class JwtAuthFilter extends OncePerRequestFilter {
 
     private final JwtProvider jwtProvider;
-    private final UserDetailsService userDetailsService; // O CustomUserDetailsService que você criou
+    private final UserDetailsService userDetailsService;
 
     public JwtAuthFilter(JwtProvider jwtProvider, UserDetailsService userDetailsService) {
         this.jwtProvider = jwtProvider;
@@ -35,43 +35,34 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         final String jwt;
         final String userEmail;
 
-        // 1. Verifica se o cabeçalho Authorization existe e começa com "Bearer "
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
             filterChain.doFilter(request, response);
             return;
         }
 
-        // 2. Extrai o token JWT (depois de "Bearer ") e o email
         jwt = authHeader.substring(7);
         userEmail = jwtProvider.getEmailFromToken(jwt);
 
-        // 3. Se o email foi encontrado no token E o usuário ainda não está autenticado no Spring Security:
         if (userEmail != null && SecurityContextHolder.getContext().getAuthentication() == null) {
 
-            // Carrega os detalhes do usuário (CustomUserDetailsService)
             UserDetails userDetails = this.userDetailsService.loadUserByUsername(userEmail);
 
-            // 4. Valida a assinatura do token (JwtProvider)
             if (jwtProvider.validateToken(jwt)) {
 
-                // Cria o token de autenticação do Spring Security
                 UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
                         userDetails,
                         null,
                         userDetails.getAuthorities() // As permissões do usuário
                 );
 
-                // Adiciona detalhes da requisição
                 authToken.setDetails(
                         new WebAuthenticationDetailsSource().buildDetails(request)
                 );
 
-                // 5. Define o usuário como autenticado para esta requisição!
                 SecurityContextHolder.getContext().setAuthentication(authToken);
             }
         }
 
-        // 6. Continua a cadeia de filtros (permite que a requisição chegue ao Controller)
         filterChain.doFilter(request, response);
     }
 }

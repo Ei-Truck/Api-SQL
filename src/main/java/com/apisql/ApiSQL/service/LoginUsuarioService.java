@@ -35,7 +35,7 @@ public class LoginUsuarioService {
     }
 
     public List<LoginUsuarioResponseDTO> listarPorUsuario(Integer idUsuario) {
-        return repository.findByIdUsuario(idUsuario).stream()
+        return repository.findByUsuarioId(idUsuario).stream()
                 .map(this::toResponse)
                 .collect(Collectors.toList());
     }

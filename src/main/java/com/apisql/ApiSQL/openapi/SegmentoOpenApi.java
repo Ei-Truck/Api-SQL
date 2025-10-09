@@ -1,6 +1,7 @@
 package com.apisql.ApiSQL.openapi;
 
-import com.apisql.ApiSQL.model.Segmento;
+import com.apisql.ApiSQL.dto.SegmentoRequestDTO;
+import com.apisql.ApiSQL.dto.SegmentoResponseDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -9,48 +10,48 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 
-@RequestMapping("/segmentos")
-@Tag(name = "Segmentos", description = "Gerenciamento de segmentos")
+@Tag(name = "Segmentos", description = "Operações de gerenciamento de segmentos.")
 public interface SegmentoOpenApi {
 
-    @Operation(summary = "Lista todos os segmentos")
-    @ApiResponse(responseCode = "200", description = "Lista retornada com sucesso")
-    @GetMapping // ADICIONADO
-    List<Segmento> getAll();
+    @Operation(summary = "Lista todos os segmentos", description = "Retorna uma lista de todos os segmentos.")
+    @ApiResponse(responseCode = "200", description = "Lista de segmentos retornada com sucesso.")
+    ResponseEntity<List<SegmentoResponseDTO>> findAll();
 
-    @Operation(summary = "Busca segmento por ID")
-    @ApiResponses({
-            @ApiResponse(responseCode = "200", description = "Segmento encontrado",
-                    content = @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = Segmento.class))),
-            @ApiResponse(responseCode = "404", description = "Segmento não encontrado")
+    @Operation(summary = "Busca segmento por ID", description = "Retorna os detalhes de um segmento específico pelo seu ID.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Segmento encontrado com sucesso.",
+                    content = @Content(schema = @Schema(implementation = SegmentoResponseDTO.class))),
+            @ApiResponse(responseCode = "404", description = "Segmento não encontrado com o ID fornecido.")
     })
-    @GetMapping("/{id}") // ADICIONADO
-    ResponseEntity<Segmento> getById(@Parameter(description = "ID do segmento") @PathVariable Integer id); // ADICIONADO @PathVariable
+    ResponseEntity<SegmentoResponseDTO> findById(@Parameter(description = "ID do segmento") @PathVariable Integer id);
 
-    @Operation(summary = "Cria um novo segmento")
-    @ApiResponse(responseCode = "201", description = "Segmento criado com sucesso")
-    @PostMapping
-        // ADICIONADO
-    Segmento create(@RequestBody Segmento segmento); // ADICIONADO @RequestBody
-
-    @Operation(summary = "Atualiza um segmento existente") // ADICIONADO (Assumindo PUT)
-    @ApiResponses({
-            @ApiResponse(responseCode = "200", description = "Segmento atualizado com sucesso"),
-            @ApiResponse(responseCode = "404", description = "Segmento não encontrado")
+    @Operation(summary = "Cria um novo segmento", description = "Registra um novo segmento.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "Segmento criado com sucesso.",
+                    content = @Content(schema = @Schema(implementation = SegmentoResponseDTO.class))),
+            @ApiResponse(responseCode = "400", description = "Dados inválidos (ex: nome duplicado).")
     })
-    @PutMapping("/{id}") // ADICIONADO
-    ResponseEntity<Segmento> update(@PathVariable Integer id, @RequestBody Segmento segmento); // ADICIONADO
+    ResponseEntity<SegmentoResponseDTO> save(@RequestBody SegmentoRequestDTO dto);
 
-    @Operation(summary = "Remove um segmento pelo ID")
-    @ApiResponses({
-            @ApiResponse(responseCode = "204", description = "Segmento removido com sucesso"),
-            @ApiResponse(responseCode = "404", description = "Segmento não encontrado")
+    @Operation(summary = "Atualiza um segmento existente", description = "Atualiza completamente (PUT) o registro de um segmento pelo seu ID.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Segmento atualizado com sucesso.",
+                    content = @Content(schema = @Schema(implementation = SegmentoResponseDTO.class))),
+            @ApiResponse(responseCode = "404", description = "Segmento não encontrado."),
+            @ApiResponse(responseCode = "400", description = "Dados inválidos para atualização.")
     })
-    @DeleteMapping("/{id}") // ADICIONADO
-    ResponseEntity<Void> delete(@PathVariable Integer id); // ADICIONADO @PathVariable
+    ResponseEntity<SegmentoResponseDTO> update(@Parameter(description = "ID do segmento a ser atualizado") @PathVariable Integer id,
+                                               @RequestBody SegmentoRequestDTO dto);
+
+    @Operation(summary = "Deleta um segmento", description = "Remove um segmento do banco de dados pelo seu ID.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204", description = "Segmento deletado com sucesso (No Content)."),
+            @ApiResponse(responseCode = "404", description = "Segmento não encontrado para exclusão.")
+    })
+    ResponseEntity<Void> deleteById(@Parameter(description = "ID do segmento a ser deletado") @PathVariable Integer id);
 }
