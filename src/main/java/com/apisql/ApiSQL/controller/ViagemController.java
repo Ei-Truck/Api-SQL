@@ -47,6 +47,6 @@ public class ViagemController implements ViagemOpenApi {
     @GetMapping("/relatorio-simples")
     @Override
     public List<RelatorioSimplesViagemDTO> getAllRelatorioViagem() {
-        return List.of();
+        return relatorioSimplesViagemService.findAll();
     }
 }

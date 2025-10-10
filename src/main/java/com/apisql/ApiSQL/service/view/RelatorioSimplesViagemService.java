@@ -17,6 +17,15 @@ public class RelatorioSimplesViagemService {
     public List<RelatorioSimplesViagemDTO> findAll(){
         List<Object[]> resultado = relatorioSimplesViagemRepository.buscarRelatorioSimplesViagem();
         System.out.println(resultado);
+        for(Object[] o : resultado){
+            if (resultado.isEmpty()){
+                System.out.println("vazio");
+            }else{
+                for (int i = 0; i < o.length ; i++) {
+                    System.out.println(o[i]);
+                }
+            }
+        }
         return resultado.stream()
                 .map(obj -> {
                     RelatorioSimplesViagemDTO dto = new RelatorioSimplesViagemDTO();
