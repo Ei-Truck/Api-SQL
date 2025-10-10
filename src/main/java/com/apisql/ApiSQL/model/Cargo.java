@@ -18,6 +18,10 @@ public class Cargo {
     @Column(nullable = false, unique = true)
     private String nome;
 
+//    public Cargo(Integer id, String nome) {
+//        this.id = id;
+//        this.nome = nome;
+//    }
     // getters e setters
     public Integer getId() {
         return id;

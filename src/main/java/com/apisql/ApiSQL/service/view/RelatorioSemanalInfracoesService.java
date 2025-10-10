@@ -17,11 +17,19 @@ public class RelatorioSemanalInfracoesService {
 
     public List<RelatorioSemanalInfracoesDTO> findAll(){
         List<Object[]> resultado = relatorioSemanalInfracoesRepository.buscarRelatorioSamanalInfracoes();
+        for (Object[] o : resultado) {
+            if(resultado.isEmpty()){
+                System.out.println("Vazio");
+            }else{
+                System.out.println(o[0]);
+                System.out.println(o[1]);
+            }
+        }
         return resultado.stream()
                 .map(obj ->{
                     RelatorioSemanalInfracoesDTO dto = new RelatorioSemanalInfracoesDTO();
-                    dto.setDiasemana(obj[0] != null? obj[0].toString(): null );
-                    dto.setTotal_infracoes(obj[1] != null? ((Number)obj[1]).intValue(): 0);
+                    dto.setDiasemana(obj[0].toString());
+                    dto.setTotal_infracoes(((Number)obj[1]).intValue());
                     return dto;
                 }).toList();
     }

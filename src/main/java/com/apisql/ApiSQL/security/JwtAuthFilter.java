@@ -18,60 +18,70 @@ import java.io.IOException;
 public class JwtAuthFilter extends OncePerRequestFilter {
 
     private final JwtProvider jwtProvider;
-    private final UserDetailsService userDetailsService; // O CustomUserDetailsService que você criou
+    private final UserDetailsService userDetailsService;
 
     public JwtAuthFilter(JwtProvider jwtProvider, UserDetailsService userDetailsService) {
         this.jwtProvider = jwtProvider;
         this.userDetailsService = userDetailsService;
     }
 
+    /**
+     * Ignora o filtro para endpoints públicos (login, Swagger etc.)
+     */
     @Override
-    protected void doFilterInternal(
-            HttpServletRequest request,
-            HttpServletResponse response,
-            FilterChain filterChain) throws ServletException, IOException {
+    protected boolean shouldNotFilter(HttpServletRequest request) {
+        String path = request.getServletPath();
+        return path.startsWith("/login") ||
+                path.startsWith("/v3/api-docs") ||
+                path.startsWith("/swagger-ui") ||
+                path.startsWith("/swagger-ui.html");
+    }
+
+    @Override
+    protected void doFilterInternal(HttpServletRequest request,
+                                    HttpServletResponse response,
+                                    FilterChain filterChain) throws ServletException, IOException {
 
         final String authHeader = request.getHeader("Authorization");
-        final String jwt;
-        final String userEmail;
 
-        // 1. Verifica se o cabeçalho Authorization existe e começa com "Bearer "
+        // Se não houver token, apenas continua
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
             filterChain.doFilter(request, response);
             return;
         }
 
-        // 2. Extrai o token JWT (depois de "Bearer ") e o email
-        jwt = authHeader.substring(7);
-        userEmail = jwtProvider.getEmailFromToken(jwt);
+        final String jwt = authHeader.substring(7);
+        String userEmail;
 
-        // 3. Se o email foi encontrado no token E o usuário ainda não está autenticado no Spring Security:
+        try {
+            userEmail = jwtProvider.getEmailFromToken(jwt);
+        } catch (Exception e) {
+            // Token inválido
+            filterChain.doFilter(request, response);
+            return;
+        }
+
+        // Se usuário não está autenticado, valida token e autentica
         if (userEmail != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+            try {
+                UserDetails userDetails = userDetailsService.loadUserByUsername(userEmail);
 
-            // Carrega os detalhes do usuário (CustomUserDetailsService)
-            UserDetails userDetails = this.userDetailsService.loadUserByUsername(userEmail);
-
-            // 4. Valida a assinatura do token (JwtProvider)
-            if (jwtProvider.validateToken(jwt)) {
-
-                // Cria o token de autenticação do Spring Security
-                UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
-                        userDetails,
-                        null,
-                        userDetails.getAuthorities() // As permissões do usuário
-                );
-
-                // Adiciona detalhes da requisição
-                authToken.setDetails(
-                        new WebAuthenticationDetailsSource().buildDetails(request)
-                );
-
-                // 5. Define o usuário como autenticado para esta requisição!
-                SecurityContextHolder.getContext().setAuthentication(authToken);
+                if (jwtProvider.validateToken(jwt)) {
+                    UsernamePasswordAuthenticationToken authToken =
+                            new UsernamePasswordAuthenticationToken(
+                                    userDetails,
+                                    null,
+                                    userDetails.getAuthorities()
+                            );
+                    authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                    SecurityContextHolder.getContext().setAuthentication(authToken);
+                }
+            } catch (Exception e) {
+                // Se o usuário não existir, limpa o contexto
+                SecurityContextHolder.clearContext();
             }
         }
 
-        // 6. Continua a cadeia de filtros (permite que a requisição chegue ao Controller)
         filterChain.doFilter(request, response);
     }
 }
