@@ -37,9 +37,6 @@ public class Usuario {
     @Column(name = "url_foto", length = 255)
     private String urlFoto = "Sem foto";
 
-    @Column(name = "id_status")
-    private Integer idStatus;
-
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_cargo", nullable = false)
     private Cargo cargo;
@@ -74,9 +71,6 @@ public class Usuario {
 
     public String getUrlFoto() { return urlFoto; }
     public void setUrlFoto(String urlFoto) { this.urlFoto = urlFoto; }
-
-    public Integer getIdStatus() { return idStatus; }
-    public void setIdStatus(Integer idStatus) { this.idStatus = idStatus; }
 
     public Cargo getCargo() { return cargo; }
     public void setCargo(Cargo cargo) { this.cargo = cargo; }

@@ -1,12 +1,13 @@
 package com.apisql.ApiSQL.dto.view;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 
 public class VisaoBasicaViagemDTO {
 
     private String placaCaminhao;
-    private LocalDateTime dataInicioViagem;
-    private LocalDateTime dataFimViagem;
+    private Date dataInicioViagem;
+    private Date dataFimViagem;
     private String segmento;
     private String nomeMotorista;
     private String riscoMotorista;
@@ -31,19 +32,19 @@ public class VisaoBasicaViagemDTO {
         this.placaCaminhao = placaCaminhao;
     }
 
-    public LocalDateTime getDataInicioViagem() {
+    public Date getDataInicioViagem() {
         return dataInicioViagem;
     }
 
-    public void setDataInicioViagem(LocalDateTime dataInicioViagem) {
+    public void setDataInicioViagem(Date dataInicioViagem) {
         this.dataInicioViagem = dataInicioViagem;
     }
 
-    public LocalDateTime getDataFimViagem() {
+    public Date getDataFimViagem() {
         return dataFimViagem;
     }
 
-    public void setDataFimViagem(LocalDateTime dataFimViagem) {
+    public void setDataFimViagem(Date dataFimViagem) {
         this.dataFimViagem = dataFimViagem;
     }
 

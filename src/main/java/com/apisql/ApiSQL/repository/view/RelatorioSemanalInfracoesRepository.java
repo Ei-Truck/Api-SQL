@@ -13,6 +13,6 @@ public class RelatorioSemanalInfracoesRepository {
     EntityManager em;
 
     public List<Object[]> buscarRelatorioSamanalInfracoes(){
-        return em.createNativeQuery("SELECT * FROM vw_relatorio_semanal_infracoes").getResultList();
+        return em.createNativeQuery("SELECT dia_semana, total_infracoes FROM vw_relatorio_semanal_infracoes").getResultList();
     }
 }

@@ -5,6 +5,7 @@ import com.apisql.ApiSQL.repository.view.VisaoBasicaViagemRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -20,8 +21,8 @@ public class VisaoBasicaViagemService {
         return resultado.stream().map(obj -> {
             VisaoBasicaViagemDTO dto = new VisaoBasicaViagemDTO();
             dto.setPlacaCaminhao((String) obj[0]);
-            dto.setDataInicioViagem((LocalDateTime) obj[1]);
-            dto.setDataFimViagem((LocalDateTime) obj[2]);
+            dto.setDataInicioViagem((Date) obj[1]);
+            dto.setDataFimViagem((Date) obj[2]);
             dto.setSegmento((String) obj[3]);
             dto.setNomeMotorista((String) obj[4]);
             dto.setRiscoMotorista((String) obj[5]);

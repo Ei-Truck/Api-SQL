@@ -18,7 +18,7 @@ public class OcorrenciaPorViagemService {
     }
 
     public List<OcorrenciaPorViagemDTO> findAll(){
-        List<Object[]> resultado = relatorioSimplesViagemRepository.buscarRelatorioSimplesViagem();
+        List<Object[]> resultado = ocorrenciaPorViagemRepository.buscarOcorrenciaPorViagem();
         return resultado.stream()
                 .map(obj -> {
                     OcorrenciaPorViagemDTO dto = new OcorrenciaPorViagemDTO();
