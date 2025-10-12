@@ -7,6 +7,7 @@ public class RelatorioSimplesViagemDTO {
     private Date data_inicio_viagem;
     private Integer id_viagem;
     private String motorista;
+    private Boolean isAnalisada;
     private String km_viagem;
     private Integer pontuacao_total;
 
@@ -51,6 +52,14 @@ public class RelatorioSimplesViagemDTO {
 
     public Integer getPontuacao_total() {
         return pontuacao_total;
+    }
+
+    public Boolean getAnalisada() {
+        return isAnalisada;
+    }
+
+    public void setAnalisada(Boolean analisada) {
+        isAnalisada = analisada;
     }
 
     public void setMotorista(String motorista) {
