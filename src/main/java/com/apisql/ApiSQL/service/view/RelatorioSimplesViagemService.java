@@ -32,10 +32,9 @@ public class RelatorioSimplesViagemService {
                     dto.setId_viagem(obj[0] != null ? ((Number) obj[0]).intValue() : null);
                     dto.setPlaca_caminhao(obj[1] != null ? obj[1].toString() : null);
                     dto.setData_inicio_viagem(obj[2] != null ? (Date) obj[2] : null);
-                    dto.setMotorista(obj[3] != null ? obj[3].toString() : null);
-                    dto.setKm_viagem(obj[4] != null ? obj[4].toString() : null);
-                    dto.setAnalisada(obj[5] !=null ? (Boolean) obj[5] : null);
-                    dto.setPontuacao_total(obj[6] != null ? ((Number) obj[6]).intValue() : null);
+                    dto.setKm_viagem(obj[3] != null ? obj[3].toString() : null);
+                    dto.setAnalisada(obj[4] !=null ? (Boolean) obj[4] : null);
+                    dto.setPontuacao_total(obj[5] != null ? ((Number) obj[5]).intValue() : null);
                     return dto;
                 }).toList();
     }
