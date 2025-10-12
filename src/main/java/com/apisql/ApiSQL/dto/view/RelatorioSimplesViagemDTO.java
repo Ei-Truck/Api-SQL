@@ -6,7 +6,6 @@ public class RelatorioSimplesViagemDTO {
     private String placa_caminhao;
     private Date data_inicio_viagem;
     private Integer id_viagem;
-    private String motorista;
     private Boolean isAnalisada;
     private String km_viagem;
     private Integer pontuacao_total;
@@ -46,9 +45,6 @@ public class RelatorioSimplesViagemDTO {
         this.km_viagem = km_viagem;
     }
 
-    public String getMotorista() {
-        return motorista;
-    }
 
     public Integer getPontuacao_total() {
         return pontuacao_total;
@@ -62,9 +58,6 @@ public class RelatorioSimplesViagemDTO {
         isAnalisada = analisada;
     }
 
-    public void setMotorista(String motorista) {
-        this.motorista = motorista;
-    }
 
     public void setPontuacao_total(Integer pontuacao_total) {
         this.pontuacao_total = pontuacao_total;
