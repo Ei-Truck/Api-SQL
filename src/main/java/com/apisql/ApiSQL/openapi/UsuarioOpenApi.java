@@ -9,8 +9,10 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 @Tag(name = "Usuários", description = "Operações de gerenciamento de usuários.")
@@ -36,4 +38,9 @@ public interface UsuarioOpenApi {
             @ApiResponse(responseCode = "404", description = "Usuário não encontrado para exclusão.")
     })
     ResponseEntity<Void> deleteById(@Parameter(description = "ID do Usuário a ser deletado") @PathVariable Integer id);
+
+    @Operation(summary = "Atualizar a foto do usuário")
+    @ApiResponse(responseCode = "200", description = "Atualizada com sucesso")
+    ResponseEntity<Usuario> atualizarFoto(@PathVariable Integer id,
+                                          @RequestParam("file") MultipartFile file) throws IOException;
 }

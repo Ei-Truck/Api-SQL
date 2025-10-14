@@ -13,6 +13,10 @@ public class RelatorioSemanalInfracoesDTO {
         return diasemana;
     }
 
-    public void setDiasemana(String diasemana) {}
-    public void setTotal_infracoes(Integer total_infracoes) {}
+    public void setDiasemana(String diasemana) {
+        this.diasemana = diasemana;
+    }
+    public void setTotal_infracoes(Integer total_infracoes) {
+        this.total_infracoes = total_infracoes;
+    }
 }

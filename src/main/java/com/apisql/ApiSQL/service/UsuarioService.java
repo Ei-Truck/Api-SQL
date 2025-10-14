@@ -15,6 +15,11 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDateTime;
+import software.amazon.awssdk.services.s3.S3Client;
+import software.amazon.awssdk.services.s3.model.PutObjectRequest;
+import software.amazon.awssdk.services.s3.model.PutObjectResponse;
+
+import java.nio.file.Path;
 import java.util.List;
 import java.util.Optional;
 
@@ -25,12 +30,19 @@ public class UsuarioService {
     private final UnidadeRepository unidadeRepository;
     private final CargoRepository cargoRepository;
     private final ObjectMapper objectMapper;
+    private final S3Client s3Client;
+
 
     public UsuarioService(UsuarioRepository usuarioRepository, ObjectMapper objectMapper, UnidadeRepository unidadeRepository, CargoRepository cargoRepository) {
         this.usuarioRepository = usuarioRepository;
         this.objectMapper = objectMapper;
         this.unidadeRepository = unidadeRepository;
         this.cargoRepository = cargoRepository;
+    }
+
+    public UsuarioService(UsuarioRepository usuarioRepository, S3Client s3Client) {
+        this.usuarioRepository = usuarioRepository;
+        this.s3Client = s3Client;
     }
 
     public List<UsuarioResponseDTO> findAll() {
@@ -54,4 +66,29 @@ public class UsuarioService {
         }
         usuarioRepository.deleteById(id);
     }
+
+    public String uploadFoto(Integer usuarioId, Path arquivo) {
+        String key = "perfil/" + usuarioId + "/profile_" + usuarioId + ".jpg";
+
+        PutObjectRequest request = PutObjectRequest.builder()
+                .bucket("eitruck")
+                .key(key)
+                .build();
+
+        PutObjectResponse response = s3Client.putObject(request, arquivo);
+
+        return "https://eitruck.s3.sa-east-1.amazonaws.com/" + key;
+    }
+
+    public Usuario atualizarFoto(Integer usuarioId, Path arquivo) {
+
+        Usuario usuario = usuarioRepository.findById(usuarioId)
+                .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+
+        String url = uploadFoto(usuarioId, arquivo);
+        usuario.setUrlFoto(url);
+
+        return usuarioRepository.save(usuario);
+    }
+
 }

@@ -54,4 +54,13 @@ public interface ViagemOpenApi {
             @ApiResponse(responseCode = "404", description = "Viagem não encontrada para exclusão.")
     })
     ResponseEntity<Void> deleteById(@Parameter(description = "ID da Viagem a ser deletada") @PathVariable Integer id);
+  
+    @Operation(summary = "Listar relatório",
+        description = "Lista um relatório simples da viagem",
+        responses = {
+                @ApiResponse(responseCode = "200", description = "Relatório obtido com sucesso"),
+                @ApiResponse(responseCode = "500", description = "Erro interno do servidor")
+        })
+    List<RelatorioSimplesViagemDTO> getAllRelatorioViagem();
+ 
 }

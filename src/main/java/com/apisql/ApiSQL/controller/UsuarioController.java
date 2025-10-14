@@ -6,7 +6,11 @@ import com.apisql.ApiSQL.service.UsuarioService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.List;
 
 @SecurityRequirement(name = "bearerAuth")
@@ -40,4 +44,22 @@ public class UsuarioController implements UsuarioOpenApi {
         usuarioService.deleteById(id);
         return ResponseEntity.noContent().build();
     }
+
+    @Override
+    @PostMapping("/{id}/foto")
+    public ResponseEntity<Usuario> atualizarFoto(
+            @PathVariable Integer id,
+            @RequestParam("file") MultipartFile file) throws IOException {
+
+        Path tempFile = Files.createTempFile("upload-", file.getOriginalFilename());
+        file.transferTo(tempFile);
+
+        Usuario usuarioAtualizado = usuarioService.atualizarFoto(id, tempFile);
+
+        Files.delete(tempFile);
+
+        return ResponseEntity.ok(usuarioAtualizado);
+    }
+
 }
+

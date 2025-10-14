@@ -1,6 +1,7 @@
 package com.apisql.ApiSQL.openapi;
 
 import com.apisql.ApiSQL.dto.LoginUsuarioResponseDTO;
+import com.apisql.ApiSQL.model.Usuario;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import org.springframework.http.ResponseEntity;
