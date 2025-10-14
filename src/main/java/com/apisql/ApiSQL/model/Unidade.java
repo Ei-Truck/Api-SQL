@@ -1,52 +1,44 @@
 package com.apisql.ApiSQL.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
-import jakarta.persistence.Id;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.Column;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import jakarta.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "tb_unidade")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Unidade {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_segmento")
     private Segmento segmento;
 
     @Column(name = "nome", nullable = false, length = 100)
     private String nome;
 
-    @Column(name = "cidade", nullable = false, length = 50)
-    private String cidade;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_localidade")
+    private Localidade localidade;
 
-    @Column(name = "uf_estado", length = 2)
-    private String ufEstado;
+    @Column(name = "updated_at")
+    private LocalDateTime updatedAt;
 
-    @Column(name = "isinactive")
+    @Column(name = "is_inactive")
     private Boolean isInactive = false;
 
     public Integer getId() { return id; }
     public void setId(Integer id) { this.id = id; }
-
     public Segmento getSegmento() { return segmento; }
     public void setSegmento(Segmento segmento) { this.segmento = segmento; }
-
     public String getNome() { return nome; }
     public void setNome(String nome) { this.nome = nome; }
-
-    public String getCidade() { return cidade; }
-    public void setCidade(String cidade) { this.cidade = cidade; }
-
-    public String getUfEstado() { return ufEstado; }
-    public void setUfEstado(String ufEstado) { this.ufEstado = ufEstado; }
-
+    public Localidade getLocalidade() { return localidade; }
+    public void setLocalidade(Localidade localidade) { this.localidade = localidade; }
+    public LocalDateTime getUpdatedAt() { return updatedAt; }
+    public void setUpdatedAt(LocalDateTime updatedAt) { this.updatedAt = updatedAt; }
     public Boolean getIsInactive() { return isInactive; }
     public void setIsInactive(Boolean isInactive) { this.isInactive = isInactive; }
 }

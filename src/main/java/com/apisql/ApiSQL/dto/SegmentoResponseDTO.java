@@ -1,38 +1,19 @@
-// SegmentoDTO.java
 package com.apisql.ApiSQL.dto;
 
-import com.apisql.ApiSQL.model.Segmento;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import java.time.LocalDateTime;
 
 public class SegmentoResponseDTO {
-
     private Integer id;
     private String nome;
 
-    public SegmentoResponseDTO() {
-    }
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSSSS")
+    private LocalDateTime updatedAt;
 
-    public SegmentoResponseDTO(Segmento segmento) {
-        if (segmento != null) {
-            this.id = segmento.getId();
-            this.nome = segmento.getNome();
-        }
-    }
-
-    // Getters
-    public Integer getId() {
-        return id;
-    }
-
-    public String getNome() {
-        return nome;
-    }
-
-    // Setters
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
+    public Integer getId() { return id; }
+    public void setId(Integer id) { this.id = id; }
+    public String getNome() { return nome; }
+    public void setNome(String nome) { this.nome = nome; }
+    public LocalDateTime getUpdatedAt() { return updatedAt; }
+    public void setUpdatedAt(LocalDateTime updatedAt) { this.updatedAt = updatedAt; }
 }

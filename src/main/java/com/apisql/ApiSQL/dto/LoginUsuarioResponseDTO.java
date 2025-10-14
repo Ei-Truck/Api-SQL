@@ -8,7 +8,7 @@ public class LoginUsuarioResponseDTO {
     private String token;
     private String email;
     private String nomeCompleto;
-    private String cargo; // novo campo
+    private String cargo;
 
     public LoginUsuarioResponseDTO(String token, Usuario usuario) {
         this.id = usuario.getId();

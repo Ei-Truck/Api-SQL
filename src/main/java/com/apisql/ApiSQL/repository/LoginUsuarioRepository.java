@@ -5,6 +5,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface LoginUsuarioRepository extends JpaRepository<LoginUsuario, Integer> {
-    List<LoginUsuario> findByIdUsuario(Integer idUsuario);
+    List<LoginUsuario> findByUsuarioId(Integer idUsuario);
 
 }

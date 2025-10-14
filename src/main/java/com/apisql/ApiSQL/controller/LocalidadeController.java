@@ -1,17 +1,18 @@
 package com.apisql.ApiSQL.controller;
 
-import com.apisql.ApiSQL.model.Localidade;
+import com.apisql.ApiSQL.dto.LocalidadeRequestDTO;
+import com.apisql.ApiSQL.dto.LocalidadeResponseDTO;
 import com.apisql.ApiSQL.openapi.LocalidadeOpenApi;
 import com.apisql.ApiSQL.service.LocalidadeService;
-
-import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
+@RequestMapping("/localidades")
 public class LocalidadeController implements LocalidadeOpenApi {
 
     private final LocalidadeService localidadeService;
@@ -22,33 +23,36 @@ public class LocalidadeController implements LocalidadeOpenApi {
 
     @Override
     @GetMapping
-    public List<Localidade> getAll() {
-        return localidadeService.findAll();
+    public ResponseEntity<List<LocalidadeResponseDTO>> findAll() {
+        List<LocalidadeResponseDTO> localidades = localidadeService.findAll();
+        return ResponseEntity.ok(localidades);
     }
 
     @Override
     @GetMapping("/{id}")
-    public ResponseEntity<Localidade> getById(
-            @Parameter(description = "ID da localidade") @PathVariable Integer id) {
-        return localidadeService.findById(id)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+    public ResponseEntity<LocalidadeResponseDTO> findById(@PathVariable Integer id) {
+        LocalidadeResponseDTO localidade = localidadeService.findById(id);
+        return ResponseEntity.ok(localidade);
     }
 
     @Override
     @PostMapping
-    public Localidade create(@RequestBody Localidade localidade) {
-        return localidadeService.save(localidade);
+    public ResponseEntity<LocalidadeResponseDTO> save(@Valid @RequestBody LocalidadeRequestDTO dto) {
+        LocalidadeResponseDTO savedLocalidade = localidadeService.save(dto);
+        return new ResponseEntity<>(savedLocalidade, HttpStatus.CREATED);
+    }
+
+    @Override
+    @PutMapping("/{id}")
+    public ResponseEntity<LocalidadeResponseDTO> update(@PathVariable Integer id, @Valid @RequestBody LocalidadeRequestDTO dto) {
+        LocalidadeResponseDTO updatedLocalidade = localidadeService.update(id, dto);
+        return ResponseEntity.ok(updatedLocalidade);
     }
 
     @Override
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Integer id) {
-        if (localidadeService.findById(id).isPresent()) {
-            localidadeService.deleteById(id);
-            return ResponseEntity.noContent().build();
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+    public ResponseEntity<Void> deleteById(@PathVariable Integer id) {
+        localidadeService.deleteById(id);
+        return ResponseEntity.noContent().build();
     }
 }

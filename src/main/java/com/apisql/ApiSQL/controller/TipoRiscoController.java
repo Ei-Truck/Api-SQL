@@ -1,24 +1,18 @@
 package com.apisql.ApiSQL.controller;
 
-import com.apisql.ApiSQL.model.TipoRisco;
+import com.apisql.ApiSQL.dto.TipoRiscoRequestDTO;
+import com.apisql.ApiSQL.dto.TipoRiscoResponseDTO;
 import com.apisql.ApiSQL.openapi.TipoRiscoOpenApi;
 import com.apisql.ApiSQL.service.TipoRiscoService;
-
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import io.swagger.v3.oas.annotations.tags.Tag;
-
+import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-
+@RequestMapping("/tipo-risco")
 public class TipoRiscoController implements TipoRiscoOpenApi {
 
     private final TipoRiscoService tipoRiscoService;
@@ -29,32 +23,36 @@ public class TipoRiscoController implements TipoRiscoOpenApi {
 
     @Override
     @GetMapping
-    public List<TipoRisco> getAll() {
-        return tipoRiscoService.findAll();
+    public ResponseEntity<List<TipoRiscoResponseDTO>> findAll() {
+        List<TipoRiscoResponseDTO> riscos = tipoRiscoService.findAll();
+        return ResponseEntity.ok(riscos);
     }
 
     @Override
     @GetMapping("/{id}")
-    public ResponseEntity<TipoRisco> getById(@PathVariable Integer id) {
-        return tipoRiscoService.findById(id)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+    public ResponseEntity<TipoRiscoResponseDTO> findById(@PathVariable Integer id) {
+        TipoRiscoResponseDTO risco = tipoRiscoService.findById(id);
+        return ResponseEntity.ok(risco);
     }
 
     @Override
     @PostMapping
-    public TipoRisco create(@RequestBody TipoRisco tipoRisco) {
-        return tipoRiscoService.save(tipoRisco);
+    public ResponseEntity<TipoRiscoResponseDTO> save(@Valid @RequestBody TipoRiscoRequestDTO dto) {
+        TipoRiscoResponseDTO savedRisco = tipoRiscoService.save(dto);
+        return new ResponseEntity<>(savedRisco, HttpStatus.CREATED);
+    }
+
+    @Override
+    @PutMapping("/{id}")
+    public ResponseEntity<TipoRiscoResponseDTO> update(@PathVariable Integer id, @Valid @RequestBody TipoRiscoRequestDTO dto) {
+        TipoRiscoResponseDTO updatedRisco = tipoRiscoService.update(id, dto);
+        return ResponseEntity.ok(updatedRisco);
     }
 
     @Override
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Integer id) {
-        if (tipoRiscoService.findById(id).isPresent()) {
-            tipoRiscoService.deleteById(id);
-            return ResponseEntity.noContent().build();
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+    public ResponseEntity<Void> deleteById(@PathVariable Integer id) {
+        tipoRiscoService.deleteById(id);
+        return ResponseEntity.noContent().build();
     }
 }

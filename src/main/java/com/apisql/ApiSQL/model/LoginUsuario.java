@@ -1,63 +1,36 @@
 package com.apisql.ApiSQL.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
-
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "lg_login_usuario")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class LoginUsuario {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name = "id_usuario", nullable = false)
-    private Integer idUsuario;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_usuario")
+    private Usuario usuario;
 
     @Column(name = "dt_hr_login")
-    private LocalDateTime dtHrLogin = LocalDateTime.now();
+    private LocalDateTime dtHrLogin;
 
-    public LoginUsuario(Integer id, Integer idUsuario, LocalDateTime dtHrLogin) {
-        this.id = id;
-        this.idUsuario = idUsuario;
-        this.dtHrLogin = dtHrLogin;
-    }
-    public LoginUsuario(Integer idUsuario) {
-        this.idUsuario = idUsuario;
-        this.dtHrLogin = LocalDateTime.now();
-    }
+    public LoginUsuario(Integer id) {
 
+    }
 
     public LoginUsuario() {
+
     }
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public Integer getIdUsuario() {
-        return idUsuario;
-    }
-
-    public void setIdUsuario(Integer idUsuario) {
-        this.idUsuario = idUsuario;
-    }
-
-    public LocalDateTime getDtHrLogin() {
-        return dtHrLogin;
-    }
-
-    public void setDtHrLogin(LocalDateTime dtHrLogin) {
-        this.dtHrLogin = dtHrLogin;
-    }
+    public Integer getId() { return id; }
+    public void setId(Integer id) { this.id = id; }
+    public Usuario getUsuario() { return usuario; }
+    public void setUsuario(Usuario usuario) { this.usuario = usuario; }
+    public LocalDateTime getDtHrLogin() { return dtHrLogin; }
+    public void setDtHrLogin(LocalDateTime dtHrLogin) { this.dtHrLogin = dtHrLogin; }
 }

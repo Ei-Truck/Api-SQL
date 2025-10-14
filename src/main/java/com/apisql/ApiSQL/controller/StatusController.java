@@ -1,16 +1,18 @@
 package com.apisql.ApiSQL.controller;
 
-import com.apisql.ApiSQL.model.Status;
+import com.apisql.ApiSQL.dto.StatusRequestDTO;
+import com.apisql.ApiSQL.dto.StatusResponseDTO;
 import com.apisql.ApiSQL.openapi.StatusOpenApi;
 import com.apisql.ApiSQL.service.StatusService;
-import io.swagger.v3.oas.annotations.tags.Tag;
-
+import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
+@RequestMapping("/status")
 public class StatusController implements StatusOpenApi {
 
     private final StatusService statusService;
@@ -21,33 +23,36 @@ public class StatusController implements StatusOpenApi {
 
     @Override
     @GetMapping
-    public List<Status> getAll() {
-        return statusService.findAll();
+    public ResponseEntity<List<StatusResponseDTO>> findAll() {
+        List<StatusResponseDTO> statusList = statusService.findAll();
+        return ResponseEntity.ok(statusList);
     }
 
     @Override
     @GetMapping("/{id}")
-    public ResponseEntity<Status> getById(
-             @PathVariable Integer id) {
-        return statusService.findById(id)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+    public ResponseEntity<StatusResponseDTO> findById(@PathVariable Integer id) {
+        StatusResponseDTO status = statusService.findById(id);
+        return ResponseEntity.ok(status);
     }
 
-
+    @Override
     @PostMapping
-    public Status create(@RequestBody Status status) {
-        return statusService.save(status);
+    public ResponseEntity<StatusResponseDTO> save(@Valid @RequestBody StatusRequestDTO dto) {
+        StatusResponseDTO savedStatus = statusService.save(dto);
+        return new ResponseEntity<>(savedStatus, HttpStatus.CREATED);
     }
 
+    @Override
+    @PutMapping("/{id}")
+    public ResponseEntity<StatusResponseDTO> update(@PathVariable Integer id, @Valid @RequestBody StatusRequestDTO dto) {
+        StatusResponseDTO updatedStatus = statusService.update(id, dto);
+        return ResponseEntity.ok(updatedStatus);
+    }
 
+    @Override
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Integer id) {
-        if (statusService.findById(id).isPresent()) {
-            statusService.deleteById(id);
-            return ResponseEntity.noContent().build();
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+    public ResponseEntity<Void> deleteById(@PathVariable Integer id) {
+        statusService.deleteById(id);
+        return ResponseEntity.noContent().build();
     }
 }
