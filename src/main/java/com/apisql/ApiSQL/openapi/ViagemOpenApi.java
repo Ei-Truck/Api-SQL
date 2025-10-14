@@ -2,6 +2,7 @@ package com.apisql.ApiSQL.openapi;
 
 import com.apisql.ApiSQL.dto.ViagemRequestDTO;
 import com.apisql.ApiSQL.dto.ViagemResponseDTO;
+import com.apisql.ApiSQL.dto.view.RelatorioSimplesViagemDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;

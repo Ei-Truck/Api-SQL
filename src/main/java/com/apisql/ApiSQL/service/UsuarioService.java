@@ -33,16 +33,13 @@ public class UsuarioService {
     private final S3Client s3Client;
 
 
-    public UsuarioService(UsuarioRepository usuarioRepository, ObjectMapper objectMapper, UnidadeRepository unidadeRepository, CargoRepository cargoRepository) {
+    public UsuarioService(UsuarioRepository usuarioRepository, ObjectMapper objectMapper, UnidadeRepository unidadeRepository, CargoRepository cargoRepository, S3Client s3Client) {
         this.usuarioRepository = usuarioRepository;
         this.objectMapper = objectMapper;
         this.unidadeRepository = unidadeRepository;
         this.cargoRepository = cargoRepository;
-    }
-
-    public UsuarioService(UsuarioRepository usuarioRepository, S3Client s3Client) {
-        this.usuarioRepository = usuarioRepository;
         this.s3Client = s3Client;
+
     }
 
     public List<UsuarioResponseDTO> findAll() {

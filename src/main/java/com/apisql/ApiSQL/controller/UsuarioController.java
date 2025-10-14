@@ -1,6 +1,7 @@
 package com.apisql.ApiSQL.controller;
 
 import com.apisql.ApiSQL.dto.UsuarioResponseDTO;
+import com.apisql.ApiSQL.model.Usuario;
 import com.apisql.ApiSQL.openapi.UsuarioOpenApi;
 import com.apisql.ApiSQL.service.UsuarioService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
