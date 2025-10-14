@@ -19,9 +19,11 @@ import java.util.List;
 public class InfracaoController implements InfracaoOpenApi {
 
     private final InfracaoService infracaoService;
+    private final RelatorioSemanalInfracoesService relatorioService;
 
-    public InfracaoController(InfracaoService infracaoService) {
+    public InfracaoController(InfracaoService infracaoService, RelatorioSemanalInfracoesService relatorioService) {
         this.infracaoService = infracaoService;
+        this.relatorioService = relatorioService;
     }
 
     @Override
@@ -58,8 +60,10 @@ public class InfracaoController implements InfracaoOpenApi {
         infracaoService.deleteById(id);
         return ResponseEntity.noContent().build();
     }
+
+    @Override
     @GetMapping("/relatorio")
     public List<RelatorioSemanalInfracoesDTO> getAllRelatorioInfracoes() {
-        return relatorioSemanalInfracoesService.findAll();
+        return relatorioService.findAll();
     }
 }

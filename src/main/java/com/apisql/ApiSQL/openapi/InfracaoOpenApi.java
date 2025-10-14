@@ -2,6 +2,7 @@ package com.apisql.ApiSQL.openapi;
 
 import com.apisql.ApiSQL.dto.InfracaoRequestDTO;
 import com.apisql.ApiSQL.dto.InfracaoResponseDTO;
+import com.apisql.ApiSQL.dto.view.RelatorioSemanalInfracoesDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -54,4 +55,11 @@ public interface InfracaoOpenApi {
             @ApiResponse(responseCode = "404", description = "Infração não encontrada para exclusão.")
     })
     ResponseEntity<Void> deleteById(@Parameter(description = "ID da infração a ser deletada") @PathVariable Integer id);
+
+    @Operation(summary = "Lista a quantidade de infrações por dias da semana", description = "Retorna uma lista de dias da semana e a quantidade de infrações nele.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Lista de infrações retornada com sucesso.")
+    })
+    List<RelatorioSemanalInfracoesDTO> getAllRelatorioInfracoes();
+
 }
