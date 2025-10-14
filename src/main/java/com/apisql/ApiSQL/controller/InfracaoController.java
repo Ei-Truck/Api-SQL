@@ -55,4 +55,8 @@ public class InfracaoController implements InfracaoOpenApi {
         infracaoService.deleteById(id);
         return ResponseEntity.noContent().build();
     }
+    @GetMapping("/relatorio")
+    public List<RelatorioSemanalInfracoesDTO> getAllRelatorioInfracoes() {
+        return relatorioSemanalInfracoesService.findAll();
+    }
 }
