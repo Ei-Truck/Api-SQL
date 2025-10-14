@@ -2,6 +2,9 @@ package com.apisql.ApiSQL.openapi;
 
 import com.apisql.ApiSQL.dto.TipoInfracaoRequestDTO;
 import com.apisql.ApiSQL.dto.TipoInfracaoResponseDTO;
+import com.apisql.ApiSQL.dto.view.OcorrenciaPorTipoDTO;
+import com.apisql.ApiSQL.dto.view.OcorrenciaPorViagemDTO;
+import com.apisql.ApiSQL.dto.view.RelatorioSimplesViagemDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -54,4 +57,12 @@ public interface TipoInfracaoOpenApi {
             @ApiResponse(responseCode = "404", description = "TipoInfração não encontrado para exclusão.")
     })
     ResponseEntity<Void> deleteById(@Parameter(description = "ID do TipoInfração a ser deletado") @PathVariable Integer id);
+
+    @Operation(summary = "Listar Ocorrencia Por Tipo",
+            description = "Lista As Ocorrencias Por Tipo",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "Ocorrencias obtidas com sucesso"),
+                    @ApiResponse(responseCode = "500", description = "Erro interno do servidor")
+            })
+    List<OcorrenciaPorTipoDTO> getAllOcorrenciaTipo();
 }
