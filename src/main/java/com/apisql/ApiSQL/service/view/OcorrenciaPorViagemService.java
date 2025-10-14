@@ -9,12 +9,11 @@ import java.util.List;
 
 @Service
 public class OcorrenciaPorViagemService {
-    private final RelatorioSimplesViagemRepository relatorioSimplesViagemRepository;
+
     private OcorrenciaPorViagemRepository ocorrenciaPorViagemRepository;
 
     public OcorrenciaPorViagemService(OcorrenciaPorViagemRepository ocorrenciaPorViagemRepository, RelatorioSimplesViagemRepository relatorioSimplesViagemRepository) {
         this.ocorrenciaPorViagemRepository = ocorrenciaPorViagemRepository;
-        this.relatorioSimplesViagemRepository = relatorioSimplesViagemRepository;
     }
 
     public List<OcorrenciaPorViagemDTO> findAll(){

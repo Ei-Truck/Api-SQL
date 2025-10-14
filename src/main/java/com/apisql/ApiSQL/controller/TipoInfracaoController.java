@@ -2,8 +2,13 @@ package com.apisql.ApiSQL.controller;
 
 import com.apisql.ApiSQL.dto.TipoInfracaoRequestDTO;
 import com.apisql.ApiSQL.dto.TipoInfracaoResponseDTO;
+import com.apisql.ApiSQL.dto.view.OcorrenciaPorTipoDTO;
+import com.apisql.ApiSQL.dto.view.OcorrenciaPorViagemDTO;
+import com.apisql.ApiSQL.dto.view.RelatorioSimplesViagemDTO;
 import com.apisql.ApiSQL.openapi.TipoInfracaoOpenApi;
 import com.apisql.ApiSQL.service.TipoInfracaoService;
+import com.apisql.ApiSQL.service.view.OcorrenciaPorTipoService;
+import com.apisql.ApiSQL.service.view.OcorrenciaPorViagemService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,9 +21,11 @@ import java.util.List;
 public class TipoInfracaoController implements TipoInfracaoOpenApi {
 
     private final TipoInfracaoService tipoInfracaoService;
+    private final OcorrenciaPorTipoService ocorrenciaPorTipoService;
 
-    public TipoInfracaoController(TipoInfracaoService tipoInfracaoService) {
+    public TipoInfracaoController(TipoInfracaoService tipoInfracaoService, OcorrenciaPorTipoService ocorrenciaPorTipoService) {
         this.tipoInfracaoService = tipoInfracaoService;
+        this.ocorrenciaPorTipoService = ocorrenciaPorTipoService;
     }
 
     @Override
@@ -54,5 +61,11 @@ public class TipoInfracaoController implements TipoInfracaoOpenApi {
     public ResponseEntity<Void> deleteById(@PathVariable Integer id) {
         tipoInfracaoService.deleteById(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @Override
+    @GetMapping("/ocorrencia-tipo")
+    public List<OcorrenciaPorTipoDTO> getAllOcorrenciaTipo() {
+        return ocorrenciaPorTipoService.findAll();
     }
 }
