@@ -1,5 +1,8 @@
 package com.apisql.ApiSQL.controller;
 
+import com.apisql.ApiSQL.dto.view.RelatorioSemanalInfracoesDTO;
+import com.apisql.ApiSQL.service.view.RelatorioSemanalInfracoesService;
+
 import com.apisql.ApiSQL.dto.InfracaoRequestDTO;
 import com.apisql.ApiSQL.dto.InfracaoResponseDTO;
 import com.apisql.ApiSQL.openapi.InfracaoOpenApi;
