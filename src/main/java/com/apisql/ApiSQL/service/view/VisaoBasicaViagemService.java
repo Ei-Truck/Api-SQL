@@ -20,21 +20,16 @@ public class VisaoBasicaViagemService {
         List<Object[]> resultado = visaoBasicaViagemRepository.buscarVisaoBasicaViagem();
         return resultado.stream().map(obj -> {
             VisaoBasicaViagemDTO dto = new VisaoBasicaViagemDTO();
-            dto.setPlacaCaminhao((String) obj[0]);
-            dto.setDataInicioViagem((Date) obj[1]);
-            dto.setDataFimViagem((Date) obj[2]);
-            dto.setSegmento((String) obj[3]);
-            dto.setNomeMotorista((String) obj[4]);
-            dto.setRiscoMotorista((String) obj[5]);
-            dto.setIdMidiaConcatenada((Integer) obj[6]);
+            dto.setIdViagem((Integer) obj[0]);
+            dto.setPlacaCaminhao((String) obj[1]);
+            dto.setDataInicioViagem((Date) obj[2]);
+            dto.setDataFimViagem((Date) obj[3]);
+            dto.setSegmento((String) obj[4]);
+            dto.setNomeMotorista((String) obj[5]);
+            dto.setRiscoMotorista((String) obj[6]);
             dto.setUrlMidiaConcatenada((String) obj[7]);
-            dto.setIdViagem((Integer) obj[8]);
-            dto.setIdSegmento((Integer) obj[9]);
-            dto.setIdMotorista((Integer) obj[10]);
-            dto.setIdTipoGravidade((Integer) obj[11]);
-            dto.setIdTipoRisco((Integer) obj[12]);
-            dto.setIdInfracao((Integer) obj[13]);
-            dto.setIdCaminhao((Integer) obj[14]);
+            dto.setTipoGravidade((String) obj[8]);
+            dto.setTipoInfracao((String) obj[9]);
             return dto;}).toList();
     }
 }
