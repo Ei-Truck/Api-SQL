@@ -29,12 +29,13 @@ public class RelatorioSimplesViagemService {
         return resultado.stream()
                 .map(obj -> {
                     RelatorioSimplesViagemDTO dto = new RelatorioSimplesViagemDTO();
-                    dto.setId_viagem(obj[0] != null ? ((Number) obj[0]).intValue() : null);
-                    dto.setPlaca_caminhao(obj[1] != null ? obj[1].toString() : null);
-                    dto.setData_inicio_viagem(obj[2] != null ? (Date) obj[2] : null);
-                    dto.setKm_viagem(obj[3] != null ? obj[3].toString() : null);
-                    dto.setAnalisada(obj[4] !=null ? (Boolean) obj[4] : null);
-                    dto.setPontuacao_total(obj[5] != null ? ((Number) obj[5]).intValue() : null);
+                    dto.setIdViagem((Integer) obj[0]);
+                    dto.setPlacaCaminhao((String) obj[1]);
+                    dto.setDataInicioViagem((Date) obj[2]);
+                    dto.setNomeMotorista((String) obj[3]);
+                    dto.setKmViagem((String) obj[4]);
+                    dto.setPontuacaoTotal((Long) obj[5]);
+                    dto.setWasAnalysed((Boolean) obj[6]);
                     return dto;
                 }).toList();
     }
