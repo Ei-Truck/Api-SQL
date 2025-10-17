@@ -2,14 +2,12 @@ package com.apisql.ApiSQL.service;
 
 import com.apisql.ApiSQL.dto.LocalidadeRequestDTO;
 import com.apisql.ApiSQL.dto.LocalidadeResponseDTO;
+import com.apisql.ApiSQL.exception.ResourceNotFoundException;
 import com.apisql.ApiSQL.model.Localidade;
 import com.apisql.ApiSQL.repository.LocalidadeRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import jakarta.persistence.EntityNotFoundException;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -38,7 +36,7 @@ public class LocalidadeService {
         if (response.isPresent()) {
             return objectMapper.convertValue(response.get(), LocalidadeResponseDTO.class);
         }
-        throw new EntityNotFoundException("Localidade não encontrada com ID: " + id);
+        throw new ResourceNotFoundException("Localidade não encontrada com ID: " + id);
     }
 
     @Transactional
@@ -56,7 +54,7 @@ public class LocalidadeService {
     @Transactional
     public LocalidadeResponseDTO update(Integer id, LocalidadeRequestDTO dto) {
         Localidade localidade = localidadeRepository.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Localidade com id:" + id + " não encontrada"));
+                .orElseThrow(() -> new ResourceNotFoundException("Localidade com id:" + id + " não encontrada para atualização"));
 
         localidade.setCep(dto.getCep());
         localidade.setNumeroRua(dto.getNumeroRua());
@@ -68,9 +66,10 @@ public class LocalidadeService {
         return objectMapper.convertValue(updatedLocalidade, LocalidadeResponseDTO.class);
     }
 
+    @Transactional
     public void deleteById(Integer id) {
         if (!localidadeRepository.existsById(id)) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Localidade com id:" + id + " não encontrada para exclusão");
+            throw new ResourceNotFoundException("Localidade com id:" + id + " não encontrada para exclusão");
         }
         localidadeRepository.deleteById(id);
     }

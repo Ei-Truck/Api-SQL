@@ -5,21 +5,16 @@ import java.util.Date;
 
 public class VisaoBasicaViagemDTO {
 
+    private Integer idViagem;
     private String placaCaminhao;
     private Date dataInicioViagem;
     private Date dataFimViagem;
     private String segmento;
     private String nomeMotorista;
     private String riscoMotorista;
-    private Integer idMidiaConcatenada;
     private String urlMidiaConcatenada;
-    private Integer idViagem;
-    private Integer idSegmento;
-    private Integer idMotorista;
-    private Integer idTipoGravidade;
-    private Integer idTipoRisco;
-    private Integer idInfracao;
-    private Integer idCaminhao;
+    private String tipoGravidade;
+    private String tipoInfracao;
 
     public VisaoBasicaViagemDTO() {
     }
@@ -72,14 +67,6 @@ public class VisaoBasicaViagemDTO {
         this.riscoMotorista = riscoMotorista;
     }
 
-    public Integer getIdMidiaConcatenada() {
-        return idMidiaConcatenada;
-    }
-
-    public void setIdMidiaConcatenada(Integer idMidiaConcatenada) {
-        this.idMidiaConcatenada = idMidiaConcatenada;
-    }
-
     public String getUrlMidiaConcatenada() {
         return urlMidiaConcatenada;
     }
@@ -96,51 +83,19 @@ public class VisaoBasicaViagemDTO {
         this.idViagem = idViagem;
     }
 
-    public Integer getIdSegmento() {
-        return idSegmento;
+    public String getTipoGravidade() {
+        return tipoGravidade;
     }
 
-    public void setIdSegmento(Integer idSegmento) {
-        this.idSegmento = idSegmento;
+    public void setTipoGravidade(String tipoGravidade) {
+        this.tipoGravidade = tipoGravidade;
     }
 
-    public Integer getIdMotorista() {
-        return idMotorista;
+    public String getTipoInfracao() {
+        return tipoInfracao;
     }
 
-    public void setIdMotorista(Integer idMotorista) {
-        this.idMotorista = idMotorista;
-    }
-
-    public Integer getIdTipoGravidade() {
-        return idTipoGravidade;
-    }
-
-    public void setIdTipoGravidade(Integer idTipoGravidade) {
-        this.idTipoGravidade = idTipoGravidade;
-    }
-
-    public Integer getIdTipoRisco() {
-        return idTipoRisco;
-    }
-
-    public void setIdTipoRisco(Integer idTipoRisco) {
-        this.idTipoRisco = idTipoRisco;
-    }
-
-    public Integer getIdInfracao() {
-        return idInfracao;
-    }
-
-    public void setIdInfracao(Integer idInfracao) {
-        this.idInfracao = idInfracao;
-    }
-
-    public Integer getIdCaminhao() {
-        return idCaminhao;
-    }
-
-    public void setIdCaminhao(Integer idCaminhao) {
-        this.idCaminhao = idCaminhao;
+    public void setTipoInfracao(String tipoInfracao) {
+        this.tipoInfracao = tipoInfracao;
     }
 }

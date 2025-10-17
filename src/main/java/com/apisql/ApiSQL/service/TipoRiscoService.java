@@ -2,14 +2,12 @@ package com.apisql.ApiSQL.service;
 
 import com.apisql.ApiSQL.dto.TipoRiscoRequestDTO;
 import com.apisql.ApiSQL.dto.TipoRiscoResponseDTO;
+import com.apisql.ApiSQL.exception.ResourceNotFoundException;
 import com.apisql.ApiSQL.model.TipoRisco;
 import com.apisql.ApiSQL.repository.TipoRiscoRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import jakarta.persistence.EntityNotFoundException;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -27,9 +25,9 @@ public class TipoRiscoService {
     }
 
     public List<TipoRiscoResponseDTO> findAll() {
-        List<TipoRisco> riscos = tipoRiscoRepository.findAll();
-        return riscos.stream()
-                .map(r -> objectMapper.convertValue(r, TipoRiscoResponseDTO.class))
+        List<TipoRisco> tipos = tipoRiscoRepository.findAll();
+        return tipos.stream()
+                .map(t -> objectMapper.convertValue(t, TipoRiscoResponseDTO.class))
                 .toList();
     }
 
@@ -38,35 +36,33 @@ public class TipoRiscoService {
         if (response.isPresent()) {
             return objectMapper.convertValue(response.get(), TipoRiscoResponseDTO.class);
         }
-        throw new EntityNotFoundException("TipoRisco não encontrado com ID: " + id);
+        throw new ResourceNotFoundException("TipoRisco não encontrado com ID: " + id);
     }
 
     @Transactional
     public TipoRiscoResponseDTO save(TipoRiscoRequestDTO dto) {
-        TipoRisco tipoRisco = new TipoRisco();
-        tipoRisco.setNome(dto.getNome());
-        tipoRisco.setDescricao(dto.getDescricao());
-
-        TipoRisco savedTipoRisco = tipoRiscoRepository.save(tipoRisco);
-        return objectMapper.convertValue(savedTipoRisco, TipoRiscoResponseDTO.class);
+        TipoRisco tipo = objectMapper.convertValue(dto, TipoRisco.class);
+        TipoRisco savedTipo = tipoRiscoRepository.save(tipo);
+        return objectMapper.convertValue(savedTipo, TipoRiscoResponseDTO.class);
     }
 
     @Transactional
     public TipoRiscoResponseDTO update(Integer id, TipoRiscoRequestDTO dto) {
-        TipoRisco tipoRisco = tipoRiscoRepository.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "TipoRisco com id:" + id + " não encontrado"));
+        TipoRisco tipo = tipoRiscoRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("TipoRisco com id:" + id + " não encontrado para atualização"));
 
-        tipoRisco.setNome(dto.getNome());
-        tipoRisco.setDescricao(dto.getDescricao());
-        tipoRisco.setUpdatedAt(LocalDateTime.now());
+        tipo.setNome(dto.getNome());
+        tipo.setDescricao(dto.getDescricao());
+        tipo.setUpdatedAt(LocalDateTime.now());
 
-        TipoRisco updatedTipoRisco = tipoRiscoRepository.save(tipoRisco);
-        return objectMapper.convertValue(updatedTipoRisco, TipoRiscoResponseDTO.class);
+        TipoRisco updatedTipo = tipoRiscoRepository.save(tipo);
+        return objectMapper.convertValue(updatedTipo, TipoRiscoResponseDTO.class);
     }
 
+    @Transactional
     public void deleteById(Integer id) {
         if (!tipoRiscoRepository.existsById(id)) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "TipoRisco com id:" + id + " não encontrado para exclusão");
+            throw new ResourceNotFoundException("TipoRisco com id:" + id + " não encontrado para exclusão");
         }
         tipoRiscoRepository.deleteById(id);
     }

@@ -2,14 +2,12 @@ package com.apisql.ApiSQL.service;
 
 import com.apisql.ApiSQL.dto.SegmentoRequestDTO;
 import com.apisql.ApiSQL.dto.SegmentoResponseDTO;
+import com.apisql.ApiSQL.exception.ResourceNotFoundException;
 import com.apisql.ApiSQL.model.Segmento;
 import com.apisql.ApiSQL.repository.SegmentoRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import jakarta.persistence.EntityNotFoundException;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -38,13 +36,12 @@ public class SegmentoService {
         if (response.isPresent()) {
             return objectMapper.convertValue(response.get(), SegmentoResponseDTO.class);
         }
-        throw new EntityNotFoundException("Segmento não encontrado com ID: " + id);
+        throw new ResourceNotFoundException("Segmento não encontrado com ID: " + id);
     }
 
     @Transactional
     public SegmentoResponseDTO save(SegmentoRequestDTO dto) {
-        Segmento segmento = new Segmento();
-        segmento.setNome(dto.getNome());
+        Segmento segmento = objectMapper.convertValue(dto, Segmento.class);
         Segmento savedSegmento = segmentoRepository.save(segmento);
         return objectMapper.convertValue(savedSegmento, SegmentoResponseDTO.class);
     }
@@ -52,7 +49,7 @@ public class SegmentoService {
     @Transactional
     public SegmentoResponseDTO update(Integer id, SegmentoRequestDTO dto) {
         Segmento segmento = segmentoRepository.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Segmento com id:" + id + " não encontrado"));
+                .orElseThrow(() -> new ResourceNotFoundException("Segmento com id:" + id + " não encontrado para atualização"));
 
         segmento.setNome(dto.getNome());
         segmento.setUpdatedAt(LocalDateTime.now());
@@ -61,9 +58,10 @@ public class SegmentoService {
         return objectMapper.convertValue(updatedSegmento, SegmentoResponseDTO.class);
     }
 
+    @Transactional
     public void deleteById(Integer id) {
         if (!segmentoRepository.existsById(id)) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Segmento com id:" + id + " não encontrado para exclusão");
+            throw new ResourceNotFoundException("Segmento com id:" + id + " não encontrado para exclusão");
         }
         segmentoRepository.deleteById(id);
     }

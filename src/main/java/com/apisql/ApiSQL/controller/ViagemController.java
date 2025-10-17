@@ -85,7 +85,7 @@ public class ViagemController implements ViagemOpenApi {
         return ocorrenciaPorViagemService.findAll();
     }
 
-    @GetMapping("visao-basica")
+    @GetMapping("/visao-basica")
     public List<VisaoBasicaViagemDTO> getAllVisaoBasica() {
         return visaoBasicaViagemService.findALl();
     }

@@ -2,14 +2,14 @@ package com.apisql.ApiSQL.service;
 
 import com.apisql.ApiSQL.dto.MotoristaRequestDTO;
 import com.apisql.ApiSQL.dto.MotoristaResponseDTO;
+import com.apisql.ApiSQL.exception.ResourceNotFoundException;
 import com.apisql.ApiSQL.model.Motorista;
-import com.apisql.ApiSQL.model.TipoRisco;
 import com.apisql.ApiSQL.model.Unidade;
+import com.apisql.ApiSQL.model.TipoRisco;
 import com.apisql.ApiSQL.repository.MotoristaRepository;
-import com.apisql.ApiSQL.repository.TipoRiscoRepository;
 import com.apisql.ApiSQL.repository.UnidadeRepository;
+import com.apisql.ApiSQL.repository.TipoRiscoRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import jakarta.persistence.EntityNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,11 +27,11 @@ public class MotoristaService {
     private final TipoRiscoRepository tipoRiscoRepository;
     private final ObjectMapper objectMapper;
 
-    public MotoristaService(MotoristaRepository motoristaRepository, ObjectMapper objectMapper, UnidadeRepository unidadeRepository, TipoRiscoRepository tipoRiscoRepository) {
+    public MotoristaService(MotoristaRepository motoristaRepository, UnidadeRepository unidadeRepository, TipoRiscoRepository tipoRiscoRepository, ObjectMapper objectMapper) {
         this.motoristaRepository = motoristaRepository;
-        this.objectMapper = objectMapper;
         this.unidadeRepository = unidadeRepository;
         this.tipoRiscoRepository = tipoRiscoRepository;
+        this.objectMapper = objectMapper;
     }
 
     public List<MotoristaResponseDTO> findAll() {
@@ -46,27 +46,25 @@ public class MotoristaService {
         if (response.isPresent()) {
             return objectMapper.convertValue(response.get(), MotoristaResponseDTO.class);
         }
-        throw new EntityNotFoundException("Motorista não encontrado com ID: " + id);
+        throw new ResourceNotFoundException("Motorista não encontrado com ID: " + id);
     }
 
     @Transactional
     public MotoristaResponseDTO save(MotoristaRequestDTO dto) {
         Unidade unidade = unidadeRepository.findById(dto.getIdUnidade())
-                .orElseThrow(() -> new EntityNotFoundException("Unidade não encontrada com ID: " + dto.getIdUnidade()));
-
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "ID Unidade inválido."));
         TipoRisco tipoRisco = tipoRiscoRepository.findById(dto.getIdTipoRisco())
-                .orElseThrow(() -> new EntityNotFoundException("TipoRisco não encontrado com ID: " + dto.getIdTipoRisco()));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "ID TipoRisco inválido."));
 
         Motorista motorista = new Motorista();
         motorista.setCpf(dto.getCpf());
-        motorista.setUnidade(unidade);
         motorista.setCnh(dto.getCnh());
         motorista.setNomeCompleto(dto.getNomeCompleto());
         motorista.setTelefone(dto.getTelefone());
         motorista.setEmailEmpresa(dto.getEmailEmpresa());
-        motorista.setTipoRisco(tipoRisco);
         motorista.setUrlFoto(dto.getUrlFoto());
-        // O updatedAt já é setado no construtor do model
+        motorista.setUnidade(unidade);
+        motorista.setTipoRisco(tipoRisco);
 
         Motorista savedMotorista = motoristaRepository.save(motorista);
         return objectMapper.convertValue(savedMotorista, MotoristaResponseDTO.class);
@@ -75,31 +73,31 @@ public class MotoristaService {
     @Transactional
     public MotoristaResponseDTO update(Integer id, MotoristaRequestDTO dto) {
         Motorista motorista = motoristaRepository.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Motorista com id:" + id + " não encontrado"));
+                .orElseThrow(() -> new ResourceNotFoundException("Motorista com id:" + id + " não encontrado para atualização"));
 
         Unidade unidade = unidadeRepository.findById(dto.getIdUnidade())
-                .orElseThrow(() -> new EntityNotFoundException("Unidade não encontrada com ID: " + dto.getIdUnidade()));
-
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "ID Unidade inválido."));
         TipoRisco tipoRisco = tipoRiscoRepository.findById(dto.getIdTipoRisco())
-                .orElseThrow(() -> new EntityNotFoundException("TipoRisco não encontrado com ID: " + dto.getIdTipoRisco()));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "ID TipoRisco inválido."));
 
         motorista.setCpf(dto.getCpf());
-        motorista.setUnidade(unidade);
         motorista.setCnh(dto.getCnh());
         motorista.setNomeCompleto(dto.getNomeCompleto());
         motorista.setTelefone(dto.getTelefone());
         motorista.setEmailEmpresa(dto.getEmailEmpresa());
-        motorista.setTipoRisco(tipoRisco);
         motorista.setUrlFoto(dto.getUrlFoto());
-        motorista.setUpdatedAt(LocalDateTime.now());
+        motorista.setUnidade(unidade);
+        motorista.setTipoRisco(tipoRisco);
 
+        motorista.setUpdatedAt(LocalDateTime.now());
         Motorista updatedMotorista = motoristaRepository.save(motorista);
         return objectMapper.convertValue(updatedMotorista, MotoristaResponseDTO.class);
     }
 
+    @Transactional
     public void deleteById(Integer id) {
         if (!motoristaRepository.existsById(id)) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Motorista com id:" + id + " não encontrado para exclusão");
+            throw new ResourceNotFoundException("Motorista com id:" + id + " não encontrado para exclusão");
         }
         motoristaRepository.deleteById(id);
     }
