@@ -46,7 +46,7 @@ public interface CaminhaoOpenApi {
             @ApiResponse(responseCode = "400", description = "Caminhão não encontrado ou dados inválidos para atualização.")
     })
     ResponseEntity<CaminhaoResponseDTO> update(@Parameter(description = "ID do caminhão a ser atualizado") @PathVariable Integer id,
-                                               @RequestBody Caminhao caminhaoAtualizado);
+                                               @RequestBody CaminhaoRequestDTO caminhaoAtualizado);
 
     @Operation(summary = "Deleta um caminhão", description = "Remove um caminhão do banco de dados pelo seu ID.")
     @ApiResponses(value = {

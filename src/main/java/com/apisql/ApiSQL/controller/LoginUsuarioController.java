@@ -22,13 +22,13 @@ public class LoginUsuarioController implements LoginUsuarioOpenApi {
     @Override
     @GetMapping
     public ResponseEntity<List<LoginUsuarioResponseDTO>> listar() {
-        return ResponseEntity.ok(service.listarTodos());
+        return ResponseEntity.ok(service.findAll());
     }
 
 
     @Override
     @GetMapping("/usuario/{idUsuario}")
-    public ResponseEntity<List<LoginUsuarioResponseDTO>> listarPorUsuario(@PathVariable Integer idUsuario) {
-        return ResponseEntity.ok(service.listarPorUsuario(idUsuario));
+    public ResponseEntity<LoginUsuarioResponseDTO> listarPorUsuario(@PathVariable Integer idUsuario) {
+        return ResponseEntity.ok(service.findById(idUsuario));
     }
 }

@@ -22,5 +22,5 @@ public interface LoginUsuarioOpenApi {
     @Operation(summary = "Lista todos os logins de um usuário específico")
     @ApiResponse(responseCode = "200", description = "Lista retornada com sucesso")
     @GetMapping("/usuario/{idUsuario}")
-    ResponseEntity<List<LoginUsuarioResponseDTO>> listarPorUsuario(@PathVariable Integer idUsuario);
+    ResponseEntity<LoginUsuarioResponseDTO> listarPorUsuario(@PathVariable Integer idUsuario);
 }

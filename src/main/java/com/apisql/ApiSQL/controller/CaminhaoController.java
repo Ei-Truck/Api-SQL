@@ -44,7 +44,7 @@ public class CaminhaoController implements CaminhaoOpenApi {
 
     @Override
     @PutMapping("/{id}")
-    public ResponseEntity<CaminhaoResponseDTO> update(@PathVariable Integer id, @RequestBody Caminhao caminhaoAtualizado) {
+    public ResponseEntity<CaminhaoResponseDTO> update(@PathVariable Integer id, @RequestBody CaminhaoRequestDTO caminhaoAtualizado) {
         CaminhaoResponseDTO updatedCaminhao = caminhaoService.update(id, caminhaoAtualizado);
         return ResponseEntity.ok(updatedCaminhao);
     }
