@@ -38,14 +38,6 @@ public class RelatorioSimplesViagemDTO {
         this.dataInicioViagem = dataInicioViagem;
     }
 
-    public String getNomeMotorista() {
-        return nomeMotorista;
-    }
-
-    public void setNomeMotorista(String nomeMotorista) {
-        this.nomeMotorista = nomeMotorista;
-    }
-
     public String getKmViagem() {
         return kmViagem;
     }
