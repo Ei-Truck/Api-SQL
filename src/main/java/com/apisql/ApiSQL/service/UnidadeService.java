@@ -2,14 +2,14 @@ package com.apisql.ApiSQL.service;
 
 import com.apisql.ApiSQL.dto.UnidadeRequestDTO;
 import com.apisql.ApiSQL.dto.UnidadeResponseDTO;
-import com.apisql.ApiSQL.model.Localidade;
-import com.apisql.ApiSQL.model.Segmento;
+import com.apisql.ApiSQL.exception.ResourceNotFoundException;
 import com.apisql.ApiSQL.model.Unidade;
-import com.apisql.ApiSQL.repository.LocalidadeRepository;
-import com.apisql.ApiSQL.repository.SegmentoRepository;
+import com.apisql.ApiSQL.model.Segmento;
+import com.apisql.ApiSQL.model.Localidade;
 import com.apisql.ApiSQL.repository.UnidadeRepository;
+import com.apisql.ApiSQL.repository.SegmentoRepository;
+import com.apisql.ApiSQL.repository.LocalidadeRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import jakarta.persistence.EntityNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,12 +27,11 @@ public class UnidadeService {
     private final LocalidadeRepository localidadeRepository;
     private final ObjectMapper objectMapper;
 
-    public UnidadeService(UnidadeRepository unidadeRepository, ObjectMapper objectMapper,
-                          SegmentoRepository segmentoRepository, LocalidadeRepository localidadeRepository) {
+    public UnidadeService(UnidadeRepository unidadeRepository, SegmentoRepository segmentoRepository, LocalidadeRepository localidadeRepository, ObjectMapper objectMapper) {
         this.unidadeRepository = unidadeRepository;
-        this.objectMapper = objectMapper;
         this.segmentoRepository = segmentoRepository;
         this.localidadeRepository = localidadeRepository;
+        this.objectMapper = objectMapper;
     }
 
     public List<UnidadeResponseDTO> findAll() {
@@ -47,16 +46,15 @@ public class UnidadeService {
         if (response.isPresent()) {
             return objectMapper.convertValue(response.get(), UnidadeResponseDTO.class);
         }
-        throw new EntityNotFoundException("Unidade não encontrada com ID: " + id);
+        throw new ResourceNotFoundException("Unidade não encontrada com ID: " + id);
     }
 
     @Transactional
     public UnidadeResponseDTO save(UnidadeRequestDTO dto) {
         Segmento segmento = segmentoRepository.findById(dto.getIdSegmento())
-                .orElseThrow(() -> new EntityNotFoundException("Segmento não encontrado com ID: " + dto.getIdSegmento()));
-
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "ID Segmento inválido."));
         Localidade localidade = localidadeRepository.findById(dto.getIdLocalidade())
-                .orElseThrow(() -> new EntityNotFoundException("Localidade não encontrada com ID: " + dto.getIdLocalidade()));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "ID Localidade inválido."));
 
         Unidade unidade = new Unidade();
         unidade.setNome(dto.getNome());
@@ -70,13 +68,12 @@ public class UnidadeService {
     @Transactional
     public UnidadeResponseDTO update(Integer id, UnidadeRequestDTO dto) {
         Unidade unidade = unidadeRepository.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Unidade com id:" + id + " não encontrada"));
+                .orElseThrow(() -> new ResourceNotFoundException("Unidade com id:" + id + " não encontrada para atualização"));
 
         Segmento segmento = segmentoRepository.findById(dto.getIdSegmento())
-                .orElseThrow(() -> new EntityNotFoundException("Segmento não encontrado com ID: " + dto.getIdSegmento()));
-
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "ID Segmento inválido."));
         Localidade localidade = localidadeRepository.findById(dto.getIdLocalidade())
-                .orElseThrow(() -> new EntityNotFoundException("Localidade não encontrada com ID: " + dto.getIdLocalidade()));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "ID Localidade inválido."));
 
         unidade.setNome(dto.getNome());
         unidade.setSegmento(segmento);
@@ -87,9 +84,10 @@ public class UnidadeService {
         return objectMapper.convertValue(updatedUnidade, UnidadeResponseDTO.class);
     }
 
+    @Transactional
     public void deleteById(Integer id) {
         if (!unidadeRepository.existsById(id)) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Unidade com id:" + id + " não encontrada para exclusão");
+            throw new ResourceNotFoundException("Unidade com id:" + id + " não encontrada para exclusão");
         }
         unidadeRepository.deleteById(id);
     }

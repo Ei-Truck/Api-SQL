@@ -2,12 +2,12 @@ package com.apisql.ApiSQL.service;
 
 import com.apisql.ApiSQL.dto.TipoInfracaoRequestDTO;
 import com.apisql.ApiSQL.dto.TipoInfracaoResponseDTO;
-import com.apisql.ApiSQL.model.TipoGravidade;
+import com.apisql.ApiSQL.exception.ResourceNotFoundException;
 import com.apisql.ApiSQL.model.TipoInfracao;
-import com.apisql.ApiSQL.repository.TipoGravidadeRepository;
+import com.apisql.ApiSQL.model.TipoGravidade;
 import com.apisql.ApiSQL.repository.TipoInfracaoRepository;
+import com.apisql.ApiSQL.repository.TipoGravidadeRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import jakarta.persistence.EntityNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,16 +24,16 @@ public class TipoInfracaoService {
     private final TipoGravidadeRepository tipoGravidadeRepository;
     private final ObjectMapper objectMapper;
 
-    public TipoInfracaoService(TipoInfracaoRepository tipoInfracaoRepository, ObjectMapper objectMapper, TipoGravidadeRepository tipoGravidadeRepository) {
+    public TipoInfracaoService(TipoInfracaoRepository tipoInfracaoRepository, TipoGravidadeRepository tipoGravidadeRepository, ObjectMapper objectMapper) {
         this.tipoInfracaoRepository = tipoInfracaoRepository;
-        this.objectMapper = objectMapper;
         this.tipoGravidadeRepository = tipoGravidadeRepository;
+        this.objectMapper = objectMapper;
     }
 
     public List<TipoInfracaoResponseDTO> findAll() {
-        List<TipoInfracao> infracoes = tipoInfracaoRepository.findAll();
-        return infracoes.stream()
-                .map(i -> objectMapper.convertValue(i, TipoInfracaoResponseDTO.class))
+        List<TipoInfracao> tipos = tipoInfracaoRepository.findAll();
+        return tipos.stream()
+                .map(t -> objectMapper.convertValue(t, TipoInfracaoResponseDTO.class))
                 .toList();
     }
 
@@ -42,43 +42,44 @@ public class TipoInfracaoService {
         if (response.isPresent()) {
             return objectMapper.convertValue(response.get(), TipoInfracaoResponseDTO.class);
         }
-        throw new EntityNotFoundException("TipoInfracao não encontrado com ID: " + id);
+        throw new ResourceNotFoundException("TipoInfracao não encontrada com ID: " + id);
     }
 
     @Transactional
     public TipoInfracaoResponseDTO save(TipoInfracaoRequestDTO dto) {
         TipoGravidade tipoGravidade = tipoGravidadeRepository.findById(dto.getIdTipoGravidade())
-                .orElseThrow(() -> new EntityNotFoundException("TipoGravidade não encontrado com ID: " + dto.getIdTipoGravidade()));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "ID TipoGravidade inválido."));
 
-        TipoInfracao tipoInfracao = new TipoInfracao();
-        tipoInfracao.setNome(dto.getNome());
-        tipoInfracao.setPontuacao(dto.getPontuacao());
-        tipoInfracao.setTipoGravidade(tipoGravidade);
+        TipoInfracao tipo = new TipoInfracao();
+        tipo.setNome(dto.getNome());
+        tipo.setPontuacao(dto.getPontuacao());
+        tipo.setTipoGravidade(tipoGravidade);
 
-        TipoInfracao savedTipoInfracao = tipoInfracaoRepository.save(tipoInfracao);
-        return objectMapper.convertValue(savedTipoInfracao, TipoInfracaoResponseDTO.class);
+        TipoInfracao savedTipo = tipoInfracaoRepository.save(tipo);
+        return objectMapper.convertValue(savedTipo, TipoInfracaoResponseDTO.class);
     }
 
     @Transactional
     public TipoInfracaoResponseDTO update(Integer id, TipoInfracaoRequestDTO dto) {
-        TipoInfracao tipoInfracao = tipoInfracaoRepository.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "TipoInfracao com id:" + id + " não encontrado"));
+        TipoInfracao tipo = tipoInfracaoRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("TipoInfracao com id:" + id + " não encontrada para atualização"));
 
         TipoGravidade tipoGravidade = tipoGravidadeRepository.findById(dto.getIdTipoGravidade())
-                .orElseThrow(() -> new EntityNotFoundException("TipoGravidade não encontrado com ID: " + dto.getIdTipoGravidade()));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "ID TipoGravidade inválido."));
 
-        tipoInfracao.setNome(dto.getNome());
-        tipoInfracao.setPontuacao(dto.getPontuacao());
-        tipoInfracao.setTipoGravidade(tipoGravidade);
-        tipoInfracao.setUpdatedAt(LocalDateTime.now());
+        tipo.setNome(dto.getNome());
+        tipo.setPontuacao(dto.getPontuacao());
+        tipo.setTipoGravidade(tipoGravidade);
+        tipo.setUpdatedAt(LocalDateTime.now());
 
-        TipoInfracao updatedTipoInfracao = tipoInfracaoRepository.save(tipoInfracao);
-        return objectMapper.convertValue(updatedTipoInfracao, TipoInfracaoResponseDTO.class);
+        TipoInfracao updatedTipo = tipoInfracaoRepository.save(tipo);
+        return objectMapper.convertValue(updatedTipo, TipoInfracaoResponseDTO.class);
     }
 
+    @Transactional
     public void deleteById(Integer id) {
         if (!tipoInfracaoRepository.existsById(id)) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "TipoInfracao com id:" + id + " não encontrado para exclusão");
+            throw new ResourceNotFoundException("TipoInfracao com id:" + id + " não encontrada para exclusão");
         }
         tipoInfracaoRepository.deleteById(id);
     }

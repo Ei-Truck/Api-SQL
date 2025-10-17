@@ -1,6 +1,7 @@
 package com.apisql.ApiSQL.service;
 
 import com.apisql.ApiSQL.dto.UsuarioResponseDTO;
+import com.apisql.ApiSQL.exception.ResourceNotFoundException;
 import com.apisql.ApiSQL.model.Cargo;
 import com.apisql.ApiSQL.model.Unidade;
 import com.apisql.ApiSQL.model.Usuario;
@@ -54,12 +55,13 @@ public class UsuarioService {
         if (response.isPresent()) {
             return objectMapper.convertValue(response.get(), UsuarioResponseDTO.class);
         }
-        throw new EntityNotFoundException("Usuário não encontrado com ID: " + id);
+        throw new ResourceNotFoundException("Usuário não encontrado com ID: " + id);
     }
 
+    @Transactional
     public void deleteById(Integer id) {
         if (!usuarioRepository.existsById(id)) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuário com id:" + id + " não encontrado para exclusão");
+            throw new ResourceNotFoundException("Usuário com id:" + id + " não encontrado para exclusão");
         }
         usuarioRepository.deleteById(id);
     }
@@ -80,7 +82,7 @@ public class UsuarioService {
     public Usuario atualizarFoto(Integer usuarioId, Path arquivo) {
 
         Usuario usuario = usuarioRepository.findById(usuarioId)
-                .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+                .orElseThrow(() -> new ResourceNotFoundException("Usuário não encontrado com ID: " + usuarioId + " para atualizar foto."));
 
         String url = uploadFoto(usuarioId, arquivo);
         usuario.setUrlFoto(url);

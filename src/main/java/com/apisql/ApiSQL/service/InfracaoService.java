@@ -2,16 +2,16 @@ package com.apisql.ApiSQL.service;
 
 import com.apisql.ApiSQL.dto.InfracaoRequestDTO;
 import com.apisql.ApiSQL.dto.InfracaoResponseDTO;
+import com.apisql.ApiSQL.exception.ResourceNotFoundException;
 import com.apisql.ApiSQL.model.Infracao;
+import com.apisql.ApiSQL.model.Viagem;
 import com.apisql.ApiSQL.model.Motorista;
 import com.apisql.ApiSQL.model.TipoInfracao;
-import com.apisql.ApiSQL.model.Viagem;
 import com.apisql.ApiSQL.repository.InfracaoRepository;
+import com.apisql.ApiSQL.repository.ViagemRepository;
 import com.apisql.ApiSQL.repository.MotoristaRepository;
 import com.apisql.ApiSQL.repository.TipoInfracaoRepository;
-import com.apisql.ApiSQL.repository.ViagemRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import jakarta.persistence.EntityNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,14 +30,12 @@ public class InfracaoService {
     private final TipoInfracaoRepository tipoInfracaoRepository;
     private final ObjectMapper objectMapper;
 
-    public InfracaoService(InfracaoRepository infracaoRepository, ObjectMapper objectMapper,
-                           ViagemRepository viagemRepository, MotoristaRepository motoristaRepository,
-                           TipoInfracaoRepository tipoInfracaoRepository) {
+    public InfracaoService(InfracaoRepository infracaoRepository, ViagemRepository viagemRepository, MotoristaRepository motoristaRepository, TipoInfracaoRepository tipoInfracaoRepository, ObjectMapper objectMapper) {
         this.infracaoRepository = infracaoRepository;
-        this.objectMapper = objectMapper;
         this.viagemRepository = viagemRepository;
         this.motoristaRepository = motoristaRepository;
         this.tipoInfracaoRepository = tipoInfracaoRepository;
+        this.objectMapper = objectMapper;
     }
 
     public List<InfracaoResponseDTO> findAll() {
@@ -52,28 +50,27 @@ public class InfracaoService {
         if (response.isPresent()) {
             return objectMapper.convertValue(response.get(), InfracaoResponseDTO.class);
         }
-        throw new EntityNotFoundException("Infração não encontrada com ID: " + id);
+        throw new ResourceNotFoundException("Infração não encontrada com ID: " + id);
     }
 
     @Transactional
     public InfracaoResponseDTO save(InfracaoRequestDTO dto) {
         Viagem viagem = viagemRepository.findById(dto.getIdViagem())
-                .orElseThrow(() -> new EntityNotFoundException("Viagem não encontrada com ID: " + dto.getIdViagem()));
-
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "ID Viagem inválido."));
         Motorista motorista = motoristaRepository.findById(dto.getIdMotorista())
-                .orElseThrow(() -> new EntityNotFoundException("Motorista não encontrado com ID: " + dto.getIdMotorista()));
-
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "ID Motorista inválido."));
         TipoInfracao tipoInfracao = tipoInfracaoRepository.findById(dto.getIdTipoInfracao())
-                .orElseThrow(() -> new EntityNotFoundException("TipoInfração não encontrado com ID: " + dto.getIdTipoInfracao()));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "ID TipoInfração inválido."));
 
         Infracao infracao = new Infracao();
         infracao.setViagem(viagem);
         infracao.setMotorista(motorista);
-        infracao.setDtHrEvento(dto.getDtHrEvento());
         infracao.setTipoInfracao(tipoInfracao);
         infracao.setLatitude(dto.getLatitude());
         infracao.setLongitude(dto.getLongitude());
         infracao.setVelocidadeKmh(dto.getVelocidadeKmh());
+        infracao.setDtHrEvento(LocalDateTime.now());
+
         Infracao savedInfracao = infracaoRepository.save(infracao);
         return objectMapper.convertValue(savedInfracao, InfracaoResponseDTO.class);
     }
@@ -81,20 +78,17 @@ public class InfracaoService {
     @Transactional
     public InfracaoResponseDTO update(Integer id, InfracaoRequestDTO dto) {
         Infracao infracao = infracaoRepository.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Infração com id:" + id + " não encontrada"));
+                .orElseThrow(() -> new ResourceNotFoundException("Infração com id:" + id + " não encontrada para atualização"));
 
         Viagem viagem = viagemRepository.findById(dto.getIdViagem())
-                .orElseThrow(() -> new EntityNotFoundException("Viagem não encontrada com ID: " + dto.getIdViagem()));
-
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "ID Viagem inválido."));
         Motorista motorista = motoristaRepository.findById(dto.getIdMotorista())
-                .orElseThrow(() -> new EntityNotFoundException("Motorista não encontrado com ID: " + dto.getIdMotorista()));
-
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "ID Motorista inválido."));
         TipoInfracao tipoInfracao = tipoInfracaoRepository.findById(dto.getIdTipoInfracao())
-                .orElseThrow(() -> new EntityNotFoundException("TipoInfração não encontrado com ID: " + dto.getIdTipoInfracao()));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "ID TipoInfração inválido."));
 
         infracao.setViagem(viagem);
         infracao.setMotorista(motorista);
-        infracao.setDtHrEvento(dto.getDtHrEvento());
         infracao.setTipoInfracao(tipoInfracao);
         infracao.setLatitude(dto.getLatitude());
         infracao.setLongitude(dto.getLongitude());
@@ -105,9 +99,10 @@ public class InfracaoService {
         return objectMapper.convertValue(updatedInfracao, InfracaoResponseDTO.class);
     }
 
+    @Transactional
     public void deleteById(Integer id) {
         if (!infracaoRepository.existsById(id)) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Infração com id:" + id + " não encontrada para exclusão");
+            throw new ResourceNotFoundException("Infração com id:" + id + " não encontrada para exclusão");
         }
         infracaoRepository.deleteById(id);
     }

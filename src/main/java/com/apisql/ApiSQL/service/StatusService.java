@@ -2,11 +2,10 @@ package com.apisql.ApiSQL.service;
 
 import com.apisql.ApiSQL.dto.StatusRequestDTO;
 import com.apisql.ApiSQL.dto.StatusResponseDTO;
+import com.apisql.ApiSQL.exception.ResourceNotFoundException;
 import com.apisql.ApiSQL.model.Status;
 import com.apisql.ApiSQL.repository.StatusRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import jakarta.persistence.EntityNotFoundException;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
@@ -37,7 +36,7 @@ public class StatusService {
         if (response.isPresent()) {
             return objectMapper.convertValue(response.get(), StatusResponseDTO.class);
         }
-        throw new EntityNotFoundException("Status não encontrado com ID: " + id);
+        throw new ResourceNotFoundException("Status não encontrado com ID: " + id);
     }
 
     @Transactional
@@ -54,7 +53,7 @@ public class StatusService {
     @Transactional
     public StatusResponseDTO update(Integer id, StatusRequestDTO dto) {
         Status status = statusRepository.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Status com id:" + id + " não encontrado"));
+                .orElseThrow(() -> new ResourceNotFoundException("Status com id:" + id + " não encontrado para atualização"));
 
         status.setNome(dto.getNome());
         if (dto.getIsInactive() != null) {
@@ -65,9 +64,10 @@ public class StatusService {
         return objectMapper.convertValue(updatedStatus, StatusResponseDTO.class);
     }
 
+    @Transactional
     public void deleteById(Integer id) {
         if (!statusRepository.existsById(id)) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Status com id:" + id + " não encontrado para exclusão");
+            throw new ResourceNotFoundException("Status com id:" + id + " não encontrado para exclusão");
         }
         statusRepository.deleteById(id);
     }

@@ -2,14 +2,12 @@ package com.apisql.ApiSQL.service;
 
 import com.apisql.ApiSQL.dto.TipoGravidadeRequestDTO;
 import com.apisql.ApiSQL.dto.TipoGravidadeResponseDTO;
+import com.apisql.ApiSQL.exception.ResourceNotFoundException;
 import com.apisql.ApiSQL.model.TipoGravidade;
 import com.apisql.ApiSQL.repository.TipoGravidadeRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import jakarta.persistence.EntityNotFoundException;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -27,9 +25,9 @@ public class TipoGravidadeService {
     }
 
     public List<TipoGravidadeResponseDTO> findAll() {
-        List<TipoGravidade> gravidades = tipoGravidadeRepository.findAll();
-        return gravidades.stream()
-                .map(g -> objectMapper.convertValue(g, TipoGravidadeResponseDTO.class))
+        List<TipoGravidade> tipos = tipoGravidadeRepository.findAll();
+        return tipos.stream()
+                .map(t -> objectMapper.convertValue(t, TipoGravidadeResponseDTO.class))
                 .toList();
     }
 
@@ -38,39 +36,32 @@ public class TipoGravidadeService {
         if (response.isPresent()) {
             return objectMapper.convertValue(response.get(), TipoGravidadeResponseDTO.class);
         }
-        throw new EntityNotFoundException("TipoGravidade não encontrado com ID: " + id);
+        throw new ResourceNotFoundException("TipoGravidade não encontrada com ID: " + id);
     }
 
     @Transactional
     public TipoGravidadeResponseDTO save(TipoGravidadeRequestDTO dto) {
-        // Validação adicional para garantir que o ID não existe
-        if (tipoGravidadeRepository.existsById(dto.getId())) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "TipoGravidade com ID:" + dto.getId() + " já existe. O ID deve ser único, pois não é gerado automaticamente.");
-        }
-
-        TipoGravidade tipoGravidade = new TipoGravidade();
-        tipoGravidade.setId(dto.getId());
-        tipoGravidade.setNome(dto.getNome());
-
-        TipoGravidade savedTipoGravidade = tipoGravidadeRepository.save(tipoGravidade);
-        return objectMapper.convertValue(savedTipoGravidade, TipoGravidadeResponseDTO.class);
+        TipoGravidade tipo = objectMapper.convertValue(dto, TipoGravidade.class);
+        TipoGravidade savedTipo = tipoGravidadeRepository.save(tipo);
+        return objectMapper.convertValue(savedTipo, TipoGravidadeResponseDTO.class);
     }
 
     @Transactional
     public TipoGravidadeResponseDTO update(Integer id, TipoGravidadeRequestDTO dto) {
-        TipoGravidade tipoGravidade = tipoGravidadeRepository.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "TipoGravidade com id:" + id + " não encontrado"));
+        TipoGravidade tipo = tipoGravidadeRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("TipoGravidade com id:" + id + " não encontrada para atualização"));
 
-        tipoGravidade.setNome(dto.getNome());
-        tipoGravidade.setUpdatedAt(LocalDateTime.now());
+        tipo.setNome(dto.getNome());
+        tipo.setUpdatedAt(LocalDateTime.now());
 
-        TipoGravidade updatedTipoGravidade = tipoGravidadeRepository.save(tipoGravidade);
-        return objectMapper.convertValue(updatedTipoGravidade, TipoGravidadeResponseDTO.class);
+        TipoGravidade updatedTipo = tipoGravidadeRepository.save(tipo);
+        return objectMapper.convertValue(updatedTipo, TipoGravidadeResponseDTO.class);
     }
 
+    @Transactional
     public void deleteById(Integer id) {
         if (!tipoGravidadeRepository.existsById(id)) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "TipoGravidade com id:" + id + " não encontrado para exclusão");
+            throw new ResourceNotFoundException("TipoGravidade com id:" + id + " não encontrada para exclusão");
         }
         tipoGravidadeRepository.deleteById(id);
     }

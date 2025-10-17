@@ -6,6 +6,7 @@ public class RelatorioSimplesViagemDTO {
     private Integer idViagem;
     private String placaCaminhao;
     private Date dataInicioViagem;
+    private String nomeMotorista;
     private String kmViagem;
     private Long pontuacaoTotal;
     private Boolean wasAnalysed;
