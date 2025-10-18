@@ -1,84 +1,69 @@
 package com.apisql.ApiSQL.controller;
 
 import com.apisql.ApiSQL.dto.view.RelatorioSemanalInfracoesDTO;
-import com.apisql.ApiSQL.model.Infracao;
-import com.apisql.ApiSQL.openapi.InfracaoOpenApi;
-import com.apisql.ApiSQL.service.InfracaoService;
-
 import com.apisql.ApiSQL.service.view.RelatorioSemanalInfracoesService;
 
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import com.apisql.ApiSQL.dto.InfracaoRequestDTO;
+import com.apisql.ApiSQL.dto.InfracaoResponseDTO;
+import com.apisql.ApiSQL.openapi.InfracaoOpenApi;
+import com.apisql.ApiSQL.service.InfracaoService;
+import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
+@RequestMapping("/infracoes")
 public class InfracaoController implements InfracaoOpenApi {
 
     private final InfracaoService infracaoService;
-    private final RelatorioSemanalInfracoesService relatorioSemanalInfracoesService;
+    private final RelatorioSemanalInfracoesService relatorioService;
 
-    public InfracaoController(InfracaoService infracaoService, RelatorioSemanalInfracoesService relatorioSemanalInfracoesService) {
+    public InfracaoController(InfracaoService infracaoService, RelatorioSemanalInfracoesService relatorioService) {
         this.infracaoService = infracaoService;
-        this.relatorioSemanalInfracoesService = relatorioSemanalInfracoesService;
+        this.relatorioService = relatorioService;
     }
 
     @Override
-    public List<Infracao> getAll() {
-        return infracaoService.findAll();
+    @GetMapping
+    public ResponseEntity<List<InfracaoResponseDTO>> findAll() {
+        List<InfracaoResponseDTO> infracoes = infracaoService.findAll();
+        return ResponseEntity.ok(infracoes);
     }
 
     @Override
-    public ResponseEntity<Infracao> getById(Integer id) {
-        return infracaoService.findById(id)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+    @GetMapping("/{id}")
+    public ResponseEntity<InfracaoResponseDTO> findById(@PathVariable Integer id) {
+        InfracaoResponseDTO infracao = infracaoService.findById(id);
+        return ResponseEntity.ok(infracao);
     }
 
     @Override
-    public Infracao create(Infracao infracao) {
-        return infracaoService.save(infracao);
+    @PostMapping
+    public ResponseEntity<InfracaoResponseDTO> save(@Valid @RequestBody InfracaoRequestDTO dto) {
+        InfracaoResponseDTO savedInfracao = infracaoService.save(dto);
+        return new ResponseEntity<>(savedInfracao, HttpStatus.CREATED);
     }
 
     @Override
-    public ResponseEntity<Infracao> update(Integer id, Infracao infracao) {
-        return infracaoService.findById(id)
-                .map(existing -> {
-                    existing.setIdViagem(infracao.getIdViagem());
-                    existing.setIdMotorista(infracao.getIdMotorista());
-                    existing.setDtHrEvento(infracao.getDtHrEvento());
-                    existing.setIdTipoInfracao(infracao.getIdTipoInfracao());
-                    existing.setLatitude(infracao.getLatitude());
-                    existing.setLongitude(infracao.getLongitude());
-                    existing.setVelocidadeKmh(infracao.getVelocidadeKmh());
-                    existing.setTransactionMade(infracao.getTransactionMade());
-                    existing.setUpdatedAt(infracao.getUpdatedAt());
-                    existing.setIsInactive(infracao.getIsInactive());
-                    return ResponseEntity.ok(infracaoService.save(existing));
-                }).orElse(ResponseEntity.notFound().build());
+    @PutMapping("/{id}")
+    public ResponseEntity<InfracaoResponseDTO> update(@PathVariable Integer id, @Valid @RequestBody InfracaoRequestDTO dto) {
+        InfracaoResponseDTO updatedInfracao = infracaoService.update(id, dto);
+        return ResponseEntity.ok(updatedInfracao);
     }
 
     @Override
-    public ResponseEntity<Void> delete(Integer id) {
-        if (infracaoService.findById(id).isPresent()) {
-            infracaoService.delete(id);
-            return ResponseEntity.noContent().build();
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteById(@PathVariable Integer id) {
+        infracaoService.deleteById(id);
+        return ResponseEntity.noContent().build();
     }
 
-    @Operation(summary = "Listar relatório",
-            description = "Lista um relatório semanal de infrações",
-            responses = {
-                    @ApiResponse(responseCode = "200", description = "Relatório obtido com sucesso"),
-                    @ApiResponse(responseCode = "500", description = "Erro interno do servidor")
-            })
+    @Override
     @GetMapping("/relatorio")
     public List<RelatorioSemanalInfracoesDTO> getAllRelatorioInfracoes() {
-        return relatorioSemanalInfracoesService.findAll();
+        return relatorioService.findAll();
     }
 }

@@ -1,6 +1,5 @@
-package com.apisql.ApiSQL.config;
+package com.apisql.ApiSQL.security;
 
-import com.apisql.ApiSQL.security.JwtAuthFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -27,22 +26,19 @@ public class SecurityConfig {
         this.jwtAuthFilter = jwtAuthFilter;
     }
 
-    // Define o PasswordEncoder (BCrypt) como um Bean
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
-    // Define o provedor de autenticação (como o Spring deve buscar usuários e validar senhas)
     @Bean
     public AuthenticationProvider authenticationProvider(UserDetailsService userDetailsService) {
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
-        authProvider.setUserDetailsService(userDetailsService); // Usará seu CustomUserDetailsService
+        authProvider.setUserDetailsService(userDetailsService);
         authProvider.setPasswordEncoder(passwordEncoder());
         return authProvider;
     }
 
-    // Expõe o AuthenticationManager como um Bean (necessário para a configuração completa)
     @Bean
     public AuthenticationManager authenticationManager(
             AuthenticationConfiguration config) throws Exception {
@@ -63,9 +59,7 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
-                        // Permite acesso público ao endpoint de login e documentação
                         .requestMatchers("/login/**", "/v3/api-docs/**", "/swagger-ui/**").permitAll()
-                        // Protege todos os outros endpoints
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);

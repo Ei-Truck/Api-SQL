@@ -1,41 +1,29 @@
 package com.apisql.ApiSQL.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import jakarta.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "tb_cargo")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Cargo {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-
-    @Column(nullable = false, unique = true)
+    @Column(name = "nome", nullable = false, length = 255, unique = true)
     private String nome;
+    @Column(name = "updated_at")
+    private LocalDateTime updatedAt;
+    @Column(name = "is_inactive")
+    private Boolean isInactive = false;
 
-//    public Cargo(Integer id, String nome) {
-//        this.id = id;
-//        this.nome = nome;
-//    }
-    // getters e setters
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getNome() {
-        return nome;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
+    public Integer getId() { return id; }
+    public void setId(Integer id) { this.id = id; }
+    public String getNome() { return nome; }
+    public void setNome(String nome) { this.nome = nome; }
+    public LocalDateTime getUpdatedAt() { return updatedAt; }
+    public void setUpdatedAt(LocalDateTime updatedAt) { this.updatedAt = updatedAt; }
+    public Boolean getIsInactive() { return isInactive; }
+    public void setIsInactive(Boolean isInactive) { this.isInactive = isInactive; }
 }

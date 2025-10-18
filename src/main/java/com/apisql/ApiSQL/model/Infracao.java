@@ -1,81 +1,65 @@
 package com.apisql.ApiSQL.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.Column;
-
-
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import jakarta.persistence.*;
 import java.time.LocalDateTime;
+import java.math.BigDecimal;
 
 @Entity
 @Table(name = "tb_infracao")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Infracao {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name = "id_viagem")
-    private Integer idViagem;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_viagem")
+    private Viagem viagem;
 
-    @Column(name = "id_motorista")
-    private Integer idMotorista;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_motorista")
+    private Motorista motorista;
 
-    @Column(name = "dt_hr_evento", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+    @Column(name = "dt_hr_evento")
     private LocalDateTime dtHrEvento;
 
-    @Column(name = "id_tipo_infracao")
-    private Integer idTipoInfracao;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_tipo_infracao")
+    private TipoInfracao tipoInfracao;
 
-    private Double latitude;
-    private Double longitude;
+    @Column(name = "latitude", precision = 9, scale = 7)
+    private BigDecimal latitude;
 
-    @Column(name = "velocidade_kmh")
-    private Double velocidadeKmh;
+    @Column(name = "longitude", precision = 9, scale = 7)
+    private BigDecimal longitude;
 
-    @Column(name = "transaction_made", length = 20)
-    private String transactionMade;
+    @Column(name = "velocidade_kmh", precision = 5, scale = 2)
+    private BigDecimal velocidadeKmh;
 
-    @Column(name = "updated_at", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+    @Column(name = "updated_at")
     private LocalDateTime updatedAt;
-
     @Column(name = "is_inactive")
     private Boolean isInactive = false;
 
-    // Getters e Setters
     public Integer getId() { return id; }
     public void setId(Integer id) { this.id = id; }
-
-    public Integer getIdViagem() { return idViagem; }
-    public void setIdViagem(Integer idViagem) { this.idViagem = idViagem; }
-
-    public Integer getIdMotorista() { return idMotorista; }
-    public void setIdMotorista(Integer idMotorista) { this.idMotorista = idMotorista; }
-
+    public Viagem getViagem() { return viagem; }
+    public void setViagem(Viagem viagem) { this.viagem = viagem; }
+    public Motorista getMotorista() { return motorista; }
+    public void setMotorista(Motorista motorista) { this.motorista = motorista; }
     public LocalDateTime getDtHrEvento() { return dtHrEvento; }
     public void setDtHrEvento(LocalDateTime dtHrEvento) { this.dtHrEvento = dtHrEvento; }
-
-    public Integer getIdTipoInfracao() { return idTipoInfracao; }
-    public void setIdTipoInfracao(Integer idTipoInfracao) { this.idTipoInfracao = idTipoInfracao; }
-
-    public Double getLatitude() { return latitude; }
-    public void setLatitude(Double latitude) { this.latitude = latitude; }
-
-    public Double getLongitude() { return longitude; }
-    public void setLongitude(Double longitude) { this.longitude = longitude; }
-
-    public Double getVelocidadeKmh() { return velocidadeKmh; }
-    public void setVelocidadeKmh(Double velocidadeKmh) { this.velocidadeKmh = velocidadeKmh; }
-
-    public String getTransactionMade() { return transactionMade; }
-    public void setTransactionMade(String transactionMade) { this.transactionMade = transactionMade; }
-
+    public TipoInfracao getTipoInfracao() { return tipoInfracao; }
+    public void setTipoInfracao(TipoInfracao tipoInfracao) { this.tipoInfracao = tipoInfracao; }
+    public BigDecimal getLatitude() { return latitude; }
+    public void setLatitude(BigDecimal latitude) { this.latitude = latitude; }
+    public BigDecimal getLongitude() { return longitude; }
+    public void setLongitude(BigDecimal longitude) { this.longitude = longitude; }
+    public BigDecimal getVelocidadeKmh() { return velocidadeKmh; }
+    public void setVelocidadeKmh(BigDecimal velocidadeKmh) { this.velocidadeKmh = velocidadeKmh; }
     public LocalDateTime getUpdatedAt() { return updatedAt; }
     public void setUpdatedAt(LocalDateTime updatedAt) { this.updatedAt = updatedAt; }
-
     public Boolean getIsInactive() { return isInactive; }
     public void setIsInactive(Boolean isInactive) { this.isInactive = isInactive; }
 }

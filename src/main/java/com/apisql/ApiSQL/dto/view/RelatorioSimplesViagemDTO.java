@@ -3,61 +3,62 @@ package com.apisql.ApiSQL.dto.view;
 import java.util.Date;
 
 public class RelatorioSimplesViagemDTO {
-    private String placa_caminhao;
-    private Date data_inicio_viagem;
-    private Integer id_viagem;
-    private String motorista;
-    private String km_viagem;
-    private Integer pontuacao_total;
+    private Integer idViagem;
+    private String placaCaminhao;
+    private Date dataInicioViagem;
+    private String nomeMotorista;
+    private String kmViagem;
+    private Long pontuacaoTotal;
+    private Boolean wasAnalysed;
+
 
     public RelatorioSimplesViagemDTO() {}
 
-    public String getPlaca_caminhao() {
-        return placa_caminhao;
+    public Integer getIdViagem() {
+        return idViagem;
     }
 
-    public void setPlaca_caminhao(String placa_caminhao) {
-        this.placa_caminhao = placa_caminhao;
+    public void setIdViagem(Integer idViagem) {
+        this.idViagem = idViagem;
     }
 
-    public Date getData_inicio_viagem() {
-        return data_inicio_viagem;
+    public String getPlacaCaminhao() {
+        return placaCaminhao;
     }
 
-    public void setData_inicio_viagem(Date data_inicio_viagem) {
-        this.data_inicio_viagem = data_inicio_viagem;
+    public void setPlacaCaminhao(String placaCaminhao) {
+        this.placaCaminhao = placaCaminhao;
     }
 
-
-    public Integer getId_viagem() {
-        return id_viagem;
+    public Date getDataInicioViagem() {
+        return dataInicioViagem;
     }
 
-    public void setId_viagem(Integer id_viagem) {
-        this.id_viagem = id_viagem;
+    public void setDataInicioViagem(Date dataInicioViagem) {
+        this.dataInicioViagem = dataInicioViagem;
     }
 
-    public String getKm_viagem() {
-        return km_viagem;
+    public String getKmViagem() {
+        return kmViagem;
     }
 
-    public void setKm_viagem(String km_viagem) {
-        this.km_viagem = km_viagem;
+    public void setKmViagem(String kmViagem) {
+        this.kmViagem = kmViagem;
     }
 
-    public String getMotorista() {
-        return motorista;
+    public Long getPontuacaoTotal() {
+        return pontuacaoTotal;
     }
 
-    public Integer getPontuacao_total() {
-        return pontuacao_total;
+    public void setPontuacaoTotal(Long pontuacaoTotal) {
+        this.pontuacaoTotal = pontuacaoTotal;
     }
 
-    public void setMotorista(String motorista) {
-        this.motorista = motorista;
+    public Boolean getWasAnalysed() {
+        return wasAnalysed;
     }
 
-    public void setPontuacao_total(Integer pontuacao_total) {
-        this.pontuacao_total = pontuacao_total;
+    public void setWasAnalysed(Boolean wasAnalysed) {
+        this.wasAnalysed = wasAnalysed;
     }
 }

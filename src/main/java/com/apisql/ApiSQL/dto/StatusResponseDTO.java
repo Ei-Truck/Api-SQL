@@ -1,0 +1,14 @@
+package com.apisql.ApiSQL.dto;
+
+public class StatusResponseDTO {
+    private Integer id;
+    private String nome;
+    private Boolean isInactive;
+
+    public Integer getId() { return id; }
+    public void setId(Integer id) { this.id = id; }
+    public String getNome() { return nome; }
+    public void setNome(String nome) { this.nome = nome; }
+    public Boolean getIsInactive() { return isInactive; }
+    public void setIsInactive(Boolean isInactive) { this.isInactive = isInactive; }
+}

@@ -1,5 +1,6 @@
 package com.apisql.ApiSQL.openapi;
 
+import com.apisql.ApiSQL.dto.UsuarioResponseDTO;
 import com.apisql.ApiSQL.model.Usuario;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -9,53 +10,38 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
-@Tag(name = "Usuários", description = "Endpoints para gerenciamento de usuários")
-@RequestMapping("/usuarios")
+@Tag(name = "Usuários", description = "Operações de gerenciamento de usuários.")
 public interface UsuarioOpenApi {
-    @Operation(summary = "Listar todos os usuários", description = "Retorna uma lista com todos os usuários cadastrados")
-    @ApiResponse(responseCode = "200", description = "Lista retornada com sucesso")
-    ResponseEntity<List<Usuario>> listarTodos();
 
-    @Operation(summary = "Buscar usuário por ID", description = "Retorna os dados de um usuário específico")
-    @ApiResponses({
-            @ApiResponse(responseCode = "200", description = "Usuário encontrado",
-                    content = @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = Usuario.class))),
-            @ApiResponse(responseCode = "404", description = "Usuário não encontrado")
-    })
-    ResponseEntity<Usuario> buscarPorId(
-            @Parameter(description = "ID do usuário a ser buscado", required = true) Integer id);
-    @Operation(summary = "Cadastrar novo usuário", description = "Cria um novo usuário no sistema")
-    @ApiResponses({
-            @ApiResponse(responseCode = "201", description = "Usuário criado com sucesso",
-                    content = @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = Usuario.class))),
-            @ApiResponse(responseCode = "400", description = "Erro de validação nos dados enviados")
-    })
-    ResponseEntity<Usuario> salvar(
-            @Parameter(description = "Objeto usuário a ser criado", required = true)
-            @RequestBody Usuario usuario);
-    @Operation(summary = "Atualizar usuário existente", description = "Atualiza os dados de um usuário pelo ID")
-    @ApiResponses({
-            @ApiResponse(responseCode = "200", description = "Usuário atualizado com sucesso",
-                    content = @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = Usuario.class))),
-            @ApiResponse(responseCode = "404", description = "Usuário não encontrado")
-    })
-    ResponseEntity<Usuario> atualizar(
-            @Parameter(description = "ID do usuário a ser atualizado", required = true) Integer id, Usuario usuario);
+    @Operation(summary = "Lista todos os usuários", description = "Retorna uma lista de todos os usuários.")
+    @ApiResponse(responseCode = "200", description = "Lista retornada com sucesso.")
+    ResponseEntity<List<UsuarioResponseDTO>> findAll();
 
-    @Operation(summary = "Deletar usuário", description = "Remove um usuário pelo ID")
-    @ApiResponses({
-            @ApiResponse(responseCode = "204", description = "Usuário removido com sucesso"),
-            @ApiResponse(responseCode = "404", description = "Usuário não encontrado")
+    @Operation(summary = "Busca Usuário por ID", description = "Retorna os detalhes de um usuário específico.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Usuário encontrado com sucesso.",
+                    content = @Content(schema = @Schema(implementation = UsuarioResponseDTO.class))),
+            @ApiResponse(responseCode = "404", description = "Usuário não encontrado.")
     })
-    ResponseEntity<Void> deletar(
-            @Parameter(description = "ID do usuário a ser deletado", required = true) Integer id);
+    ResponseEntity<UsuarioResponseDTO> findById(@Parameter(description = "ID do Usuário") @PathVariable Integer id);
+
+
+
+    @Operation(summary = "Deleta um Usuário", description = "Remove um Usuário do banco de dados pelo seu ID.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204", description = "Usuário deletado com sucesso (No Content)."),
+            @ApiResponse(responseCode = "404", description = "Usuário não encontrado para exclusão.")
+    })
+    ResponseEntity<Void> deleteById(@Parameter(description = "ID do Usuário a ser deletado") @PathVariable Integer id);
+
+    @Operation(summary = "Atualizar a foto do usuário")
+    @ApiResponse(responseCode = "200", description = "Atualizada com sucesso")
+    ResponseEntity<Usuario> atualizarFoto(@PathVariable Integer id,
+                                          @RequestParam("file") MultipartFile file) throws IOException;
 }

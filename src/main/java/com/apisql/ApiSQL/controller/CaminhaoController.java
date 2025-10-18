@@ -1,21 +1,18 @@
 package com.apisql.ApiSQL.controller;
 
+import com.apisql.ApiSQL.dto.CaminhaoRequestDTO;
+import com.apisql.ApiSQL.dto.CaminhaoResponseDTO;
 import com.apisql.ApiSQL.model.Caminhao;
 import com.apisql.ApiSQL.openapi.CaminhaoOpenApi;
 import com.apisql.ApiSQL.service.CaminhaoService;
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import io.swagger.v3.oas.annotations.security.SecurityRequirement;
-import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@RequestMapping("/caminhoes")
 public class CaminhaoController implements CaminhaoOpenApi {
 
     private final CaminhaoService caminhaoService;
@@ -26,54 +23,36 @@ public class CaminhaoController implements CaminhaoOpenApi {
 
     @Override
     @GetMapping
-    public List<Caminhao> getAll() {
-        return caminhaoService.findAll();
+    public ResponseEntity<List<CaminhaoResponseDTO>> findAll() {
+        List<CaminhaoResponseDTO> caminhoes = caminhaoService.findAll();
+        return ResponseEntity.ok(caminhoes);
     }
 
     @Override
     @GetMapping("/{id}")
-    public ResponseEntity<Caminhao> getById(
-             @PathVariable Integer id) {
-        return caminhaoService.findById(id)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+    public ResponseEntity<CaminhaoResponseDTO> findById(@PathVariable Integer id) {
+            CaminhaoResponseDTO caminhao = caminhaoService.findById(id);
+            return ResponseEntity.ok(caminhao);
     }
 
     @Override
     @PostMapping
-    public Caminhao create(@RequestBody Caminhao caminhao) {
-        return caminhaoService.save(caminhao);
+    public ResponseEntity<CaminhaoResponseDTO> save(@Valid @RequestBody CaminhaoRequestDTO dto) {
+            CaminhaoResponseDTO savedCaminhao = caminhaoService.save(dto);
+            return new ResponseEntity<>(savedCaminhao, HttpStatus.CREATED);
     }
 
     @Override
     @PutMapping("/{id}")
-    public ResponseEntity<Caminhao> update(
-            @PathVariable Integer id,
-            @RequestBody Caminhao caminhao) {
-        return caminhaoService.findById(id)
-                .map(existing -> {
-                    existing.setChassi(caminhao.getChassi());
-                    existing.setSegmento(caminhao.getSegmento());
-                    existing.setUnidade(caminhao.getUnidade());
-                    existing.setPlaca(caminhao.getPlaca());
-                    existing.setModelo(caminhao.getModelo());
-                    existing.setAnoFabricacao(caminhao.getAnoFabricacao());
-                    existing.setNumeroFrota(caminhao.getNumeroFrota());
-                    existing.setTransactionMade(caminhao.getTransactionMade());
-                    existing.setUpdatedAt(caminhao.getUpdatedAt());
-                    existing.setIsInactive(caminhao.getIsInactive());
-                    return ResponseEntity.ok(caminhaoService.save(existing));
-                }).orElse(ResponseEntity.notFound().build());
+    public ResponseEntity<CaminhaoResponseDTO> update(@PathVariable Integer id, @RequestBody CaminhaoRequestDTO caminhaoAtualizado) {
+        CaminhaoResponseDTO updatedCaminhao = caminhaoService.update(id, caminhaoAtualizado);
+        return ResponseEntity.ok(updatedCaminhao);
     }
 
     @Override
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Integer id) {
-        if (caminhaoService.findById(id).isPresent()) {
-            caminhaoService.deleteById(id);
-            return ResponseEntity.noContent().build();
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+    public ResponseEntity<Void> deleteById(@PathVariable Integer id) {
+        caminhaoService.deleteById(id);
+        return ResponseEntity.noContent().build();
     }
 }

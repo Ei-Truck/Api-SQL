@@ -1,51 +1,37 @@
 package com.apisql.ApiSQL.service;
 
-import com.apisql.ApiSQL.dto.LoginUsuarioRequestDTO;
 import com.apisql.ApiSQL.dto.LoginUsuarioResponseDTO;
+import com.apisql.ApiSQL.exception.ResourceNotFoundException;
 import com.apisql.ApiSQL.model.LoginUsuario;
 import com.apisql.ApiSQL.repository.LoginUsuarioRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Service;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Optional;
 
 @Service
 public class LoginUsuarioService {
 
-    private final ObjectMapper mapper = new ObjectMapper();
+    private final ObjectMapper objectMapper;
+    private final LoginUsuarioRepository loginUsuarioRepository;
 
-    private final LoginUsuarioRepository repository;
-
-    public LoginUsuarioService(LoginUsuarioRepository repository) {
-        this.repository = repository;
+    public LoginUsuarioService(ObjectMapper objectMapper, LoginUsuarioRepository loginUsuarioRepository) {
+        this.loginUsuarioRepository = loginUsuarioRepository;
+        this.objectMapper = objectMapper;
     }
 
-    private LoginUsuarioResponseDTO toResponse(LoginUsuario login) {
-        return mapper.convertValue(login, LoginUsuarioResponseDTO.class);
+    public List<LoginUsuarioResponseDTO> findAll() {
+        List<LoginUsuario> logs = loginUsuarioRepository.findAll();
+        return logs.stream()
+                .map(l -> objectMapper.convertValue(l, LoginUsuarioResponseDTO.class))
+                .toList();
     }
 
-    private LoginUsuario toEntity(LoginUsuarioRequestDTO dto) {
-        return mapper.convertValue(dto, LoginUsuario.class);
-    }
-
-    public List<LoginUsuarioResponseDTO> listarTodos() {
-        return repository.findAll().stream()
-                .map(this::toResponse)
-                .collect(Collectors.toList());
-    }
-
-    public List<LoginUsuarioResponseDTO> listarPorUsuario(Integer idUsuario) {
-        return repository.findByIdUsuario(idUsuario).stream()
-                .map(this::toResponse)
-                .collect(Collectors.toList());
-    }
-
-    public LoginUsuarioResponseDTO salvar(LoginUsuarioRequestDTO dto) {
-        LoginUsuario login = toEntity(dto);
-        return toResponse(repository.save(login));
-    }
-
-    public void deletar(Integer id) {
-        repository.deleteById(id);
+    public LoginUsuarioResponseDTO findById(Integer id) {
+        Optional<LoginUsuario> response = loginUsuarioRepository.findById(id);
+        if (response.isPresent()) {
+            return objectMapper.convertValue(response.get(), LoginUsuarioResponseDTO.class);
+        }
+        throw new ResourceNotFoundException("Log de Login não encontrado com ID: " + id);
     }
 }
