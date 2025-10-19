@@ -2,8 +2,12 @@ package com.apisql.ApiSQL.controller;
 
 import com.apisql.ApiSQL.dto.MotoristaRequestDTO;
 import com.apisql.ApiSQL.dto.MotoristaResponseDTO;
+import com.apisql.ApiSQL.dto.view.MotoristaPontuacaoMensalDTO;
+import com.apisql.ApiSQL.dto.view.MotoristaQuantidadeInfracoesDTO;
 import com.apisql.ApiSQL.openapi.MotoristaOpenApi;
 import com.apisql.ApiSQL.service.MotoristaService;
+import com.apisql.ApiSQL.service.view.MotoristaPontuacaoMensalService;
+import com.apisql.ApiSQL.service.view.MotoristaQuantidadeInfracoesService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,9 +20,13 @@ import java.util.List;
 public class MotoristaController implements MotoristaOpenApi {
 
     private final MotoristaService motoristaService;
+    private final MotoristaPontuacaoMensalService motoristaPontuacaoMensalService;
+    private final MotoristaQuantidadeInfracoesService motoristaQuantidadeInfracoesService;
 
-    public MotoristaController(MotoristaService motoristaService) {
+    public MotoristaController(MotoristaService motoristaService, MotoristaPontuacaoMensalService motoristaPontuacaoMensalService, MotoristaQuantidadeInfracoesService motoristaQuantidadeInfracoesService) {
         this.motoristaService = motoristaService;
+        this.motoristaPontuacaoMensalService = motoristaPontuacaoMensalService;
+        this.motoristaQuantidadeInfracoesService = motoristaQuantidadeInfracoesService;
     }
 
     @Override
@@ -54,5 +62,17 @@ public class MotoristaController implements MotoristaOpenApi {
     public ResponseEntity<Void> deleteById(@PathVariable Integer id) {
         motoristaService.deleteById(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @Override
+    @GetMapping("/pontuacao-mensal")
+    public List<MotoristaPontuacaoMensalDTO> getAllPontuacoesMensal(){
+        return motoristaPontuacaoMensalService.findAll();
+    }
+
+    @Override
+    @GetMapping("/quantidade-infracoes")
+    public List<MotoristaQuantidadeInfracoesDTO> getAllInfracoes(){
+        return motoristaQuantidadeInfracoesService.findAll();
     }
 }

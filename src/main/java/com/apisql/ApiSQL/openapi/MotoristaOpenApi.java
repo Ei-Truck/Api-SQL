@@ -2,6 +2,9 @@ package com.apisql.ApiSQL.openapi;
 
 import com.apisql.ApiSQL.dto.MotoristaRequestDTO;
 import com.apisql.ApiSQL.dto.MotoristaResponseDTO;
+import com.apisql.ApiSQL.dto.view.MotoristaPontuacaoMensalDTO;
+import com.apisql.ApiSQL.dto.view.MotoristaQuantidadeInfracoesDTO;
+import com.apisql.ApiSQL.dto.view.OcorrenciasPorGravidadeDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -54,4 +57,20 @@ public interface MotoristaOpenApi {
             @ApiResponse(responseCode = "404", description = "Motorista não encontrado para exclusão.")
     })
     ResponseEntity<Void> deleteById(@Parameter(description = "ID do motorista a ser deletado") @PathVariable Integer id);
+
+    @Operation(summary = "Listar Pontuação Mensal",
+            description = "Lista A Pontuação Mensal Por Motorista",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "Pontuações obtidas com sucesso"),
+                    @ApiResponse(responseCode = "500", description = "Erro interno do servidor")
+            })
+    List<MotoristaPontuacaoMensalDTO> getAllPontuacoesMensal();
+
+    @Operation(summary = "Listar Quantidade de Infracoes",
+            description = "Lista A Quantidade de Infracoes Por Motorista",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "Infracoes obtidas com sucesso"),
+                    @ApiResponse(responseCode = "500", description = "Erro interno do servidor")
+            })
+    List<MotoristaQuantidadeInfracoesDTO> getAllInfracoes();
 }

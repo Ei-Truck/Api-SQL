@@ -1,12 +1,16 @@
 package com.apisql.ApiSQL.controller;
 
 import com.apisql.ApiSQL.dto.view.RelatorioSemanalInfracoesDTO;
+import com.apisql.ApiSQL.dto.view.TotalOcorrenciasDTO;
+import com.apisql.ApiSQL.dto.view.VariacaoMesPassadoPorMesAnoDTO;
 import com.apisql.ApiSQL.service.view.RelatorioSemanalInfracoesService;
 
 import com.apisql.ApiSQL.dto.InfracaoRequestDTO;
 import com.apisql.ApiSQL.dto.InfracaoResponseDTO;
 import com.apisql.ApiSQL.openapi.InfracaoOpenApi;
 import com.apisql.ApiSQL.service.InfracaoService;
+import com.apisql.ApiSQL.service.view.TotalOcorrenciasService;
+import com.apisql.ApiSQL.service.view.VariacaoMesPassadoPorMesAnoService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,10 +24,14 @@ public class InfracaoController implements InfracaoOpenApi {
 
     private final InfracaoService infracaoService;
     private final RelatorioSemanalInfracoesService relatorioService;
+    private final TotalOcorrenciasService totalOcorrenciasService;
+    private final VariacaoMesPassadoPorMesAnoService variacaoMesPassadoPorMesAno;
 
-    public InfracaoController(InfracaoService infracaoService, RelatorioSemanalInfracoesService relatorioService) {
+    public InfracaoController(InfracaoService infracaoService, RelatorioSemanalInfracoesService relatorioService, TotalOcorrenciasService totalOcorrenciasService, VariacaoMesPassadoPorMesAnoService variacaoMesPassadoPorMesAno) {
         this.infracaoService = infracaoService;
         this.relatorioService = relatorioService;
+        this.totalOcorrenciasService = totalOcorrenciasService;
+        this.variacaoMesPassadoPorMesAno = variacaoMesPassadoPorMesAno;
     }
 
     @Override
@@ -65,5 +73,17 @@ public class InfracaoController implements InfracaoOpenApi {
     @GetMapping("/relatorio")
     public List<RelatorioSemanalInfracoesDTO> getAllRelatorioInfracoes() {
         return relatorioService.findAll();
+    }
+
+    @Override
+    @GetMapping("/variacao")
+    public List<VariacaoMesPassadoPorMesAnoDTO> getAllVariacao(){
+        return variacaoMesPassadoPorMesAno.findAll();
+    }
+
+    @Override
+    @GetMapping("/total-ocorrencias")
+    public List<TotalOcorrenciasDTO> getAllOcorrencias(){
+        return totalOcorrenciasService.findAll();
     }
 }
