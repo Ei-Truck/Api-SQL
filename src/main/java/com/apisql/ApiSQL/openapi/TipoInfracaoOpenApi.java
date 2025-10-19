@@ -3,8 +3,7 @@ package com.apisql.ApiSQL.openapi;
 import com.apisql.ApiSQL.dto.TipoInfracaoRequestDTO;
 import com.apisql.ApiSQL.dto.TipoInfracaoResponseDTO;
 import com.apisql.ApiSQL.dto.view.OcorrenciaPorTipoDTO;
-import com.apisql.ApiSQL.dto.view.OcorrenciaPorViagemDTO;
-import com.apisql.ApiSQL.dto.view.RelatorioSimplesViagemDTO;
+import com.apisql.ApiSQL.dto.view.OcorrenciasPorGravidadeDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -65,4 +64,12 @@ public interface TipoInfracaoOpenApi {
                     @ApiResponse(responseCode = "500", description = "Erro interno do servidor")
             })
     List<OcorrenciaPorTipoDTO> getAllOcorrenciaTipo();
+
+    @Operation(summary = "Listar Ocorrencia Por Gravidade",
+            description = "Lista As Ocorrencias Por Gravidade",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "Ocorrencias obtidas com sucesso"),
+                    @ApiResponse(responseCode = "500", description = "Erro interno do servidor")
+            })
+    List<OcorrenciasPorGravidadeDTO> getAllOcorrenciaGravidade();
 }

@@ -3,6 +3,8 @@ package com.apisql.ApiSQL.openapi;
 import com.apisql.ApiSQL.dto.InfracaoRequestDTO;
 import com.apisql.ApiSQL.dto.InfracaoResponseDTO;
 import com.apisql.ApiSQL.dto.view.RelatorioSemanalInfracoesDTO;
+import com.apisql.ApiSQL.dto.view.TotalOcorrenciasDTO;
+import com.apisql.ApiSQL.dto.view.VariacaoMesPassadoPorMesAnoDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -61,5 +63,22 @@ public interface InfracaoOpenApi {
             @ApiResponse(responseCode = "200", description = "Lista de infrações retornada com sucesso.")
     })
     List<RelatorioSemanalInfracoesDTO> getAllRelatorioInfracoes();
+
+
+    @Operation(summary = "Listar Variação Por Mês e Ano",
+            description = "Retorna Uma Lista de Variações Por Mês e Ano")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Lista de Variações retornada com sucesso."),
+            @ApiResponse(responseCode = "500", description = "Erro Interno do Servidor")
+    })
+    List<VariacaoMesPassadoPorMesAnoDTO> getAllVariacao();
+
+    @Operation(summary = "Listar Total de Ocorrencias",
+            description = "Retorna Uma Lista do Total de Ocorrências")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Lista de Ocorrências retornada com sucesso."),
+            @ApiResponse(responseCode = "500", description = "Erro Interno do Servidor")
+    })
+    List<TotalOcorrenciasDTO> getAllOcorrencias();
 
 }

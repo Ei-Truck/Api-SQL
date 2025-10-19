@@ -4,11 +4,13 @@ import com.apisql.ApiSQL.dto.TipoInfracaoRequestDTO;
 import com.apisql.ApiSQL.dto.TipoInfracaoResponseDTO;
 import com.apisql.ApiSQL.dto.view.OcorrenciaPorTipoDTO;
 import com.apisql.ApiSQL.dto.view.OcorrenciaPorViagemDTO;
+import com.apisql.ApiSQL.dto.view.OcorrenciasPorGravidadeDTO;
 import com.apisql.ApiSQL.dto.view.RelatorioSimplesViagemDTO;
 import com.apisql.ApiSQL.openapi.TipoInfracaoOpenApi;
 import com.apisql.ApiSQL.service.TipoInfracaoService;
 import com.apisql.ApiSQL.service.view.OcorrenciaPorTipoService;
 import com.apisql.ApiSQL.service.view.OcorrenciaPorViagemService;
+import com.apisql.ApiSQL.service.view.OcorrenciasPorGravidadeService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,10 +24,12 @@ public class TipoInfracaoController implements TipoInfracaoOpenApi {
 
     private final TipoInfracaoService tipoInfracaoService;
     private final OcorrenciaPorTipoService ocorrenciaPorTipoService;
+    private final OcorrenciasPorGravidadeService ocorrenciasPorGravidadeService;
 
-    public TipoInfracaoController(TipoInfracaoService tipoInfracaoService, OcorrenciaPorTipoService ocorrenciaPorTipoService) {
+    public TipoInfracaoController(TipoInfracaoService tipoInfracaoService, OcorrenciaPorTipoService ocorrenciaPorTipoService, OcorrenciasPorGravidadeService ocorrenciasPorGravidadeService) {
         this.tipoInfracaoService = tipoInfracaoService;
         this.ocorrenciaPorTipoService = ocorrenciaPorTipoService;
+        this.ocorrenciasPorGravidadeService = ocorrenciasPorGravidadeService;
     }
 
     @Override
@@ -67,5 +71,11 @@ public class TipoInfracaoController implements TipoInfracaoOpenApi {
     @GetMapping("/ocorrencia-tipo")
     public List<OcorrenciaPorTipoDTO> getAllOcorrenciaTipo() {
         return ocorrenciaPorTipoService.findAll();
+    }
+
+    @Override
+    @GetMapping("/ocorrencia-gravidade")
+    public List<OcorrenciasPorGravidadeDTO> getAllOcorrenciaGravidade() {
+        return ocorrenciasPorGravidadeService.findAll();
     }
 }
