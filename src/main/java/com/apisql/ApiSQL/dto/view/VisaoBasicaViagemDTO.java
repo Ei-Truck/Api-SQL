@@ -1,6 +1,5 @@
 package com.apisql.ApiSQL.dto.view;
 
-import java.time.LocalDateTime;
 import java.util.Date;
 
 public class VisaoBasicaViagemDTO {
@@ -9,7 +8,9 @@ public class VisaoBasicaViagemDTO {
     private String placaCaminhao;
     private Date dataInicioViagem;
     private Date dataFimViagem;
+    private String kmViagem;
     private String segmento;
+    private String unidade;
     private String nomeMotorista;
     private String riscoMotorista;
     private String urlMidiaConcatenada;
@@ -17,6 +18,14 @@ public class VisaoBasicaViagemDTO {
     private String tipoInfracao;
 
     public VisaoBasicaViagemDTO() {
+    }
+
+    public Integer getIdViagem() {
+        return idViagem;
+    }
+
+    public void setIdViagem(Integer idViagem) {
+        this.idViagem = idViagem;
     }
 
     public String getPlacaCaminhao() {
@@ -43,12 +52,28 @@ public class VisaoBasicaViagemDTO {
         this.dataFimViagem = dataFimViagem;
     }
 
+    public String getKmViagem() {
+        return kmViagem;
+    }
+
+    public void setKmViagem(String kmViagem) {
+        this.kmViagem = kmViagem;
+    }
+
     public String getSegmento() {
         return segmento;
     }
 
     public void setSegmento(String segmento) {
         this.segmento = segmento;
+    }
+
+    public String getUnidade() {
+        return unidade;
+    }
+
+    public void setUnidade(String unidade) {
+        this.unidade = unidade;
     }
 
     public String getNomeMotorista() {
@@ -73,14 +98,6 @@ public class VisaoBasicaViagemDTO {
 
     public void setUrlMidiaConcatenada(String urlMidiaConcatenada) {
         this.urlMidiaConcatenada = urlMidiaConcatenada;
-    }
-
-    public Integer getIdViagem() {
-        return idViagem;
-    }
-
-    public void setIdViagem(Integer idViagem) {
-        this.idViagem = idViagem;
     }
 
     public String getTipoGravidade() {
