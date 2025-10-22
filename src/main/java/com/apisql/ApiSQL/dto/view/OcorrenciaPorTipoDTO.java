@@ -6,6 +6,8 @@ public class OcorrenciaPorTipoDTO {
     private String tipo_infracao;
     private Long total_ocorrencias;
     private BigDecimal porcentagem_do_total;
+    private BigDecimal mes;
+    private BigDecimal ano;
 
     public OcorrenciaPorTipoDTO() {
 
@@ -33,5 +35,21 @@ public class OcorrenciaPorTipoDTO {
 
     public void setPorcentagem_do_total(BigDecimal porcentagem_do_total) {
         this.porcentagem_do_total = porcentagem_do_total;
+    }
+
+    public BigDecimal getMes() {
+        return mes;
+    }
+
+    public void setMes(BigDecimal mes) {
+        this.mes = mes;
+    }
+
+    public BigDecimal getAno() {
+        return ano;
+    }
+
+    public void setAno(BigDecimal ano) {
+        this.ano = ano;
     }
 }

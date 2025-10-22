@@ -23,6 +23,8 @@ public class OcorrenciaPorTipoService {
                     dto.setTipo_infracao(obj[0] != null? ((String)obj[0]) : null);
                     dto.setTotal_ocorrencias(obj[1] != null? ((Long)obj[1]): 0);
                     dto.setPorcentagem_do_total(obj[2] != null? ((BigDecimal)obj[2]): BigDecimal.ZERO);
+                    dto.setMes(obj[3] != null? ((BigDecimal)obj[3]): BigDecimal.ZERO);
+                    dto.setAno(obj[4] != null? ((BigDecimal)obj[4]): BigDecimal.ZERO);
 
                     return dto;
                 }).toList();
