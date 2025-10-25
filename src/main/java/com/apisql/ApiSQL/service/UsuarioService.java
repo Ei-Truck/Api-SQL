@@ -2,18 +2,16 @@ package com.apisql.ApiSQL.service;
 
 import com.apisql.ApiSQL.dto.UsuarioResponseDTO;
 import com.apisql.ApiSQL.exception.ResourceNotFoundException;
-import com.apisql.ApiSQL.model.Cargo;
-import com.apisql.ApiSQL.model.Unidade;
 import com.apisql.ApiSQL.model.Usuario;
 import com.apisql.ApiSQL.repository.CargoRepository;
 import com.apisql.ApiSQL.repository.UnidadeRepository;
 import com.apisql.ApiSQL.repository.UsuarioRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import jakarta.persistence.EntityNotFoundException;
-import org.springframework.http.HttpStatus;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.server.ResponseStatusException;
+import org.springframework.security.crypto.password.PasswordEncoder;
+
 
 import java.time.LocalDateTime;
 import software.amazon.awssdk.services.s3.S3Client;
@@ -32,15 +30,16 @@ public class UsuarioService {
     private final CargoRepository cargoRepository;
     private final ObjectMapper objectMapper;
     private final S3Client s3Client;
+    private final PasswordEncoder passwordEncoder;
 
 
-    public UsuarioService(UsuarioRepository usuarioRepository, ObjectMapper objectMapper, UnidadeRepository unidadeRepository, CargoRepository cargoRepository, S3Client s3Client) {
+    public UsuarioService(UsuarioRepository usuarioRepository, ObjectMapper objectMapper, UnidadeRepository unidadeRepository, CargoRepository cargoRepository, S3Client s3Client, PasswordEncoder passwordEncoder) {
         this.usuarioRepository = usuarioRepository;
         this.objectMapper = objectMapper;
         this.unidadeRepository = unidadeRepository;
         this.cargoRepository = cargoRepository;
         this.s3Client = s3Client;
-
+        this.passwordEncoder = passwordEncoder;
     }
 
     public List<UsuarioResponseDTO> findAll() {
@@ -74,6 +73,17 @@ public class UsuarioService {
         usuarioRepository.deleteById(id);
     }
 
+    @Transactional
+    public UsuarioResponseDTO atualizarSenha(Integer usuarioId, String novaSenha) {
+        Usuario usuario = usuarioRepository.findById(usuarioId)
+                .orElseThrow(() -> new ResourceNotFoundException("Usuário não encontrado com ID: " + usuarioId));
+
+        String senhaCriptografada = passwordEncoder.encode(novaSenha);
+        usuario.setHashSenha(senhaCriptografada);
+
+        return  objectMapper.convertValue(usuarioRepository.save(usuario), UsuarioResponseDTO.class);
+    }
+
     public String uploadFoto(Integer usuarioId, Path arquivo) {
         String key = "perfil/" + usuarioId + "/profile_" + usuarioId + ".jpg";
 
@@ -87,7 +97,7 @@ public class UsuarioService {
         return "https://eitruck.s3.sa-east-1.amazonaws.com/" + key;
     }
 
-    public Usuario atualizarFoto(Integer usuarioId, Path arquivo) {
+    public UsuarioResponseDTO atualizarFoto(Integer usuarioId, Path arquivo) {
 
         Usuario usuario = usuarioRepository.findById(usuarioId)
                 .orElseThrow(() -> new ResourceNotFoundException("Usuário não encontrado com ID: " + usuarioId + " para atualizar foto."));
@@ -95,7 +105,7 @@ public class UsuarioService {
         String url = uploadFoto(usuarioId, arquivo);
         usuario.setUrlFoto(url);
 
-        return usuarioRepository.save(usuario);
+        return objectMapper.convertValue(usuarioRepository.save(usuario), UsuarioResponseDTO.class);
     }
 
 }

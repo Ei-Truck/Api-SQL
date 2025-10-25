@@ -1,6 +1,7 @@
 package com.apisql.ApiSQL.openapi;
 
 import com.apisql.ApiSQL.dto.UsuarioResponseDTO;
+import com.apisql.ApiSQL.dto.UsuarioSenhaPatchDTO;
 import com.apisql.ApiSQL.model.Usuario;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -9,6 +10,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -46,8 +48,15 @@ public interface UsuarioOpenApi {
     })
     ResponseEntity<Void> deleteById(@Parameter(description = "ID do Usuário a ser deletado") @PathVariable Integer id);
 
+    @Operation(summary = "Atualiza a senha de um Usuário", description = "Atualiza a senha do usuário passado")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Atualizada com sucesso."),
+            @ApiResponse(responseCode = "404", description = "Usuário não encontrado para atualização..")
+    })
+    ResponseEntity<UsuarioResponseDTO> atualizarSenha(@PathVariable Integer id, @RequestBody @Valid UsuarioSenhaPatchDTO usuarioSenhaDTO);
+
     @Operation(summary = "Atualizar a foto do usuário")
     @ApiResponse(responseCode = "200", description = "Atualizada com sucesso")
-    ResponseEntity<Usuario> atualizarFoto(@PathVariable Integer id,
+    ResponseEntity<UsuarioResponseDTO> atualizarFoto(@PathVariable Integer id,
                                           @RequestParam("file") MultipartFile file) throws IOException;
 }

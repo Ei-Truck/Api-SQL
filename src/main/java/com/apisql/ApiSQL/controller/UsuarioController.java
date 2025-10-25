@@ -1,10 +1,12 @@
 package com.apisql.ApiSQL.controller;
 
 import com.apisql.ApiSQL.dto.UsuarioResponseDTO;
+import com.apisql.ApiSQL.dto.UsuarioSenhaPatchDTO;
 import com.apisql.ApiSQL.model.Usuario;
 import com.apisql.ApiSQL.openapi.UsuarioOpenApi;
 import com.apisql.ApiSQL.service.UsuarioService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -54,15 +56,22 @@ public class UsuarioController implements UsuarioOpenApi {
     }
 
     @Override
+    @PatchMapping("/{id}/senha")
+    public ResponseEntity<UsuarioResponseDTO> atualizarSenha(@PathVariable Integer id,@RequestBody @Valid UsuarioSenhaPatchDTO usuarioSenhaDTO) {
+        UsuarioResponseDTO usuario = usuarioService.atualizarSenha(id, usuarioSenhaDTO.getSenha());
+        return ResponseEntity.ok(usuario);
+    }
+
+    @Override
     @PostMapping("/{id}/foto")
-    public ResponseEntity<Usuario> atualizarFoto(
+    public ResponseEntity<UsuarioResponseDTO> atualizarFoto(
             @PathVariable Integer id,
             @RequestParam("file") MultipartFile file) throws IOException {
 
         Path tempFile = Files.createTempFile("upload-", file.getOriginalFilename());
         file.transferTo(tempFile);
 
-        Usuario usuarioAtualizado = usuarioService.atualizarFoto(id, tempFile);
+        UsuarioResponseDTO usuarioAtualizado = usuarioService.atualizarFoto(id, tempFile);
 
         Files.delete(tempFile);
 
