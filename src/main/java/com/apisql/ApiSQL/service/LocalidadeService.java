@@ -45,7 +45,10 @@ public class LocalidadeService {
         localidade.setCep(dto.getCep());
         localidade.setNumeroRua(dto.getNumeroRua());
         localidade.setUfEstado(dto.getUfEstado());
-        localidade.setNome(dto.getNome());
+        localidade.setRua(dto.getRua());
+        localidade.setCidade(dto.getCidade());
+        localidade.setPais(dto.getPais());
+        localidade.setBairro(dto.getBairro());
 
         Localidade savedLocalidade = localidadeRepository.save(localidade);
         return objectMapper.convertValue(savedLocalidade, LocalidadeResponseDTO.class);
@@ -59,7 +62,10 @@ public class LocalidadeService {
         localidade.setCep(dto.getCep());
         localidade.setNumeroRua(dto.getNumeroRua());
         localidade.setUfEstado(dto.getUfEstado());
-        localidade.setNome(dto.getNome());
+        localidade.setRua(dto.getRua());
+        localidade.setCidade(dto.getCidade());
+        localidade.setPais(dto.getPais());
+        localidade.setBairro(dto.getBairro());
         localidade.setUpdatedAt(LocalDateTime.now());
 
         Localidade updatedLocalidade = localidadeRepository.save(localidade);
