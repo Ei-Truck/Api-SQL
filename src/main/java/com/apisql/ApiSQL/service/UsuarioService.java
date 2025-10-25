@@ -58,6 +58,14 @@ public class UsuarioService {
         throw new ResourceNotFoundException("Usuário não encontrado com ID: " + id);
     }
 
+    public UsuarioResponseDTO findByTelefone(String telefone) {
+        Optional<Usuario> response = usuarioRepository.findByTelefone(telefone);
+        if (response.isPresent()) {
+            return objectMapper.convertValue(response.get(), UsuarioResponseDTO.class);
+        }
+        throw new ResourceNotFoundException("Usuário não encontrado com telefone: " + telefone);
+    }
+
     @Transactional
     public void deleteById(Integer id) {
         if (!usuarioRepository.existsById(id)) {

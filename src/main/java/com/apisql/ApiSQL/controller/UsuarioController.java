@@ -40,6 +40,13 @@ public class UsuarioController implements UsuarioOpenApi {
     }
 
     @Override
+    @GetMapping("/telefone/{telefone}")
+    public ResponseEntity<UsuarioResponseDTO> findByTelefone(@PathVariable String telefone) {
+        UsuarioResponseDTO usuario = usuarioService.findByTelefone(telefone);
+        return ResponseEntity.ok(usuario);
+    }
+
+    @Override
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteById(@PathVariable Integer id) {
         usuarioService.deleteById(id);
