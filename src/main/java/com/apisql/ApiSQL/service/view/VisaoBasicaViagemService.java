@@ -15,7 +15,7 @@ public class VisaoBasicaViagemService {
         this.visaoBasicaViagemRepository = visaoBasicaViagemRepository;
     }
 
-    public List<VisaoBasicaViagemDTO> findALl(){
+    public List<VisaoBasicaViagemDTO> findALl() {
         List<Object[]> resultado = visaoBasicaViagemRepository.buscarVisaoBasicaViagem();
         return resultado.stream().map(obj -> {
             VisaoBasicaViagemDTO dto = new VisaoBasicaViagemDTO();
@@ -24,13 +24,18 @@ public class VisaoBasicaViagemService {
             dto.setDataInicioViagem((Date) obj[2]);
             dto.setDataFimViagem((Date) obj[3]);
             dto.setKmViagem((String) obj[4]);
-            dto.setSegmento((String) obj[5]);
-            dto.setUnidade((String) obj[6]);
-            dto.setNomeMotorista((String) obj[7]);
-            dto.setRiscoMotorista((String) obj[8]);
-            dto.setUrlMidiaConcatenada((String) obj[9]);
-            dto.setTipoGravidade((String) obj[10]);
-            dto.setTipoInfracao((String) obj[11]);
-            return dto;}).toList();
+            dto.setIdSegmento((Integer) obj[5]);
+            dto.setSegmento((String) obj[6]);
+            dto.setIdUnidade((Integer) obj[7]);
+            dto.setUnidade((String) obj[8]);
+            dto.setIdLocalidade((Integer) obj[9]);
+            dto.setNomeMotorista((String) obj[10]);
+            dto.setRiscoMotorista((String) obj[11]);
+            dto.setUrlMidiaConcatenada((String) obj[12]);
+            dto.setTipoGravidade((String) obj[13]);
+            dto.setTipoInfracao((String) obj[14]);
+
+            return dto;
+        }).toList();
     }
 }

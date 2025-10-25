@@ -33,8 +33,11 @@ public class RelatorioSimplesViagemService {
                     dto.setPlacaCaminhao((String) obj[1]);
                     dto.setDataInicioViagem((Date) obj[2]);
                     dto.setKmViagem((String) obj[3]);
-                    dto.setPontuacaoTotal((Long) obj[4]);
-                    dto.setWasAnalysed((Boolean) obj[5]);
+                    dto.setIdSegmento((Integer) obj[4]);
+                    dto.setIdUnidade((Integer) obj[5]);
+                    dto.setIdLocalidade((Integer) obj[6]);
+                    dto.setPontuacaoTotal((Long) obj[7]);
+                    dto.setWasAnalysed((Boolean) obj[8]);
                     return dto;
                 }).toList();
     }

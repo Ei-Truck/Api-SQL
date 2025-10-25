@@ -9,8 +9,11 @@ public class VisaoBasicaViagemDTO {
     private Date dataInicioViagem;
     private Date dataFimViagem;
     private String kmViagem;
+    private Integer idSegmento;
     private String segmento;
+    private Integer idUnidade;
     private String unidade;
+    private Integer idLocalidade;
     private String nomeMotorista;
     private String riscoMotorista;
     private String urlMidiaConcatenada;
@@ -60,6 +63,14 @@ public class VisaoBasicaViagemDTO {
         this.kmViagem = kmViagem;
     }
 
+    public Integer getIdSegmento() {
+        return idSegmento;
+    }
+
+    public void setIdSegmento(Integer idSegmento) {
+        this.idSegmento = idSegmento;
+    }
+
     public String getSegmento() {
         return segmento;
     }
@@ -68,12 +79,28 @@ public class VisaoBasicaViagemDTO {
         this.segmento = segmento;
     }
 
+    public Integer getIdUnidade() {
+        return idUnidade;
+    }
+
+    public void setIdUnidade(Integer idUnidade) {
+        this.idUnidade = idUnidade;
+    }
+
     public String getUnidade() {
         return unidade;
     }
 
     public void setUnidade(String unidade) {
         this.unidade = unidade;
+    }
+
+    public Integer getIdLocalidade() {
+        return idLocalidade;
+    }
+
+    public void setIdLocalidade(Integer idLocalidade) {
+        this.idLocalidade = idLocalidade;
     }
 
     public String getNomeMotorista() {

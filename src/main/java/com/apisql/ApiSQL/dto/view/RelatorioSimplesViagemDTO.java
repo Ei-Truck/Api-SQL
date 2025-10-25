@@ -6,9 +6,11 @@ public class RelatorioSimplesViagemDTO {
     private Integer idViagem;
     private String placaCaminhao;
     private Date dataInicioViagem;
-    private String nomeMotorista;
     private String kmViagem;
     private Long pontuacaoTotal;
+    private Integer idSegmento;
+    private Integer idUnidade;
+    private Integer idLocalidade;
     private Boolean wasAnalysed;
 
 
@@ -52,6 +54,30 @@ public class RelatorioSimplesViagemDTO {
 
     public void setPontuacaoTotal(Long pontuacaoTotal) {
         this.pontuacaoTotal = pontuacaoTotal;
+    }
+
+    public Integer getIdSegmento() {
+        return idSegmento;
+    }
+
+    public void setIdSegmento(Integer idSegmento) {
+        this.idSegmento = idSegmento;
+    }
+
+    public Integer getIdUnidade() {
+        return idUnidade;
+    }
+
+    public void setIdUnidade(Integer idUnidade) {
+        this.idUnidade = idUnidade;
+    }
+
+    public Integer getIdLocalidade() {
+        return idLocalidade;
+    }
+
+    public void setIdLocalidade(Integer idLocalidade) {
+        this.idLocalidade = idLocalidade;
     }
 
     public Boolean getWasAnalysed() {
