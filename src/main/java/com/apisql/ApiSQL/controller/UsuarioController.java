@@ -56,7 +56,7 @@ public class UsuarioController implements UsuarioOpenApi {
     }
 
     @Override
-    @PatchMapping("/{id}/senha")
+    @PatchMapping("/senha/{id}")
     public ResponseEntity<UsuarioResponseDTO> atualizarSenha(@PathVariable Integer id,@RequestBody @Valid UsuarioSenhaPatchDTO usuarioSenhaDTO) {
         UsuarioResponseDTO usuario = usuarioService.atualizarSenha(id, usuarioSenhaDTO.getSenha());
         return ResponseEntity.ok(usuario);
