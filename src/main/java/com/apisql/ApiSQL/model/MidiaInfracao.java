@@ -13,18 +13,17 @@ public class MidiaInfracao {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    // Relacionamentos (Foreign Keys)
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_viagem", nullable = false)
-    private Viagem viagem; // Assumindo a entidade Viagem
+    private Viagem viagem;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_infracao", nullable = false)
-    private Infracao infracao; // Assumindo a entidade Infracao
+    private Infracao infracao;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_motorista", nullable = false)
-    private Motorista motorista; // Assumindo a entidade Motorista
+    private Motorista motorista;
 
     @Column(name = "url", nullable = false, columnDefinition = "text")
     private String url;
@@ -41,7 +40,6 @@ public class MidiaInfracao {
     @Column(name = "is_inactive", columnDefinition = "BOOLEAN DEFAULT FALSE")
     private Boolean isInactive = false;
 
-    // Construtor, Getters e Setters
     public MidiaInfracao() {}
 
     public Integer getId() { return id; }

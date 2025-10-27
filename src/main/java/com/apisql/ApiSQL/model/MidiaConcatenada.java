@@ -13,14 +13,13 @@ public class MidiaConcatenada {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    // Foreign Keys são mapeadas como entidades para carregamento Lazy
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_viagem", nullable = false)
-    private Viagem viagem; // Assumindo a existência da entidade Viagem
+    private Viagem viagem;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_motorista", nullable = false)
-    private Motorista motorista; // Assumindo a existência da entidade Motorista
+    private Motorista motorista;
 
     @Column(name = "url", nullable = false, columnDefinition = "text")
     private String url;
@@ -34,7 +33,6 @@ public class MidiaConcatenada {
     @Column(name = "is_inactive", columnDefinition = "BOOLEAN DEFAULT FALSE")
     private Boolean isInactive = false;
 
-    // Construtor, Getters e Setters
     public MidiaConcatenada() {}
 
     public Integer getId() { return id; }

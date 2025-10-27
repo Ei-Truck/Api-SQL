@@ -10,14 +10,12 @@ public class MidiaConcatenadaResponseDTO {
     private String transactionMade;
     private Boolean isInactive;
 
-    // Assumindo a existência de DTOs para Viagem e Motorista
     private ViagemResponseDTO viagem;
     private MotoristaResponseDTO motorista;
 
     @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSSSS")
     private LocalDateTime updatedAt;
 
-    // Construtor, Getters e Setters
     public MidiaConcatenadaResponseDTO() {}
 
     public Integer getId() { return id; }

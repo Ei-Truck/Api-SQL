@@ -29,7 +29,6 @@ public class MidiaInfracaoService {
     private final MotoristaRepository motoristaRepository;
     private final ObjectMapper objectMapper;
 
-    // Adicione os repositórios para as FKs
     public MidiaInfracaoService(MidiaInfracaoRepository repository, ViagemRepository viagemRepository, InfracaoRepository infracaoRepository, MotoristaRepository motoristaRepository, ObjectMapper objectMapper) {
         this.repository = repository;
         this.viagemRepository = viagemRepository;

@@ -20,7 +20,6 @@ public class MidiaInfracaoRequestDTO {
     private Boolean isConcat = false;
     private String transactionMade;
 
-    // Construtor, Getters e Setters
     public MidiaInfracaoRequestDTO() {}
 
     public Integer getIdViagem() { return idViagem; }

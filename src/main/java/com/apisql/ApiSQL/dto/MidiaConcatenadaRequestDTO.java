@@ -16,7 +16,6 @@ public class MidiaConcatenadaRequestDTO {
 
     private String transactionMade;
 
-    // Construtor, Getters e Setters
     public MidiaConcatenadaRequestDTO() {}
 
     public Integer getIdViagem() { return idViagem; }

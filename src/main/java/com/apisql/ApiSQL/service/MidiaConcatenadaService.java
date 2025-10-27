@@ -27,7 +27,6 @@ public class MidiaConcatenadaService {
     private final MotoristaRepository motoristaRepository;
     private final ObjectMapper objectMapper;
 
-    // Adicione os repositórios para as FKs (Viagem e Motorista)
     public MidiaConcatenadaService(MidiaConcatenadaRepository repository, ViagemRepository viagemRepository, MotoristaRepository motoristaRepository, ObjectMapper objectMapper) {
         this.repository = repository;
         this.viagemRepository = viagemRepository;
@@ -59,7 +58,7 @@ public class MidiaConcatenadaService {
         midia.setMotorista(motorista);
         midia.setUrl(dto.getUrl());
         midia.setTransactionMade(dto.getTransactionMade());
-        midia.setUpdatedAt(LocalDateTime.now()); // Definir o updated_at na criação
+        midia.setUpdatedAt(LocalDateTime.now());
 
         MidiaConcatenada savedMidia = repository.save(midia);
         return objectMapper.convertValue(savedMidia, MidiaConcatenadaResponseDTO.class);
