@@ -2,6 +2,7 @@ package com.apisql.ApiSQL.service.view;
 
 import com.apisql.ApiSQL.dto.view.VariacaoMesPassadoPorMesAnoDTO;
 import com.apisql.ApiSQL.repository.view.VariacaoMesPassadoPorMesAnoRepository;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,8 +16,8 @@ public class VariacaoMesPassadoPorMesAnoService {
         this.repository = repository;
     }
 
-    public List<VariacaoMesPassadoPorMesAnoDTO> findAll(){
-        List<Object[]> resultado = repository.buscarVariacaoMesPassado();
+    public List<VariacaoMesPassadoPorMesAnoDTO> findAll(HttpServletRequest request){
+        List<Object[]> resultado = repository.buscarVariacaoMesPassado(request);
         return resultado.stream()
                 .map(obj ->{
                     VariacaoMesPassadoPorMesAnoDTO dto = new VariacaoMesPassadoPorMesAnoDTO();

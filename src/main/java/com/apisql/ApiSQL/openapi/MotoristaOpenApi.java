@@ -12,6 +12,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -64,7 +65,7 @@ public interface MotoristaOpenApi {
                     @ApiResponse(responseCode = "200", description = "Pontuações obtidas com sucesso"),
                     @ApiResponse(responseCode = "500", description = "Erro interno do servidor")
             })
-    List<MotoristaPontuacaoMensalDTO> getAllPontuacoesMensal();
+    List<MotoristaPontuacaoMensalDTO> getAllPontuacoesMensal(HttpServletRequest request);
 
     @Operation(summary = "Listar Quantidade de Infracoes",
             description = "Lista A Quantidade de Infracoes Por Motorista",
@@ -72,5 +73,5 @@ public interface MotoristaOpenApi {
                     @ApiResponse(responseCode = "200", description = "Infracoes obtidas com sucesso"),
                     @ApiResponse(responseCode = "500", description = "Erro interno do servidor")
             })
-    List<MotoristaQuantidadeInfracoesDTO> getAllInfracoes();
+    List<MotoristaQuantidadeInfracoesDTO> getAllInfracoes(HttpServletRequest request);
 }

@@ -2,6 +2,7 @@ package com.apisql.ApiSQL.service.view;
 
 import com.apisql.ApiSQL.dto.view.MotoristaQuantidadeInfracoesDTO;
 import com.apisql.ApiSQL.repository.view.MotoristaQuantidadeInfracoesRepository;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,8 +16,8 @@ public class MotoristaQuantidadeInfracoesService {
         this.repository = repository;
     }
 
-    public List<MotoristaQuantidadeInfracoesDTO> findAll(){
-        List<Object[]> resultado = repository.buscarQuantidadeInfracoesMotorista();
+    public List<MotoristaQuantidadeInfracoesDTO> findAll(HttpServletRequest request){
+        List<Object[]> resultado = repository.buscarQuantidadeInfracoesMotorista(request);
         return resultado.stream()
                 .map(obj ->{
                     MotoristaQuantidadeInfracoesDTO dto = new MotoristaQuantidadeInfracoesDTO();

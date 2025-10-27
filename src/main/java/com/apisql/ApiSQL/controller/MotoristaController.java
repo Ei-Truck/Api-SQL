@@ -8,6 +8,7 @@ import com.apisql.ApiSQL.openapi.MotoristaOpenApi;
 import com.apisql.ApiSQL.service.MotoristaService;
 import com.apisql.ApiSQL.service.view.MotoristaPontuacaoMensalService;
 import com.apisql.ApiSQL.service.view.MotoristaQuantidadeInfracoesService;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -66,13 +67,13 @@ public class MotoristaController implements MotoristaOpenApi {
 
     @Override
     @GetMapping("/pontuacao-mensal")
-    public List<MotoristaPontuacaoMensalDTO> getAllPontuacoesMensal(){
-        return motoristaPontuacaoMensalService.findAll();
+    public List<MotoristaPontuacaoMensalDTO> getAllPontuacoesMensal(HttpServletRequest request){
+        return motoristaPontuacaoMensalService.findAll(request);
     }
 
     @Override
     @GetMapping("/quantidade-infracoes")
-    public List<MotoristaQuantidadeInfracoesDTO> getAllInfracoes(){
-        return motoristaQuantidadeInfracoesService.findAll();
+    public List<MotoristaQuantidadeInfracoesDTO> getAllInfracoes(HttpServletRequest request){
+        return motoristaQuantidadeInfracoesService.findAll(request);
     }
 }

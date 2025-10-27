@@ -11,6 +11,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -63,7 +64,7 @@ public interface TipoInfracaoOpenApi {
                     @ApiResponse(responseCode = "200", description = "Ocorrencias obtidas com sucesso"),
                     @ApiResponse(responseCode = "500", description = "Erro interno do servidor")
             })
-    List<OcorrenciaPorTipoDTO> getAllOcorrenciaTipo();
+    List<OcorrenciaPorTipoDTO> getAllOcorrenciaTipo(HttpServletRequest request);
 
     @Operation(summary = "Listar Ocorrencia Por Gravidade",
             description = "Lista As Ocorrencias Por Gravidade",
@@ -71,5 +72,5 @@ public interface TipoInfracaoOpenApi {
                     @ApiResponse(responseCode = "200", description = "Ocorrencias obtidas com sucesso"),
                     @ApiResponse(responseCode = "500", description = "Erro interno do servidor")
             })
-    List<OcorrenciasPorGravidadeDTO> getAllOcorrenciaGravidade();
+    List<OcorrenciasPorGravidadeDTO> getAllOcorrenciaGravidade(HttpServletRequest request);
 }

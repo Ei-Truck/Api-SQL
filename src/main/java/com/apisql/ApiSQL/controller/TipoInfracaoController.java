@@ -11,6 +11,7 @@ import com.apisql.ApiSQL.service.TipoInfracaoService;
 import com.apisql.ApiSQL.service.view.OcorrenciaPorTipoService;
 import com.apisql.ApiSQL.service.view.OcorrenciaPorViagemService;
 import com.apisql.ApiSQL.service.view.OcorrenciasPorGravidadeService;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -69,13 +70,13 @@ public class TipoInfracaoController implements TipoInfracaoOpenApi {
 
     @Override
     @GetMapping("/ocorrencia-tipo")
-    public List<OcorrenciaPorTipoDTO> getAllOcorrenciaTipo() {
-        return ocorrenciaPorTipoService.findAll();
+    public List<OcorrenciaPorTipoDTO> getAllOcorrenciaTipo(HttpServletRequest request) {
+        return ocorrenciaPorTipoService.findAll(request);
     }
 
     @Override
     @GetMapping("/ocorrencia-gravidade")
-    public List<OcorrenciasPorGravidadeDTO> getAllOcorrenciaGravidade() {
-        return ocorrenciasPorGravidadeService.findAll();
+    public List<OcorrenciasPorGravidadeDTO> getAllOcorrenciaGravidade(HttpServletRequest request) {
+        return ocorrenciasPorGravidadeService.findAll(request);
     }
 }

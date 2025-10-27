@@ -12,6 +12,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -62,7 +63,7 @@ public interface InfracaoOpenApi {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Lista de infrações retornada com sucesso.")
     })
-    List<RelatorioSemanalInfracoesDTO> getAllRelatorioInfracoes();
+    List<RelatorioSemanalInfracoesDTO> getAllRelatorioInfracoes(HttpServletRequest request);
 
 
     @Operation(summary = "Listar Variação Por Mês e Ano",
@@ -71,7 +72,7 @@ public interface InfracaoOpenApi {
             @ApiResponse(responseCode = "200", description = "Lista de Variações retornada com sucesso."),
             @ApiResponse(responseCode = "500", description = "Erro Interno do Servidor")
     })
-    List<VariacaoMesPassadoPorMesAnoDTO> getAllVariacao();
+    List<VariacaoMesPassadoPorMesAnoDTO> getAllVariacao(HttpServletRequest request);
 
     @Operation(summary = "Listar Total de Ocorrencias",
             description = "Retorna Uma Lista do Total de Ocorrências")
@@ -79,6 +80,6 @@ public interface InfracaoOpenApi {
             @ApiResponse(responseCode = "200", description = "Lista de Ocorrências retornada com sucesso."),
             @ApiResponse(responseCode = "500", description = "Erro Interno do Servidor")
     })
-    List<TotalOcorrenciasDTO> getAllOcorrencias();
+    List<TotalOcorrenciasDTO> getAllOcorrencias(HttpServletRequest request);
 
 }

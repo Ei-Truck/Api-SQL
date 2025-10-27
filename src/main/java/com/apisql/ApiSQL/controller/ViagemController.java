@@ -4,6 +4,7 @@ import com.apisql.ApiSQL.dto.ViagemRequestDTO;
 import com.apisql.ApiSQL.dto.ViagemResponseDTO;
 import com.apisql.ApiSQL.openapi.ViagemOpenApi;
 import com.apisql.ApiSQL.service.ViagemService;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import com.apisql.ApiSQL.dto.ViagemResponseDTO;
 
@@ -76,13 +77,13 @@ public class ViagemController implements ViagemOpenApi {
     
     @Override
     @GetMapping("/relatorio-simples")
-    public List<RelatorioSimplesViagemDTO> getAllRelatorioViagem() {
-        return relatorioSimplesViagemService.findAll();
+    public List<RelatorioSimplesViagemDTO> getAllRelatorioViagem(HttpServletRequest request) {
+        return relatorioSimplesViagemService.findAll(request);
     }
     
     @GetMapping("/ocorrencias")
-    public List<OcorrenciaPorViagemDTO> getAllOcorrencias() {
-        return ocorrenciaPorViagemService.findAll();
+    public List<OcorrenciaPorViagemDTO> getAllOcorrencias(HttpServletRequest request) {
+        return ocorrenciaPorViagemService.findAll(request);
     }
 
     @GetMapping("/visao-basica")

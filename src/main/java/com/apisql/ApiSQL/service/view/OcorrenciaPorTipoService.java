@@ -2,6 +2,7 @@ package com.apisql.ApiSQL.service.view;
 
 import com.apisql.ApiSQL.dto.view.OcorrenciaPorTipoDTO;
 import com.apisql.ApiSQL.repository.view.OcorrenciaPorTipoRepository;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -15,8 +16,8 @@ public class OcorrenciaPorTipoService {
         this.ocorrenciaPorTipoRepository = ocorrenciaPorTipoRepository;
     }
 
-    public List<OcorrenciaPorTipoDTO> findAll(){
-        List<Object[]> resultado = ocorrenciaPorTipoRepository.buscarOcorrenciaPorTipo();
+    public List<OcorrenciaPorTipoDTO> findAll(HttpServletRequest request){
+        List<Object[]> resultado = ocorrenciaPorTipoRepository.buscarOcorrenciaPorTipo(request);
         return resultado.stream()
                 .map(obj -> {
                     OcorrenciaPorTipoDTO dto = new OcorrenciaPorTipoDTO();

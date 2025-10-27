@@ -1,7 +1,9 @@
 package com.apisql.ApiSQL.repository.view;
 
+import com.apisql.ApiSQL.security.AuthorizationUser;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -12,7 +14,19 @@ public class OcorrenciasPorGravidadeRepository {
     @PersistenceContext
     EntityManager em;
 
-    public List<Object[]> buscarOcorrenciasPorGravidade(){
-        return em.createNativeQuery("SELECT total_ocorrencias, gravidade, mes, ano FROM vw_ocorrencias_por_gravidade").getResultList();
+    private final AuthorizationUser authorizationUser;
+
+    public OcorrenciasPorGravidadeRepository(AuthorizationUser authorizationUser) {
+        this.authorizationUser = authorizationUser;
+    }
+
+
+    public List<Object[]> buscarOcorrenciasPorGravidade(HttpServletRequest request) {
+        String filtro = authorizationUser.gerarFiltroAutorizacao(request);
+        String sql = "SELECT * FROM vw_ocorrencia_por_gravidade";
+        if (filtro != null) {
+            sql += " WHERE " + filtro;
+        }
+        return em.createNativeQuery(sql).getResultList();
     }
 }
