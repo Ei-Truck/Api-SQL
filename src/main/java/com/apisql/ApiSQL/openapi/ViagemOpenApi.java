@@ -10,6 +10,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -62,6 +63,6 @@ public interface ViagemOpenApi {
                 @ApiResponse(responseCode = "200", description = "Relatório obtido com sucesso"),
                 @ApiResponse(responseCode = "500", description = "Erro interno do servidor")
         })
-    List<RelatorioSimplesViagemDTO> getAllRelatorioViagem();
+    List<RelatorioSimplesViagemDTO> getAllRelatorioViagem(HttpServletRequest request);
  
 }

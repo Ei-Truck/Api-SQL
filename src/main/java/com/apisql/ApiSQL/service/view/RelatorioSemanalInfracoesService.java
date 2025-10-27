@@ -2,6 +2,7 @@ package com.apisql.ApiSQL.service.view;
 
 import com.apisql.ApiSQL.dto.view.RelatorioSemanalInfracoesDTO;
 import com.apisql.ApiSQL.repository.view.RelatorioSemanalInfracoesRepository;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,8 +16,8 @@ public class RelatorioSemanalInfracoesService {
         this.relatorioSemanalInfracoesRepository = relatorioSemanalInfracoesRepository;
     }
 
-    public List<RelatorioSemanalInfracoesDTO> findAll(){
-        List<Object[]> resultado = relatorioSemanalInfracoesRepository.buscarRelatorioSamanalInfracoes();
+    public List<RelatorioSemanalInfracoesDTO> findAll(HttpServletRequest request){
+        List<Object[]> resultado = relatorioSemanalInfracoesRepository.buscarRelatorioSemanalInfracoes(request);
         for (Object[] o : resultado) {
             if(resultado.isEmpty()){
                 System.out.println("Vazio");

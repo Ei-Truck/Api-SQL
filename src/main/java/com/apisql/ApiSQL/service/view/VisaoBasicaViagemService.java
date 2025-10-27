@@ -2,14 +2,15 @@ package com.apisql.ApiSQL.service.view;
 
 import com.apisql.ApiSQL.dto.view.VisaoBasicaViagemDTO;
 import com.apisql.ApiSQL.repository.view.VisaoBasicaViagemRepository;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Service;
-
 import java.util.Date;
 import java.util.List;
 
 @Service
 public class VisaoBasicaViagemService {
-    private VisaoBasicaViagemRepository visaoBasicaViagemRepository;
+
+    private final VisaoBasicaViagemRepository visaoBasicaViagemRepository;
 
     public VisaoBasicaViagemService(VisaoBasicaViagemRepository visaoBasicaViagemRepository) {
         this.visaoBasicaViagemRepository = visaoBasicaViagemRepository;
@@ -34,7 +35,6 @@ public class VisaoBasicaViagemService {
             dto.setUrlMidiaConcatenada((String) obj[12]);
             dto.setTipoGravidade((String) obj[13]);
             dto.setTipoInfracao((String) obj[14]);
-
             return dto;
         }).toList();
     }

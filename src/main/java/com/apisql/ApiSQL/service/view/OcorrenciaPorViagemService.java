@@ -3,6 +3,7 @@ package com.apisql.ApiSQL.service.view;
 import com.apisql.ApiSQL.dto.view.OcorrenciaPorViagemDTO;
 import com.apisql.ApiSQL.repository.view.OcorrenciaPorViagemRepository;
 import com.apisql.ApiSQL.repository.view.RelatorioSimplesViagemRepository;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,8 +17,8 @@ public class OcorrenciaPorViagemService {
         this.ocorrenciaPorViagemRepository = ocorrenciaPorViagemRepository;
     }
 
-    public List<OcorrenciaPorViagemDTO> findAll(){
-        List<Object[]> resultado = ocorrenciaPorViagemRepository.buscarOcorrenciaPorViagem();
+    public List<OcorrenciaPorViagemDTO> findAll(HttpServletRequest request) {
+        List<Object[]> resultado = ocorrenciaPorViagemRepository.buscarOcorrenciaPorViagem(request);
         return resultado.stream()
                 .map(obj -> {
                     OcorrenciaPorViagemDTO dto = new OcorrenciaPorViagemDTO();

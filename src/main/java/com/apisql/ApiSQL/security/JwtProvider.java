@@ -1,9 +1,11 @@
 package com.apisql.ApiSQL.security;
 
 import com.apisql.ApiSQL.model.Usuario;
+import com.apisql.ApiSQL.repository.UsuarioRepository;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -12,6 +14,11 @@ import java.util.Date;
 
 @Component
 public class JwtProvider {
+    private final UsuarioRepository usuarioRepository;
+
+    public JwtProvider(UsuarioRepository usuarioRepository) {
+        this.usuarioRepository = usuarioRepository;
+    }
 
     @Value("${jwt.secret}")
     private String secret;
@@ -51,4 +58,20 @@ public class JwtProvider {
     public String getEmailFromToken(String token) {
         return Jwts.parserBuilder().setSigningKey(getKey()).build().parseClaimsJws(token).getBody().getSubject();
     }
+    public Usuario getUsuarioLogado(HttpServletRequest request) {
+        final String authHeader = request.getHeader("Authorization");
+
+        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+            return null;
+        }
+
+        String token = authHeader.substring(7);
+        if (!validateToken(token)) {
+            return null;
+        }
+
+        String email = getEmailFromToken(token);
+        return usuarioRepository.findByEmail(email).orElse(null);
+    }
+
 }

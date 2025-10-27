@@ -2,6 +2,7 @@ package com.apisql.ApiSQL.service.view;
 
 import com.apisql.ApiSQL.dto.view.OcorrenciasPorGravidadeDTO;
 import com.apisql.ApiSQL.repository.view.OcorrenciasPorGravidadeRepository;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,8 +16,8 @@ public class OcorrenciasPorGravidadeService {
         this.repository = repository;
     }
 
-    public List<OcorrenciasPorGravidadeDTO> findAll(){
-        List<Object[]> resultado = repository.buscarOcorrenciasPorGravidade();
+    public List<OcorrenciasPorGravidadeDTO> findAll(HttpServletRequest request){
+        List<Object[]> resultado = repository.buscarOcorrenciasPorGravidade(request);
         return resultado.stream()
                 .map(obj ->{
                     OcorrenciasPorGravidadeDTO dto = new OcorrenciasPorGravidadeDTO();

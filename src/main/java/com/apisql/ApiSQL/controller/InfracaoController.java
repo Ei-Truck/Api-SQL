@@ -11,10 +11,12 @@ import com.apisql.ApiSQL.openapi.InfracaoOpenApi;
 import com.apisql.ApiSQL.service.InfracaoService;
 import com.apisql.ApiSQL.service.view.TotalOcorrenciasService;
 import com.apisql.ApiSQL.service.view.VariacaoMesPassadoPorMesAnoService;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.HttpServerErrorException;
 
 import java.util.List;
 
@@ -71,19 +73,19 @@ public class InfracaoController implements InfracaoOpenApi {
 
     @Override
     @GetMapping("/relatorio")
-    public List<RelatorioSemanalInfracoesDTO> getAllRelatorioInfracoes() {
-        return relatorioService.findAll();
+    public List<RelatorioSemanalInfracoesDTO> getAllRelatorioInfracoes(HttpServletRequest request) {
+        return relatorioService.findAll(request);
     }
 
     @Override
     @GetMapping("/variacao")
-    public List<VariacaoMesPassadoPorMesAnoDTO> getAllVariacao(){
-        return variacaoMesPassadoPorMesAno.findAll();
+    public List<VariacaoMesPassadoPorMesAnoDTO> getAllVariacao(HttpServletRequest request){
+        return variacaoMesPassadoPorMesAno.findAll(request);
     }
 
     @Override
     @GetMapping("/total-ocorrencias")
-    public List<TotalOcorrenciasDTO> getAllOcorrencias(){
-        return totalOcorrenciasService.findAll();
+    public List<TotalOcorrenciasDTO> getAllOcorrencias(HttpServletRequest request){
+        return totalOcorrenciasService.findAll(request);
     }
 }

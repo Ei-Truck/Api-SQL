@@ -15,7 +15,7 @@ public class LoginUsuarioResponseDTO {
         this.token = token;
         this.email = usuario.getEmail();
         this.nomeCompleto = usuario.getNomeCompleto();
-        this.cargo = usuario.getCargo().getNome(); // pega o nome do cargo
+        this.cargo = usuario.getCargo().getNome();
     }
 
     public String getToken() {

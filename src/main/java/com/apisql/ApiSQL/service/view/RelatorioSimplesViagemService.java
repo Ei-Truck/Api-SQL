@@ -2,6 +2,7 @@ package com.apisql.ApiSQL.service.view;
 
 import com.apisql.ApiSQL.dto.view.RelatorioSimplesViagemDTO;
 import com.apisql.ApiSQL.repository.view.RelatorioSimplesViagemRepository;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -14,8 +15,8 @@ public class RelatorioSimplesViagemService {
         this.relatorioSimplesViagemRepository = repository;
     }
 
-    public List<RelatorioSimplesViagemDTO> findAll(){
-        List<Object[]> resultado = relatorioSimplesViagemRepository.buscarRelatorioSimplesViagem();
+    public List<RelatorioSimplesViagemDTO> findAll(HttpServletRequest request){
+        List<Object[]> resultado = relatorioSimplesViagemRepository.buscarRelatorioSimplesViagem(request);
         System.out.println(resultado);
         for(Object[] o : resultado){
             if (resultado.isEmpty()){
