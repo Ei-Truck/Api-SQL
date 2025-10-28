@@ -8,6 +8,8 @@ public class MotoristaPontuacaoMensalDTO {
     private Integer id_segmento;
     private String segmento;
     private Double pontuacao_ultimo_mes;
+    private Integer id_localidade;
+    private String localidade_estado;
 
     public MotoristaPontuacaoMensalDTO() {}
 
@@ -53,5 +55,21 @@ public class MotoristaPontuacaoMensalDTO {
     }
     public void setPontuacao_ultimo_mes(Double pontuacao_ultimo_mes) {
         this.pontuacao_ultimo_mes = pontuacao_ultimo_mes;
+    }
+
+    public Integer getId_localidade() {
+        return id_localidade;
+    }
+
+    public void setId_localidade(Integer id_localidade) {
+        this.id_localidade = id_localidade;
+    }
+
+    public String getLocalidade_estado() {
+        return localidade_estado;
+    }
+
+    public void setLocalidade_estado(String localidade_estado) {
+        this.localidade_estado = localidade_estado;
     }
 }

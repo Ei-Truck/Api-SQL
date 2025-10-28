@@ -28,6 +28,8 @@ public class MotoristaPontuacaoMensalService {
                     dto.setId_segmento(((Number)obj[4]).intValue());
                     dto.setSegmento(obj[5].toString());
                     dto.setPontuacao_ultimo_mes(((Number)obj[6]).doubleValue());
+                    dto.setId_localidade(((Number)obj[7]).intValue());
+                    dto.setLocalidade_estado(obj[8].toString());
                     return dto;
                 }).toList();
     }
