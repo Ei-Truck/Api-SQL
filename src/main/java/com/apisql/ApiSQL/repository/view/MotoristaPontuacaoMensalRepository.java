@@ -45,7 +45,7 @@ public class MotoristaPontuacaoMensalRepository {
                 throw new RuntimeException("Cargo não reconhecido: " + usuario.getCargo().getNome());
         }
 
-        String sql = "SELECT ranking_pontuacao, motorista, id_unidade, unidade, id_segmento, segmento, pontuacao_ultimo_mes " +
+        String sql = "SELECT * " +
                 "FROM vw_motorista_pontuacao_mensal WHERE 1=1";
 
         if (idSegmento != null) {
