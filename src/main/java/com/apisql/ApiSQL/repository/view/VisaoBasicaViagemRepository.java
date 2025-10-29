@@ -12,7 +12,9 @@ public class VisaoBasicaViagemRepository {
     @PersistenceContext
     private EntityManager em;
 
-    public List<Object[]> buscarVisaoBasicaViagem() {
-       return em.createNativeQuery("SELECT * FROM vw_visao_basica_viagem").getResultList();
+    public List<Object[]> buscarVisaoBasicaViagem(Integer id) {
+        return em.createNativeQuery("SELECT * FROM vw_visao_basica_viagem WHERE id_viagem = ?1")
+                .setParameter(1, id)
+                .getResultList();
     }
 }

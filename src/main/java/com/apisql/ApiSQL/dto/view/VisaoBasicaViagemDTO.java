@@ -3,7 +3,6 @@ package com.apisql.ApiSQL.dto.view;
 import java.util.Date;
 
 public class VisaoBasicaViagemDTO {
-
     private Integer idViagem;
     private String placaCaminhao;
     private Date dataInicioViagem;
@@ -14,132 +13,50 @@ public class VisaoBasicaViagemDTO {
     private Integer idUnidade;
     private String unidade;
     private Integer idLocalidade;
-    private String nomeMotorista;
-    private String riscoMotorista;
-    private String urlMidiaConcatenada;
-    private String tipoGravidade;
-    private String tipoInfracao;
+
+    private InfracoesMotoristaViagemDTO metricasGeraisInfracao;
+
+    private QuantidadeInfracaoTipoGravidadeDTO metricasGravidade;
 
     public VisaoBasicaViagemDTO() {
     }
 
-    public Integer getIdViagem() {
-        return idViagem;
+
+    public Integer getIdViagem() { return idViagem; }
+    public void setIdViagem(Integer idViagem) { this.idViagem = idViagem; }
+    public String getPlacaCaminhao() { return placaCaminhao; }
+    public void setPlacaCaminhao(String placaCaminhao) { this.placaCaminhao = placaCaminhao; }
+    public Date getDataInicioViagem() { return dataInicioViagem; }
+    public void setDataInicioViagem(Date dataInicioViagem) { this.dataInicioViagem = dataInicioViagem; }
+    public Date getDataFimViagem() { return dataFimViagem; }
+    public void setDataFimViagem(Date dataFimViagem) { this.dataFimViagem = dataFimViagem; }
+    public String getKmViagem() { return kmViagem; }
+    public void setKmViagem(String kmViagem) { this.kmViagem = kmViagem; }
+    public Integer getIdSegmento() { return idSegmento; }
+    public void setIdSegmento(Integer idSegmento) { this.idSegmento = idSegmento; }
+    public String getSegmento() { return segmento; }
+    public void setSegmento(String segmento) { this.segmento = segmento; }
+    public Integer getIdUnidade() { return idUnidade; }
+    public void setIdUnidade(Integer idUnidade) { this.idUnidade = idUnidade; }
+    public String getUnidade() { return unidade; }
+    public void setUnidade(String unidade) { this.unidade = unidade; }
+    public Integer getIdLocalidade() { return idLocalidade; }
+    public void setIdLocalidade(Integer idLocalidade) { this.idLocalidade = idLocalidade; }
+
+
+    public InfracoesMotoristaViagemDTO getMetricasGeraisInfracao() {
+        return metricasGeraisInfracao;
     }
 
-    public void setIdViagem(Integer idViagem) {
-        this.idViagem = idViagem;
+    public void setMetricasGeraisInfracao(InfracoesMotoristaViagemDTO metricasGeraisInfracao) {
+        this.metricasGeraisInfracao = metricasGeraisInfracao;
     }
 
-    public String getPlacaCaminhao() {
-        return placaCaminhao;
+    public QuantidadeInfracaoTipoGravidadeDTO getMetricasGravidade() {
+        return metricasGravidade;
     }
 
-    public void setPlacaCaminhao(String placaCaminhao) {
-        this.placaCaminhao = placaCaminhao;
-    }
-
-    public Date getDataInicioViagem() {
-        return dataInicioViagem;
-    }
-
-    public void setDataInicioViagem(Date dataInicioViagem) {
-        this.dataInicioViagem = dataInicioViagem;
-    }
-
-    public Date getDataFimViagem() {
-        return dataFimViagem;
-    }
-
-    public void setDataFimViagem(Date dataFimViagem) {
-        this.dataFimViagem = dataFimViagem;
-    }
-
-    public String getKmViagem() {
-        return kmViagem;
-    }
-
-    public void setKmViagem(String kmViagem) {
-        this.kmViagem = kmViagem;
-    }
-
-    public Integer getIdSegmento() {
-        return idSegmento;
-    }
-
-    public void setIdSegmento(Integer idSegmento) {
-        this.idSegmento = idSegmento;
-    }
-
-    public String getSegmento() {
-        return segmento;
-    }
-
-    public void setSegmento(String segmento) {
-        this.segmento = segmento;
-    }
-
-    public Integer getIdUnidade() {
-        return idUnidade;
-    }
-
-    public void setIdUnidade(Integer idUnidade) {
-        this.idUnidade = idUnidade;
-    }
-
-    public String getUnidade() {
-        return unidade;
-    }
-
-    public void setUnidade(String unidade) {
-        this.unidade = unidade;
-    }
-
-    public Integer getIdLocalidade() {
-        return idLocalidade;
-    }
-
-    public void setIdLocalidade(Integer idLocalidade) {
-        this.idLocalidade = idLocalidade;
-    }
-
-    public String getNomeMotorista() {
-        return nomeMotorista;
-    }
-
-    public void setNomeMotorista(String nomeMotorista) {
-        this.nomeMotorista = nomeMotorista;
-    }
-
-    public String getRiscoMotorista() {
-        return riscoMotorista;
-    }
-
-    public void setRiscoMotorista(String riscoMotorista) {
-        this.riscoMotorista = riscoMotorista;
-    }
-
-    public String getUrlMidiaConcatenada() {
-        return urlMidiaConcatenada;
-    }
-
-    public void setUrlMidiaConcatenada(String urlMidiaConcatenada) {
-        this.urlMidiaConcatenada = urlMidiaConcatenada;
-    }
-
-    public String getTipoGravidade() {
-        return tipoGravidade;
-    }
-
-    public void setTipoGravidade(String tipoGravidade) {
-        this.tipoGravidade = tipoGravidade;
-    }
-
-    public String getTipoInfracao() {
-        return tipoInfracao;
-    }
-
-    public void setTipoInfracao(String tipoInfracao) {
-        this.tipoInfracao = tipoInfracao;
+    public void setMetricasGravidade(QuantidadeInfracaoTipoGravidadeDTO metricasGravidade) {
+        this.metricasGravidade = metricasGravidade;
     }
 }
