@@ -56,7 +56,7 @@ public class RelatorioSemanalInfracoesRepository {
 
         List<Object[]> resultados = em.createNativeQuery(sql).getResultList();
 
-        List<String> diasSemana = Arrays.asList("Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday");
+        List<String> diasSemana = Arrays.asList("Domingo", "Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sábado");
         Map<String, Integer> mapResultados = new HashMap<>();
         for (Object[] row : resultados) {
             String dia = (String) row[0];
