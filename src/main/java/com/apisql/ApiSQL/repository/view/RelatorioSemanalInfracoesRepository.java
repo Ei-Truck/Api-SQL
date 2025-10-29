@@ -56,10 +56,13 @@ public class RelatorioSemanalInfracoesRepository {
 
         List<Object[]> resultados = em.createNativeQuery(sql).getResultList();
 
-        List<String> diasSemana = Arrays.asList("Domingo", "Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sábado");
+        List<String> diasSemana = Arrays.asList(
+                "Domingo", "Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sábado"
+        );
+
         Map<String, Integer> mapResultados = new HashMap<>();
         for (Object[] row : resultados) {
-            String dia = (String) row[0];
+            String dia = ((String) row[0]).trim().replace("-feira", "");
             Integer total = ((Number) row[1]).intValue();
             mapResultados.put(dia, total);
         }
@@ -74,4 +77,5 @@ public class RelatorioSemanalInfracoesRepository {
 
         return listaFinal;
     }
+
 }
