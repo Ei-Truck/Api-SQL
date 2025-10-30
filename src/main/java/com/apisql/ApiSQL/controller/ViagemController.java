@@ -22,6 +22,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/viagens")
@@ -87,7 +88,7 @@ public class ViagemController implements ViagemOpenApi {
     }
 
     @GetMapping("/visao-basica/{id}")
-    public List<VisaoBasicaViagemDTO> getAllVisaoBasica(@PathVariable Integer id) {
-        return visaoBasicaViagemService.findALl(id);
+    public Optional<VisaoBasicaViagemDTO> getAllVisaoBasica(@PathVariable Integer id) {
+        return visaoBasicaViagemService.findById(id);
     }
 }

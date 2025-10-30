@@ -1,6 +1,7 @@
 package com.apisql.ApiSQL.dto.view;
 
 import java.util.Date;
+import java.util.List;
 
 public class VisaoBasicaViagemDTO {
     private Integer idViagem;
@@ -14,9 +15,9 @@ public class VisaoBasicaViagemDTO {
     private String unidade;
     private Integer idLocalidade;
 
-    private InfracoesMotoristaViagemDTO metricasGeraisInfracao;
+    private List<InfracoesMotoristaViagemDTO> metricasGeraisInfracao;
 
-    private QuantidadeInfracaoTipoGravidadeDTO metricasGravidade;
+    private List<QuantidadeInfracaoTipoGravidadeDTO> metricasGravidade;
 
     public VisaoBasicaViagemDTO() {
     }
@@ -44,19 +45,19 @@ public class VisaoBasicaViagemDTO {
     public void setIdLocalidade(Integer idLocalidade) { this.idLocalidade = idLocalidade; }
 
 
-    public InfracoesMotoristaViagemDTO getMetricasGeraisInfracao() {
+    public List<InfracoesMotoristaViagemDTO> getMetricasGeraisInfracao() {
         return metricasGeraisInfracao;
     }
 
-    public void setMetricasGeraisInfracao(InfracoesMotoristaViagemDTO metricasGeraisInfracao) {
+    public void setMetricasGeraisInfracao(List<InfracoesMotoristaViagemDTO> metricasGeraisInfracao) {
         this.metricasGeraisInfracao = metricasGeraisInfracao;
     }
 
-    public QuantidadeInfracaoTipoGravidadeDTO getMetricasGravidade() {
+    public List<QuantidadeInfracaoTipoGravidadeDTO> getMetricasGravidade() {
         return metricasGravidade;
     }
 
-    public void setMetricasGravidade(QuantidadeInfracaoTipoGravidadeDTO metricasGravidade) {
+    public void setMetricasGravidade(List<QuantidadeInfracaoTipoGravidadeDTO> metricasGravidade) {
         this.metricasGravidade = metricasGravidade;
     }
 }
