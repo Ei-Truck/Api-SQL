@@ -21,10 +21,14 @@ public class OcorrenciasPorGravidadeService {
         return resultado.stream()
                 .map(obj ->{
                     OcorrenciasPorGravidadeDTO dto = new OcorrenciasPorGravidadeDTO();
-                    dto.setTotal_ocorrencias(((Number)obj[0]).longValue());
-                    dto.setGravidade(obj[1].toString());
-                    dto.setMes(((Number)obj[2]).intValue());
-                    dto.setAno(((Number)obj[3]).intValue());
+                    dto.setMes(((Number)obj[0]).intValue());
+                    dto.setAno(((Number)obj[1]).intValue());
+                    dto.setIdUnidade(((Number)obj[2]).intValue());
+                    dto.setIdSegmento(((Number)obj[3]).intValue());
+                    dto.setIdLocalidade(((Number)obj[4]).intValue());
+                    dto.setTotal_ocorrencias(((Number)obj[5]).longValue());
+                    dto.setGravidade(obj[6].toString());
+                    dto.setEstado(obj[7].toString());
                     return dto;
                 }).toList();
     }
