@@ -22,6 +22,10 @@ public interface LocalidadeOpenApi {
     @ApiResponse(responseCode = "200", description = "Lista de localidades retornada com sucesso.")
     ResponseEntity<List<LocalidadeResponseDTO>> findAll();
 
+    @Operation(summary = "Lista todas as localidades distinstas.", description = "Retorna uma lista de todas as localidades distintas.")
+    @ApiResponse(responseCode = "200", description = "Lista de localidades retornada com sucesso.")
+    ResponseEntity<List<LocalidadeResponseDTO>> findDistinct();
+
     @Operation(summary = "Busca localidade por ID", description = "Retorna os detalhes de uma localidade específica pelo seu ID.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Localidade encontrada com sucesso.",

@@ -22,7 +22,7 @@ public class VariacaoMesPassadoPorMesAnoRepository {
 
     public List<Object[]> buscarVariacaoMesPassado(HttpServletRequest request) {
         String filtro = authorizationUser.gerarFiltroAutorizacao(request);
-        String sql = "SELECT * FROM vw_variacao_mes_passado_por_mes_ano";
+        String sql = "SELECT *, (SELECT l.estado FROM tb_localidade l WHERE id_localidade=l.id) FROM vw_variacao_mes_passado_por_mes_ano";
         if (filtro != null) {
             sql += " WHERE " + filtro;
         }

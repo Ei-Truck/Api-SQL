@@ -22,7 +22,7 @@ public class TotalOcorrenciasRepository {
 
     public List<Object[]> buscarTotalOcorrencias(HttpServletRequest request) {
         String filtro = authorizationUser.gerarFiltroAutorizacao(request);
-        String sql = "SELECT * FROM vw_total_ocorrencias";
+        String sql = "SELECT *, (SELECT l.estado FROM tb_localidade l WHERE id_localidade=l.id) FROM vw_total_ocorrencias";
         if (filtro != null) {
             sql += " WHERE " + filtro;
         }

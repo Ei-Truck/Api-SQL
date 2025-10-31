@@ -21,14 +21,20 @@ public class OcorrenciaPorTipoService {
         return resultado.stream()
                 .map(obj -> {
                     OcorrenciaPorTipoDTO dto = new OcorrenciaPorTipoDTO();
-                    dto.setTipo_infracao(obj[0] != null? ((String)obj[0]) : null);
-                    dto.setTotal_ocorrencias(obj[1] != null? ((Long)obj[1]): 0);
-                    dto.setPorcentagem_do_total(obj[2] != null? ((BigDecimal)obj[2]): BigDecimal.ZERO);
-                    dto.setMes(obj[3] != null? ((BigDecimal)obj[3]): BigDecimal.ZERO);
-                    dto.setAno(obj[4] != null? ((BigDecimal)obj[4]): BigDecimal.ZERO);
+
+                    dto.setMes(obj[0] != null ? BigDecimal.valueOf(((Number)obj[0]).doubleValue()) : BigDecimal.ZERO);
+                    dto.setAno(obj[1] != null ? BigDecimal.valueOf(((Number)obj[1]).doubleValue()) : BigDecimal.ZERO);
+                    dto.setIdUnidade(obj[2] != null ? ((Number)obj[2]).intValue() : 0);
+                    dto.setIdSegmento(obj[3] != null ? ((Number)obj[3]).intValue() : 0);
+                    dto.setIdLocalidade(obj[4] != null ? ((Number)obj[4]).intValue() : 0);
+                    dto.setTipo_infracao(obj[5] != null ? ((String)obj[5]) : null);
+                    dto.setTotal_ocorrencias(obj[6] != null ? ((Number)obj[6]).longValue() : 0L);
+                    dto.setPorcentagem_do_total(obj[7] != null ? BigDecimal.valueOf(((Number)obj[7]).doubleValue()) : BigDecimal.ZERO);
+                    dto.setUfEstado(obj[8] != null ? ((String)obj[8]) : null);
 
                     return dto;
                 }).toList();
     }
+
 
 }
