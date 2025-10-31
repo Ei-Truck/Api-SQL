@@ -115,4 +115,15 @@ public interface ViagemOpenApi {
                     @ApiResponse(responseCode = "500", description = "Erro interno do servidor")
             })
     List<RelatorioSimplesViagemDTO> getAllRelatorioViagem(HttpServletRequest request);
+
+    @Operation(summary = "Marca Viagem como Analisada/Checada",
+            description = "Atualiza o status de análise de uma Viagem pelo ID. Esta é uma atualização parcial (PATCH).",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "Status de Viagem atualizado com sucesso.",
+                            content = @Content(schema = @Schema(implementation = ViagemResponseDTO.class))),
+                    @ApiResponse(responseCode = "404", description = "Viagem não encontrada."),
+                    @ApiResponse(responseCode = "400", description = "Dados inválidos para o cheque.")
+            })
+    ViagemResponseDTO checkViagem(@Parameter(description = "ID da Viagem") @PathVariable Integer id,
+                                  @RequestBody ViagemRequestDTO dto);
 }

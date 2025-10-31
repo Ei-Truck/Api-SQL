@@ -111,4 +111,16 @@ public class ViagemService {
         }
         viagemRepository.deleteById(id);
     }
+
+    @Transactional
+    public ViagemResponseDTO checkAnalyzed(Integer id, ViagemRequestDTO dto) {
+        Viagem viagemExistente = viagemRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Viagem com id:" + id + " não encontrada para exclusão"));
+
+        if (dto.getWasAnalyzed() != null) {
+            viagemExistente.setWasAnalyzed(dto.getWasAnalyzed());
+            viagemRepository.save(viagemExistente);
+        }
+        return objectMapper.convertValue(viagemExistente, ViagemResponseDTO.class);
+    }
 }
