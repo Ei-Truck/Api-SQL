@@ -88,7 +88,7 @@ public interface ViagemOpenApi {
                             content = @Content(schema = @Schema(implementation = VisaoBasicaViagemMotoristaInfoDTO.class))),
                     @ApiResponse(responseCode = "404", description = "Viagem não encontrada.")
             })
-    Optional<VisaoBasicaViagemMotoristaInfoDTO> getAllInfoMotorista(@Parameter(description = "ID da Viagem") @PathVariable Integer id);
+    List<VisaoBasicaViagemMotoristaInfoDTO> getAllInfoMotorista(@Parameter(description = "ID da Viagem") @PathVariable Integer id);
 
     @Operation(summary = "Busca Quantidade de Infrações do Motorista na Viagem",
             description = "Retorna a contagem total de infrações associadas ao motorista em uma viagem específica.",
@@ -97,7 +97,7 @@ public interface ViagemOpenApi {
                             content = @Content(schema = @Schema(implementation = QuantidadeInfracoesViagemMotoristaDTO.class))),
                     @ApiResponse(responseCode = "404", description = "Viagem ou infrações não encontradas.")
             })
-    Optional<QuantidadeInfracoesViagemMotoristaDTO> getAllInfracoesMotorista(@Parameter(description = "ID da Viagem") @PathVariable Integer id);
+    List<QuantidadeInfracoesViagemMotoristaDTO> getAllInfracoesMotorista(@Parameter(description = "ID da Viagem") @PathVariable Integer id);
 
     @Operation(summary = "Busca Contagem de Infrações por Tipo e Gravidade",
             description = "Retorna a contagem de infrações por tipo e nível de gravidade para uma viagem específica.",
@@ -106,7 +106,7 @@ public interface ViagemOpenApi {
                             content = @Content(schema = @Schema(implementation = QuantidadeInfracaoTipoGravidadeDTO.class))),
                     @ApiResponse(responseCode = "404", description = "Viagem ou dados de infração não encontrados.")
             })
-    Optional<QuantidadeInfracaoTipoGravidadeDTO> getAllInfracaoTipoGravidade(@Parameter(description = "ID da Viagem") @PathVariable Integer id);
+    List<QuantidadeInfracaoTipoGravidadeDTO> getAllInfracaoTipoGravidade(@Parameter(description = "ID da Viagem") @PathVariable Integer id);
 
     @Operation(summary = "Listar relatório",
             description = "Lista um relatório simples da viagem",

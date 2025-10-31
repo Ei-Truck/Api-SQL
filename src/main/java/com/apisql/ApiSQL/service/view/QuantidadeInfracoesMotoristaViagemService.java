@@ -5,8 +5,8 @@ import com.apisql.ApiSQL.repository.view.QuantidadeInfracoesViagemMotoristaRepos
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class QuantidadeInfracoesMotoristaViagemService {
@@ -16,21 +16,25 @@ public class QuantidadeInfracoesMotoristaViagemService {
         this.quantidadeInfracoesViagemMotoristaRepository = quantidadeInfracoesViagemMotoristaRepository;
     }
     @Transactional
-    public Optional<QuantidadeInfracoesViagemMotoristaDTO> findById(Integer id) {
+    public List<QuantidadeInfracoesViagemMotoristaDTO> findById(Integer id) {
 
         List<Object[]> resultadoBase = quantidadeInfracoesViagemMotoristaRepository.buscarInfracoesMotorista(id);
+        List<QuantidadeInfracoesViagemMotoristaDTO> dtos = new ArrayList<>();
 
         if (resultadoBase.isEmpty()) {
-            return Optional.empty();
+            return dtos;
         }
 
-        Object[] obj = resultadoBase.getFirst();
-        QuantidadeInfracoesViagemMotoristaDTO dto = new QuantidadeInfracoesViagemMotoristaDTO();
+        for (Object[] obj : resultadoBase) {
+            QuantidadeInfracoesViagemMotoristaDTO dto = new QuantidadeInfracoesViagemMotoristaDTO();
 
-        dto.setIdMotorista(((Integer)obj[0]));
-        dto.setIdViagem((Integer)obj[1]);
-        dto.setQuantidadeInfracoes((Long)obj[2]);
+            dto.setIdMotorista(((Integer)obj[0]));
+            dto.setIdViagem((Integer)obj[1]);
+            dto.setQuantidadeInfracoes((Long)obj[2]);
 
-        return Optional.of(dto);
+            dtos.add(dto);
+        }
+
+        return dtos;
     }
 }
