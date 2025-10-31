@@ -54,7 +54,6 @@ public class VisaoBasicaViagemService {
 
         Integer idViagem = dto.getIdViagem();
 
-        // Mapeamento das Metricas Gerais (Lista)
         List<Object[]> metricasGeraisList = infracoesMotoristaViagemRepository.buscarMetricasGerais(idViagem);
         List<InfracoesMotoristaViagemDTO> metricasGeraisDtos = metricasGeraisList.stream().map(metricas -> {
             InfracoesMotoristaViagemDTO mDto = new InfracoesMotoristaViagemDTO();

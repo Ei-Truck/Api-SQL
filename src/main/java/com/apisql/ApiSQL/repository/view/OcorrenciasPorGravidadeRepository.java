@@ -23,7 +23,7 @@ public class OcorrenciasPorGravidadeRepository {
 
     public List<Object[]> buscarOcorrenciasPorGravidade(HttpServletRequest request) {
         String filtro = authorizationUser.gerarFiltroAutorizacao(request);
-        String sql = "SELECT * FROM vw_ocorrencia_por_gravidade";
+        String sql = "SELECT * FROM vw_ocorrencias_por_gravidade";
         if (filtro != null) {
             sql += " WHERE " + filtro;
         }
