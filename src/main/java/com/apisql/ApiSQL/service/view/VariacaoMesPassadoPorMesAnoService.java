@@ -21,11 +21,15 @@ public class VariacaoMesPassadoPorMesAnoService {
         return resultado.stream()
                 .map(obj ->{
                     VariacaoMesPassadoPorMesAnoDTO dto = new VariacaoMesPassadoPorMesAnoDTO();
-                    dto.setMes(((Number)obj[0]).intValue());
-                    dto.setAno(((Number)obj[1]).intValue());
-                    dto.setInfracoes_mes_atual(((Number)obj[2]).longValue());
-                    dto.setInfracoes_mes_passado(obj[3] != null ? ((Number)obj[3]).longValue() : null);
-                    dto.setVariacao(obj[4] != null ? ((Number)obj[4]).doubleValue() : null);
+                    dto.setIdUnidade(((Number)obj[0]).intValue());
+                    dto.setIdSegmento(((Number)obj[1]).intValue());
+                    dto.setIdLocalidade(((Number)obj[2]).intValue());
+                    dto.setMes(((Number)obj[3]).intValue());
+                    dto.setAno(((Number)obj[4]).intValue());
+                    dto.setInfracoes_mes_atual(((Number)obj[5]).longValue());
+                    dto.setInfracoes_mes_passado(obj[6] != null ? ((Number)obj[6]).longValue() : null);
+                    dto.setVariacao(obj[7] != null ? ((Number)obj[7]).doubleValue() : null);
+                    dto.setUfEstado((obj[8]).toString());
                     return dto;
                 }).toList();
     }
