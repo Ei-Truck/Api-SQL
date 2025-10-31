@@ -31,6 +31,10 @@ public class LocalidadeService {
                 .toList();
     }
 
+    public List<LocalidadeResponseDTO> findAllDistinct() {
+        return localidadeRepository.findLocalidadesUnicas();
+    }
+
     public LocalidadeResponseDTO findById(Integer id) {
         Optional<Localidade> response = localidadeRepository.findById(id);
         if (response.isPresent()) {

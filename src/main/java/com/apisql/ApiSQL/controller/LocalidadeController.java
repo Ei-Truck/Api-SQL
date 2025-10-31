@@ -29,6 +29,12 @@ public class LocalidadeController implements LocalidadeOpenApi {
     }
 
     @Override
+    @GetMapping("/diff")
+    public ResponseEntity<List<LocalidadeResponseDTO>> findDistinct() {
+        return ResponseEntity.ok(localidadeService.findAllDistinct());
+    }
+
+    @Override
     @GetMapping("/{id}")
     public ResponseEntity<LocalidadeResponseDTO> findById(@PathVariable Integer id) {
         LocalidadeResponseDTO localidade = localidadeService.findById(id);
