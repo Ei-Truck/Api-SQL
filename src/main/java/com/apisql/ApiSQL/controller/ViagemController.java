@@ -104,19 +104,19 @@ public class ViagemController implements ViagemOpenApi {
 
     @Override
     @GetMapping("/motorista-visao-basica/{id}")
-    public Optional<VisaoBasicaViagemMotoristaInfoDTO> getAllInfoMotorista(@PathVariable Integer id) {
+    public List<VisaoBasicaViagemMotoristaInfoDTO> getAllInfoMotorista(@PathVariable Integer id) {
         return visaoBasicaViagemMotoristaInfoService.findById(id);
     }
 
     @Override
     @GetMapping("/motorista-infracoes/{id}")
-    public Optional<QuantidadeInfracoesViagemMotoristaDTO> getAllInfracoesMotorista(@PathVariable Integer id) {
+    public List<QuantidadeInfracoesViagemMotoristaDTO> getAllInfracoesMotorista(@PathVariable Integer id) {
         return quantidadeInfracoesMotoristaViagemService.findById(id);
     }
 
     @Override
     @GetMapping("/quantidade-infracao-tipo-gravidade/{id}")
-    public Optional<QuantidadeInfracaoTipoGravidadeDTO> getAllInfracaoTipoGravidade(@PathVariable Integer id) {
+    public List<QuantidadeInfracaoTipoGravidadeDTO> getAllInfracaoTipoGravidade(@PathVariable Integer id) {
         return quantidadeInfracoesTipoGravidadeService.findById(id);
     }
 }
