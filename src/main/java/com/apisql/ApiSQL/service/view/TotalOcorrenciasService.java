@@ -21,9 +21,13 @@ public class TotalOcorrenciasService {
         return resultado.stream()
                 .map(obj ->{
                     TotalOcorrenciasDTO dto = new TotalOcorrenciasDTO();
-                    dto.setTotal_ocorrencias(((Number)obj[0]).longValue());
+                    dto.setMes(((Number)obj[0]).intValue());
                     dto.setAno(((Number)obj[1]).intValue());
-                    dto.setMes(((Number)obj[2]).intValue());
+                    dto.setIdUnidade(((Number)obj[2]).intValue());
+                    dto.setIdSegmento(((Number)obj[3]).intValue());
+                    dto.setIdLocalidade(((Number)obj[4]).intValue());
+                    dto.setTotal_ocorrencias(((Number)obj[5]).longValue());
+                    dto.setUfEstado((obj[6]).toString());
                     return dto;
                 }).toList();
     }
