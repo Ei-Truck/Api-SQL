@@ -2,26 +2,24 @@ package com.apisql.ApiSQL.controller;
 
 import com.apisql.ApiSQL.dto.ViagemRequestDTO;
 import com.apisql.ApiSQL.dto.ViagemResponseDTO;
+import com.apisql.ApiSQL.dto.view.*;
 import com.apisql.ApiSQL.openapi.ViagemOpenApi;
+import com.apisql.ApiSQL.repository.view.VisaoBasicaViagemMotoristaInfoRepository;
 import com.apisql.ApiSQL.service.ViagemService;
+import com.apisql.ApiSQL.service.view.*;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import com.apisql.ApiSQL.dto.ViagemResponseDTO;
 
-import com.apisql.ApiSQL.dto.view.OcorrenciaPorViagemDTO;
-import com.apisql.ApiSQL.dto.view.RelatorioSimplesViagemDTO;
-import com.apisql.ApiSQL.dto.view.VisaoBasicaViagemDTO;
 import com.apisql.ApiSQL.openapi.ViagemOpenApi;
 import com.apisql.ApiSQL.service.ViagemService;
-import com.apisql.ApiSQL.service.view.OcorrenciaPorViagemService;
-import com.apisql.ApiSQL.service.view.RelatorioSimplesViagemService;
-import com.apisql.ApiSQL.service.view.VisaoBasicaViagemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/viagens")
@@ -31,13 +29,24 @@ public class ViagemController implements ViagemOpenApi {
     private final RelatorioSimplesViagemService relatorioSimplesViagemService;
     private final OcorrenciaPorViagemService ocorrenciaPorViagemService;
     private final VisaoBasicaViagemService visaoBasicaViagemService;
+    private final VisaoBasicaViagemMotoristaInfoService visaoBasicaViagemMotoristaInfoService;
+    private final QuantidadeInfracoesMotoristaViagemService quantidadeInfracoesMotoristaViagemService;
+    private final QuantidadeInfracaoTipoGravidadeService quantidadeInfracoesTipoGravidadeService;
       
     @Autowired
-    public ViagemController(ViagemService viagemService, RelatorioSimplesViagemService relatorioSimplesViagemService, OcorrenciaPorViagemService ocorrenciaPorViagemService, VisaoBasicaViagemService visaoBasicaViagemService) {
+    public ViagemController(ViagemService viagemService, RelatorioSimplesViagemService relatorioSimplesViagemService,
+                            OcorrenciaPorViagemService ocorrenciaPorViagemService,
+                            VisaoBasicaViagemService visaoBasicaViagemService,
+                            VisaoBasicaViagemMotoristaInfoService visaoBasicaViagemMotoristaInfoService,
+                            QuantidadeInfracoesMotoristaViagemService quantidadeInfracoesMotoristaViagemService,
+                            QuantidadeInfracaoTipoGravidadeService quantidadeInfracoesTipoGravidadeService) {
         this.viagemService = viagemService;
         this.relatorioSimplesViagemService = relatorioSimplesViagemService;
         this.ocorrenciaPorViagemService = ocorrenciaPorViagemService;
         this.visaoBasicaViagemService = visaoBasicaViagemService;
+        this.visaoBasicaViagemMotoristaInfoService = visaoBasicaViagemMotoristaInfoService;
+        this.quantidadeInfracoesMotoristaViagemService = quantidadeInfracoesMotoristaViagemService;
+        this.quantidadeInfracoesTipoGravidadeService = quantidadeInfracoesTipoGravidadeService;
     }
 
     @Override
@@ -80,14 +89,34 @@ public class ViagemController implements ViagemOpenApi {
     public List<RelatorioSimplesViagemDTO> getAllRelatorioViagem(HttpServletRequest request) {
         return relatorioSimplesViagemService.findAll(request);
     }
-    
+
+    @Override
     @GetMapping("/ocorrencias")
     public List<OcorrenciaPorViagemDTO> getAllOcorrencias(HttpServletRequest request) {
         return ocorrenciaPorViagemService.findAll(request);
     }
 
+    @Override
     @GetMapping("/visao-basica/{id}")
-    public List<VisaoBasicaViagemDTO> getAllVisaoBasica(@PathVariable Integer id) {
-        return visaoBasicaViagemService.findALl(id);
+    public Optional<VisaoBasicaViagemDTO> getAllVisaoBasica(@PathVariable Integer id) {
+        return visaoBasicaViagemService.findById(id);
+    }
+
+    @Override
+    @GetMapping("/motorista-visao-basica/{id}")
+    public Optional<VisaoBasicaViagemMotoristaInfoDTO> getAllInfoMotorista(@PathVariable Integer id) {
+        return visaoBasicaViagemMotoristaInfoService.findById(id);
+    }
+
+    @Override
+    @GetMapping("/motorista-infracoes/{id}")
+    public Optional<QuantidadeInfracoesViagemMotoristaDTO> getAllInfracoesMotorista(@PathVariable Integer id) {
+        return quantidadeInfracoesMotoristaViagemService.findById(id);
+    }
+
+    @Override
+    @GetMapping("/quantidade-infracao-tipo-gravidade/{id}")
+    public Optional<QuantidadeInfracaoTipoGravidadeDTO> getAllInfracaoTipoGravidade(@PathVariable Integer id) {
+        return quantidadeInfracoesTipoGravidadeService.findById(id);
     }
 }

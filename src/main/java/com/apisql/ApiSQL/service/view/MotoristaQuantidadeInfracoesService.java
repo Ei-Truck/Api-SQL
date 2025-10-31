@@ -21,10 +21,13 @@ public class MotoristaQuantidadeInfracoesService {
         return resultado.stream()
                 .map(obj ->{
                     MotoristaQuantidadeInfracoesDTO dto = new MotoristaQuantidadeInfracoesDTO();
-                    dto.setMotorista(obj[0].toString());
-                    dto.setQuantidade_infracoes(((Number)obj[1]).longValue());
-                    dto.setMes(((Number)obj[2]).intValue());
-                    dto.setAno(((Number)obj[3]).intValue());
+                    dto.setMes(((Number)obj[0]).intValue());
+                    dto.setAno(((Number)obj[1]).intValue());
+                    dto.setIdUnidade(((Number)obj[2]).intValue());
+                    dto.setIdSegmento(((Number)obj[3]).intValue());
+                    dto.setIdLocalidade(((Number)obj[4]).intValue());
+                    dto.setMotorista(obj[5].toString());
+                    dto.setQuantidade_infracoes(((Number)obj[6]).longValue());
                     return dto;
                 }).toList();
     }
