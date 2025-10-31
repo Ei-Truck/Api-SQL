@@ -8,6 +8,7 @@ import com.apisql.ApiSQL.repository.view.InfracoesMotoristaViagemRepository;
 import com.apisql.ApiSQL.repository.view.QuantidadeInfracaoTipoGravidadeRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 import java.util.Date;
 import java.util.List;
 
@@ -35,7 +36,7 @@ public class VisaoBasicaViagemService {
         return resultadoBase.stream().map(obj -> {
             VisaoBasicaViagemDTO dto = new VisaoBasicaViagemDTO();
 
-            dto.setIdViagem((Integer) obj[0]);
+            dto.setIdViagem((Long) obj[0]);
             dto.setPlacaCaminhao((String) obj[1]);
             dto.setDataInicioViagem((Date) obj[2]);
             dto.setDataFimViagem((Date) obj[3]);
@@ -46,42 +47,42 @@ public class VisaoBasicaViagemService {
             dto.setUnidade((String) obj[8]);
             dto.setIdLocalidade((Integer) obj[9]);
 
-            Integer idViagem = dto.getIdViagem();
+            Long idViagem = dto.getIdViagem();
 
-            InfracoesMotoristaViagemDTO metricasGeraisDto = new InfracoesMotoristaViagemDTO();
+            List<Object[]> metricasList = infracoesMotoristaViagemRepository.buscarMetricasGerais(idViagem);
 
-            Object[] metricas = infracoesMotoristaViagemRepository.buscarMetricasGerais(idViagem);
+            List<InfracoesMotoristaViagemDTO> metricasGeraisDtos = metricasList.stream().map(m -> {
+                InfracoesMotoristaViagemDTO metricasGeraisDto = new InfracoesMotoristaViagemDTO();
+                metricasGeraisDto.setIdMotorista((Integer) m[0]);
+                metricasGeraisDto.setIdViagem((Integer) m[1]);
+                metricasGeraisDto.setIdUnidade((Integer) m[2]);
+                metricasGeraisDto.setIdLocalidade((Integer) m[3]);
+                metricasGeraisDto.setNomeMotorista((String) m[4]);
+                metricasGeraisDto.setUrlMidiaConcatenada((String) m[5]);
+                metricasGeraisDto.setRiscoMotorista((String) m[6]);
+                metricasGeraisDto.setQuantidadeInfracao(((Number) m[7]).longValue());
+                return metricasGeraisDto;
+            }).toList();
 
-            metricasGeraisDto.setIdMotorista((Integer) metricas[0]);
-            metricasGeraisDto.setIdViagem((Integer) metricas[1]);
-            metricasGeraisDto.setIdUnidade((Integer) metricas[2]);
-            metricasGeraisDto.setIdLocalidade((Integer) metricas[3]);
-            metricasGeraisDto.setNomeMotorista((String) metricas[4]);
-            metricasGeraisDto.setUrlMidiaConcatenada((String) metricas[5]);
-            metricasGeraisDto.setRiscoMotorista((String) metricas[6]);
-            metricasGeraisDto.setQuantidadeInfracao(((Number) metricas[7]).longValue());
-
-
-            dto.setMetricasGeraisInfracao(metricasGeraisDto);
+            dto.setMetricasGeraisInfracao(metricasGeraisDtos);
 
             QuantidadeInfracaoTipoGravidadeDTO metricasGravidadeDto = new QuantidadeInfracaoTipoGravidadeDTO();
-            List<Object[]> metricasList = quantidadeInfracaoTipoGravidadeRepository.buscarMetricasGravidade(idViagem);
+            List<Object[]> metricasGravidadeList = quantidadeInfracaoTipoGravidadeRepository.buscarMetricasGravidade(idViagem);
 
-            Object[] metricasGravidade = metricasList.get(0);
-
+            Object[] metricasGravidade = metricasGravidadeList.get(0);
             metricasGravidadeDto.setIdUnidade((Integer) metricasGravidade[0]);
             metricasGravidadeDto.setIdLocalidade((Integer) metricasGravidade[1]);
             metricasGravidadeDto.setIdViagem((Integer) metricasGravidade[2]);
             metricasGravidadeDto.setIdMotorista((Integer) metricasGravidade[3]);
-
             metricasGravidadeDto.setTipoLeve(((Number) metricasGravidade[4]).longValue());
             metricasGravidadeDto.setTipoMedia(((Number) metricasGravidade[5]).longValue());
             metricasGravidadeDto.setTipoGrave(((Number) metricasGravidade[6]).longValue());
             metricasGravidadeDto.setTipoGravissima(((Number) metricasGravidade[7]).longValue());
 
-            dto.setMetricasGravidade(metricasGravidadeDto);
+            dto.setMetricasGravidade(List.of(metricasGravidadeDto));
 
             return dto;
         }).toList();
     }
+
 }

@@ -11,7 +11,7 @@ public class TotalOcorrenciasDTO {
     @Column(name = "id_segmento")
     private Integer idSegmento;
     @Column(name = "id_localidade")
-    public Integer idLocalidade;
+    private Integer idLocalidade;
     private String ufEstado;
 
 
