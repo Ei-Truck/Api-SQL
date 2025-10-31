@@ -21,7 +21,7 @@ public class OcorrenciaPorTipoRepository {
 
     public List<Object[]> buscarOcorrenciaPorTipo(HttpServletRequest request) {
         String filtro = authorizationUser.gerarFiltroAutorizacao(request);
-        String sql = "SELECT * FROM vw_ocorrencias_por_tipo";
+        String sql = "SELECT *, (SELECT l.estado FROM tb_localidade l WHERE id_localidade=l.id) FROM vw_ocorrencias_por_tipo";
         if (filtro != null) {
             sql += " WHERE " + filtro;
         }
