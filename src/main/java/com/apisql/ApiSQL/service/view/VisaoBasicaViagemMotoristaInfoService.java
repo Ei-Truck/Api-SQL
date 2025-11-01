@@ -41,6 +41,7 @@ public class VisaoBasicaViagemMotoristaInfoService {
             dto.setNomeMotorista( (String)obj[7]);
             dto.setRiscoMotorista( (String)obj[8]);
             dto.setUrlMidiaConcatenada( (String)obj[9]);
+            dto.setUrlFotoMotorista((String)obj[10]);
 
             dtos.add(dto);
         }
