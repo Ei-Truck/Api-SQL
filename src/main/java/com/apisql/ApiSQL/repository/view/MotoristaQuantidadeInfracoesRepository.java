@@ -22,7 +22,7 @@ public class MotoristaQuantidadeInfracoesRepository {
 
     public List<Object[]> buscarQuantidadeInfracoesMotorista(HttpServletRequest request) {
         String filtro = authorizationUser.gerarFiltroAutorizacao(request);
-        String sql = "SELECT * FROM vw_motorista_quantidade_infracoes";
+        String sql = "SELECT *, (SELECT l.estado FROM tb_localidade l WHERE id_localidade=l.id) FROM vw_motorista_quantidade_infracoes";
         if (filtro != null) {
             sql += " WHERE " + filtro;
         }

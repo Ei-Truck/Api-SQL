@@ -9,6 +9,7 @@ public class MotoristaQuantidadeInfracoesDTO {
     private Integer idLocalidade;
     private String motorista;
     private Long quantidade_infracoes;
+    private String utfEstado;
 
     public MotoristaQuantidadeInfracoesDTO() {}
 
@@ -66,5 +67,13 @@ public class MotoristaQuantidadeInfracoesDTO {
 
     public void setQuantidade_infracoes(Long quantidade_infracoes) {
         this.quantidade_infracoes = quantidade_infracoes;
+    }
+
+    public String getUtfEstado() {
+        return utfEstado;
+    }
+
+    public void setUtfEstado(String utfEstado) {
+        this.utfEstado = utfEstado;
     }
 }
