@@ -1,5 +1,6 @@
 package com.apisql.ApiSQL.service;
 
+import com.apisql.ApiSQL.dto.ViagemPatchDTO;
 import com.apisql.ApiSQL.dto.ViagemRequestDTO;
 import com.apisql.ApiSQL.dto.ViagemResponseDTO;
 import com.apisql.ApiSQL.exception.ResourceNotFoundException;
@@ -113,7 +114,7 @@ public class ViagemService {
     }
 
     @Transactional
-    public ViagemResponseDTO checkAnalyzed(Integer id, ViagemRequestDTO dto) {
+    public ViagemResponseDTO checkAnalyzed(Integer id, ViagemPatchDTO dto) {
         Viagem viagemExistente = viagemRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Viagem com id:" + id + " não encontrada para exclusão"));
 

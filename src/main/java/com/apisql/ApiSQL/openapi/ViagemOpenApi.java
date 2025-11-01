@@ -1,5 +1,6 @@
 package com.apisql.ApiSQL.openapi;
 
+import com.apisql.ApiSQL.dto.ViagemPatchDTO;
 import com.apisql.ApiSQL.dto.ViagemRequestDTO;
 import com.apisql.ApiSQL.dto.ViagemResponseDTO;
 import com.apisql.ApiSQL.dto.view.QuantidadeInfracaoTipoGravidadeDTO;
@@ -125,5 +126,5 @@ public interface ViagemOpenApi {
                     @ApiResponse(responseCode = "400", description = "Dados inválidos para o cheque.")
             })
     ViagemResponseDTO checkViagem(@Parameter(description = "ID da Viagem") @PathVariable Integer id,
-                                  @RequestBody ViagemRequestDTO dto);
+                                  @RequestBody ViagemPatchDTO dto);
 }
