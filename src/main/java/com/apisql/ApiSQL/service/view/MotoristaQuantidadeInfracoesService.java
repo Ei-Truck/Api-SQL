@@ -28,6 +28,7 @@ public class MotoristaQuantidadeInfracoesService {
                     dto.setIdLocalidade(((Number)obj[4]).intValue());
                     dto.setMotorista(obj[5].toString());
                     dto.setQuantidade_infracoes(((Number)obj[6]).longValue());
+                    dto.setUtfEstado(obj[7].toString());
                     return dto;
                 }).toList();
     }
