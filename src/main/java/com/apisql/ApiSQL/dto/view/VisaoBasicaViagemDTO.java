@@ -8,6 +8,7 @@ public class VisaoBasicaViagemDTO {
     private Date dataInicioViagem;
     private Date dataFimViagem;
     private String kmViagem;
+    private String segmento;
 
     public VisaoBasicaViagemDTO() {
     }
@@ -23,5 +24,7 @@ public class VisaoBasicaViagemDTO {
     public void setDataFimViagem(Date dataFimViagem) { this.dataFimViagem = dataFimViagem; }
     public String getKmViagem() { return kmViagem; }
     public void setKmViagem(String kmViagem) { this.kmViagem = kmViagem; }
+    public String getSegmento() { return segmento; }
+    public void setSegmento(String segmento) { this.segmento = segmento; }
 
 }

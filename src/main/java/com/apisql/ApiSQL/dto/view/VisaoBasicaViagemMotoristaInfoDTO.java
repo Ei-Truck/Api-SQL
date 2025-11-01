@@ -11,6 +11,7 @@ public class VisaoBasicaViagemMotoristaInfoDTO {
     private String nomeMotorista;
     private String riscoMotorista;
     private String urlMidiaConcatenada;
+    private String urlFotoMotorista;
 
     public VisaoBasicaViagemMotoristaInfoDTO() {}
 
@@ -92,5 +93,13 @@ public class VisaoBasicaViagemMotoristaInfoDTO {
 
     public void setUrlMidiaConcatenada(String urlMidiaConcatenada) {
         this.urlMidiaConcatenada = urlMidiaConcatenada;
+    }
+
+    public String getUrlFotoMotorista(){
+        return urlFotoMotorista;
+    }
+
+    public void setUrlFotoMotorista(String urlFotoMotorista){
+        this.urlFotoMotorista = urlFotoMotorista;
     }
 }
