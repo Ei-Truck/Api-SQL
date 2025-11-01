@@ -119,4 +119,10 @@ public class ViagemController implements ViagemOpenApi {
     public List<QuantidadeInfracaoTipoGravidadeDTO> getAllInfracaoTipoGravidade(@PathVariable Integer id) {
         return quantidadeInfracoesTipoGravidadeService.findById(id);
     }
+
+    @Override
+    @PatchMapping("/check-viagem/{id}")
+    public ViagemResponseDTO checkViagem(@PathVariable Integer id, @Valid @RequestBody ViagemRequestDTO dto) {
+        return viagemService.checkAnalyzed(id, dto);
+    }
 }
