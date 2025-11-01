@@ -1,5 +1,6 @@
 package com.apisql.ApiSQL.controller;
 
+import com.apisql.ApiSQL.dto.ViagemPatchDTO;
 import com.apisql.ApiSQL.dto.ViagemRequestDTO;
 import com.apisql.ApiSQL.dto.ViagemResponseDTO;
 import com.apisql.ApiSQL.dto.view.*;
@@ -122,7 +123,7 @@ public class ViagemController implements ViagemOpenApi {
 
     @Override
     @PatchMapping("/check-viagem/{id}")
-    public ViagemResponseDTO checkViagem(@PathVariable Integer id, @Valid @RequestBody ViagemRequestDTO dto) {
+    public ViagemResponseDTO checkViagem(@PathVariable Integer id, @Valid @RequestBody ViagemPatchDTO dto) {
         return viagemService.checkAnalyzed(id, dto);
     }
 }
