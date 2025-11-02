@@ -1,6 +1,8 @@
 package com.apisql.ApiSQL.service;
 
+import com.apisql.ApiSQL.config.EmailConfig;
 import com.apisql.ApiSQL.dto.UsuarioResponseDTO;
+import com.apisql.ApiSQL.dto.UsuarioSenhaResponseDTO;
 import com.apisql.ApiSQL.exception.ResourceNotFoundException;
 import com.apisql.ApiSQL.model.Usuario;
 import com.apisql.ApiSQL.repository.CargoRepository;
@@ -21,6 +23,7 @@ import software.amazon.awssdk.services.s3.model.PutObjectResponse;
 import java.nio.file.Path;
 import java.util.List;
 import java.util.Optional;
+import java.util.Random;
 
 @Service
 public class UsuarioService {
@@ -31,15 +34,17 @@ public class UsuarioService {
     private final ObjectMapper objectMapper;
     private final S3Client s3Client;
     private final PasswordEncoder passwordEncoder;
+    private final EmailConfig emailConfig;
 
 
-    public UsuarioService(UsuarioRepository usuarioRepository, ObjectMapper objectMapper, UnidadeRepository unidadeRepository, CargoRepository cargoRepository, S3Client s3Client, PasswordEncoder passwordEncoder) {
+    public UsuarioService(UsuarioRepository usuarioRepository, ObjectMapper objectMapper, UnidadeRepository unidadeRepository, CargoRepository cargoRepository, S3Client s3Client, PasswordEncoder passwordEncoder,  EmailConfig emailConfig) {
         this.usuarioRepository = usuarioRepository;
         this.objectMapper = objectMapper;
         this.unidadeRepository = unidadeRepository;
         this.cargoRepository = cargoRepository;
         this.s3Client = s3Client;
         this.passwordEncoder = passwordEncoder;
+        this.emailConfig = emailConfig;
     }
 
     public List<UsuarioResponseDTO> findAll() {
@@ -57,10 +62,15 @@ public class UsuarioService {
         throw new ResourceNotFoundException("Usuário não encontrado com ID: " + id);
     }
 
-    public UsuarioResponseDTO findByTelefone(String telefone) {
+    public UsuarioSenhaResponseDTO findByTelefone(String telefone) {
         Optional<Usuario> response = usuarioRepository.findByTelefone(telefone);
         if (response.isPresent()) {
-            return objectMapper.convertValue(response.get(), UsuarioResponseDTO.class);
+            Random random = new Random();
+            int codigo = 1000 + random.nextInt(9000);
+            emailConfig.enviarEmail("ma23moura@gmail.com", "Código para recuperação de senha", "Aqui está seu código para acesso ao Ei Truck "+codigo);
+            UsuarioSenhaResponseDTO senhaResponseDTO = objectMapper.convertValue(response.get(), UsuarioSenhaResponseDTO.class);
+            senhaResponseDTO.setCodigo(String.valueOf(codigo));
+            return senhaResponseDTO;
         }
         throw new ResourceNotFoundException("Usuário não encontrado com telefone: " + telefone);
     }
