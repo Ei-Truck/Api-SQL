@@ -2,12 +2,12 @@ package com.apisql.ApiSQL.dto;
 
 public class UsuarioSenhaResponseDTO {
     private Integer id;
-    private String telefone;
+    private String email;
     private String codigo;
 
-    public UsuarioSenhaResponseDTO(Integer id, String telefone, String codigo) {
+    public UsuarioSenhaResponseDTO(Integer id, String email, String codigo) {
         this.id = id;
-        this.telefone = telefone;
+        this.email = email;
         this.codigo = codigo;
     }
 
@@ -19,12 +19,12 @@ public class UsuarioSenhaResponseDTO {
         this.id = id;
     }
 
-    public String getTelefone() {
-        return telefone;
+    public String getEmail() {
+        return email;
     }
 
-    public void setTelefone(String telefone) {
-        this.telefone = telefone;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getCodigo() {

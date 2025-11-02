@@ -3,7 +3,6 @@ package com.apisql.ApiSQL.controller;
 import com.apisql.ApiSQL.dto.UsuarioResponseDTO;
 import com.apisql.ApiSQL.dto.UsuarioSenhaPatchDTO;
 import com.apisql.ApiSQL.dto.UsuarioSenhaResponseDTO;
-import com.apisql.ApiSQL.model.Usuario;
 import com.apisql.ApiSQL.openapi.UsuarioOpenApi;
 import com.apisql.ApiSQL.service.UsuarioService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -43,9 +42,9 @@ public class UsuarioController implements UsuarioOpenApi {
     }
 
     @Override
-    @GetMapping("/telefone/{telefone}")
-    public ResponseEntity<UsuarioSenhaResponseDTO> findByTelefone(@PathVariable String telefone) {
-        UsuarioSenhaResponseDTO usuario = usuarioService.findByTelefone(telefone);
+    @GetMapping("/email/{email}")
+    public ResponseEntity<UsuarioSenhaResponseDTO> findByEmail(@PathVariable String email) {
+        UsuarioSenhaResponseDTO usuario = usuarioService.findByEmail(email);
         return ResponseEntity.ok(usuario);
     }
 
