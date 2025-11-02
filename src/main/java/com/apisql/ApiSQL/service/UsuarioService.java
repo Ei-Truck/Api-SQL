@@ -1,6 +1,5 @@
 package com.apisql.ApiSQL.service;
 
-import com.apisql.ApiSQL.config.EmailConfig;
 import com.apisql.ApiSQL.dto.UsuarioResponseDTO;
 import com.apisql.ApiSQL.dto.UsuarioSenhaResponseDTO;
 import com.apisql.ApiSQL.exception.ResourceNotFoundException;
@@ -33,17 +32,14 @@ public class UsuarioService {
     private final ObjectMapper objectMapper;
     private final S3Client s3Client;
     private final PasswordEncoder passwordEncoder;
-    private final EmailConfig emailConfig;
 
-
-    public UsuarioService(UsuarioRepository usuarioRepository, ObjectMapper objectMapper, UnidadeRepository unidadeRepository, CargoRepository cargoRepository, S3Client s3Client, PasswordEncoder passwordEncoder,  EmailConfig emailConfig) {
+    public UsuarioService(UsuarioRepository usuarioRepository, ObjectMapper objectMapper, UnidadeRepository unidadeRepository, CargoRepository cargoRepository, S3Client s3Client, PasswordEncoder passwordEncoder) {
         this.usuarioRepository = usuarioRepository;
         this.objectMapper = objectMapper;
         this.unidadeRepository = unidadeRepository;
         this.cargoRepository = cargoRepository;
         this.s3Client = s3Client;
         this.passwordEncoder = passwordEncoder;
-        this.emailConfig = emailConfig;
     }
 
     public List<UsuarioResponseDTO> findAll() {
@@ -66,7 +62,6 @@ public class UsuarioService {
         if (response.isPresent()) {
             Random random = new Random();
             int codigo = 1000 + random.nextInt(9000);
-            emailConfig.enviarEmail("ma23moura@gmail.com", "Código para recuperação de senha", "Aqui está seu código para acesso ao Ei Truck "+codigo);
             UsuarioSenhaResponseDTO senhaResponseDTO = objectMapper.convertValue(response.get(), UsuarioSenhaResponseDTO.class);
             senhaResponseDTO.setCodigo(String.valueOf(codigo));
             return senhaResponseDTO;
