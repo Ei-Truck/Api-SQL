@@ -100,7 +100,7 @@ Após subir o container ou rodar o projeto com `mvn spring-boot:run`, acesse:
 ### Exemplo de requisição — **Consultar visão básica das viagens**
 
 ```http
-GET /viagens/visao-basica
+GET /viagens/visao-basica/{id}
 Authorization: Bearer <seu_token_jwt>
 ```
 
@@ -109,44 +109,26 @@ Authorization: Bearer <seu_token_jwt>
 ```json
 [
   {
-    "idViagem": 11,
-    "idMotorista": 5,
-    "nomeMotorista": "Carlos Almeida",
-    "placaCaminhao": "ABC-1234",
-    "tratativa": "Entrega reprogramada",
-    "status": "Em andamento"
+  "idViagem": 0,
+  "placaCaminhao": "string",
+  "dataInicioViagem": "2025-11-02T01:55:16.386Z",
+  "dataFimViagem": "2025-11-02T01:55:16.386Z",
+  "kmViagem": "string",
+  "segmento": "string"
   }
 ]
 ```
-
----
-
-## 🔧 Variáveis de Ambiente
-
-Crie um arquivo `.env` com as variáveis:
-
-```env
-DB_HOST=
-DB_PORT=
-DB_NAME=
-DB_USER=
-DB_PASSWORD=
-DB_SSLMODE=
-```
-
-💡 *Você pode se basear no arquivo `.env.example` incluído no projeto.*
-
 ---
 
 ## 🧩 Endpoints Principais
 
 | Método | Rota | Descrição |
 |--------|------|-----------|
-| `GET` | `/viagens/visao-basica` | Retorna visão consolidada das viagens |
-| `GET` | `/usuarios/logado` | Retorna informações do usuário autenticado |
-| `POST` | `/viagens` | Cria nova viagem |
-| `PUT` | `/viagens/{id}` | Atualiza dados da viagem |
-| `DELETE` | `/viagens/{id}` | Remove uma viagem existente |
+| `GET` | `/viagens/visao-basica/{id}` | Retorna visão consolidada das viagens |
+| `POST` | `/login` | Realiza autenticação do usuario e gera token JWT |
+| `PATCH` | `/usuarios/senha/{id}` | Altera senha de um usuário |
+| `PATCH` | `/viagens/check-viagem/{id}` | Marca uma viagem como analizada |
+| `DELETE` | `/viagens/motorista-infracoes/{id}` | Retorna a quantidade de infrações do motorista na viagem |
 
 ---
 
