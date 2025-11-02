@@ -15,7 +15,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 
-import java.time.LocalDateTime;
 import software.amazon.awssdk.services.s3.S3Client;
 import software.amazon.awssdk.services.s3.model.PutObjectRequest;
 import software.amazon.awssdk.services.s3.model.PutObjectResponse;
@@ -62,8 +61,8 @@ public class UsuarioService {
         throw new ResourceNotFoundException("Usuário não encontrado com ID: " + id);
     }
 
-    public UsuarioSenhaResponseDTO findByTelefone(String telefone) {
-        Optional<Usuario> response = usuarioRepository.findByTelefone(telefone);
+    public UsuarioSenhaResponseDTO findByEmail(String email) {
+        Optional<Usuario> response = usuarioRepository.findByEmail(email);
         if (response.isPresent()) {
             Random random = new Random();
             int codigo = 1000 + random.nextInt(9000);
@@ -72,7 +71,7 @@ public class UsuarioService {
             senhaResponseDTO.setCodigo(String.valueOf(codigo));
             return senhaResponseDTO;
         }
-        throw new ResourceNotFoundException("Usuário não encontrado com telefone: " + telefone);
+        throw new ResourceNotFoundException("Usuário não encontrado com e-mail: " + email);
     }
 
     @Transactional
