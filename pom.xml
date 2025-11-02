@@ -81,9 +81,9 @@
             <version>2.22.10</version>
         </dependency>
         <dependency>
-            <groupId>com.twilio.sdk</groupId>
-            <artifactId>twilio</artifactId>
-            <version>11.0.2</version>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-mail</artifactId>
+            <version>3.5.7</version>
         </dependency>
     </dependencies>
 
