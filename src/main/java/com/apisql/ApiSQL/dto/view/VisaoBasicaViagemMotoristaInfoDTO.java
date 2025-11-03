@@ -3,14 +3,13 @@ package com.apisql.ApiSQL.dto.view;
 public class VisaoBasicaViagemMotoristaInfoDTO {
     private Integer idViagem;
     private Integer idMotorista;
-    private Integer idSegmento;
-    private String segmento;
     private Integer idUnidade;
     private String unidade;
     private Integer idLocalidade;
     private String nomeMotorista;
     private String riscoMotorista;
     private String urlMidiaConcatenada;
+    private String urlFotoMotorista;
 
     public VisaoBasicaViagemMotoristaInfoDTO() {}
 
@@ -28,22 +27,6 @@ public class VisaoBasicaViagemMotoristaInfoDTO {
 
     public void setIdMotorista(Integer idMotorista) {
         this.idMotorista = idMotorista;
-    }
-
-    public Integer getIdSegmento() {
-        return idSegmento;
-    }
-
-    public void setIdSegmento(Integer idSegmento) {
-        this.idSegmento = idSegmento;
-    }
-
-    public String getSegmento() {
-        return segmento;
-    }
-
-    public void setSegmento(String segmento) {
-        this.segmento = segmento;
     }
 
     public Integer getIdUnidade() {
@@ -92,5 +75,13 @@ public class VisaoBasicaViagemMotoristaInfoDTO {
 
     public void setUrlMidiaConcatenada(String urlMidiaConcatenada) {
         this.urlMidiaConcatenada = urlMidiaConcatenada;
+    }
+
+    public String getUrlFotoMotorista(){
+        return urlFotoMotorista;
+    }
+
+    public void setUrlFotoMotorista(String urlFotoMotorista){
+        this.urlFotoMotorista = urlFotoMotorista;
     }
 }

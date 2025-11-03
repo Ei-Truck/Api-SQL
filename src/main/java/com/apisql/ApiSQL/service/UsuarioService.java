@@ -1,6 +1,7 @@
 package com.apisql.ApiSQL.service;
 
 import com.apisql.ApiSQL.dto.UsuarioResponseDTO;
+import com.apisql.ApiSQL.dto.UsuarioSenhaResponseDTO;
 import com.apisql.ApiSQL.exception.ResourceNotFoundException;
 import com.apisql.ApiSQL.model.Usuario;
 import com.apisql.ApiSQL.repository.CargoRepository;
@@ -13,7 +14,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 
-import java.time.LocalDateTime;
 import software.amazon.awssdk.services.s3.S3Client;
 import software.amazon.awssdk.services.s3.model.PutObjectRequest;
 import software.amazon.awssdk.services.s3.model.PutObjectResponse;
@@ -21,6 +21,7 @@ import software.amazon.awssdk.services.s3.model.PutObjectResponse;
 import java.nio.file.Path;
 import java.util.List;
 import java.util.Optional;
+import java.util.Random;
 
 @Service
 public class UsuarioService {
@@ -31,7 +32,6 @@ public class UsuarioService {
     private final ObjectMapper objectMapper;
     private final S3Client s3Client;
     private final PasswordEncoder passwordEncoder;
-
 
     public UsuarioService(UsuarioRepository usuarioRepository, ObjectMapper objectMapper, UnidadeRepository unidadeRepository, CargoRepository cargoRepository, S3Client s3Client, PasswordEncoder passwordEncoder) {
         this.usuarioRepository = usuarioRepository;
@@ -57,12 +57,16 @@ public class UsuarioService {
         throw new ResourceNotFoundException("Usuário não encontrado com ID: " + id);
     }
 
-    public UsuarioResponseDTO findByTelefone(String telefone) {
-        Optional<Usuario> response = usuarioRepository.findByTelefone(telefone);
+    public UsuarioSenhaResponseDTO findByEmail(String email) {
+        Optional<Usuario> response = usuarioRepository.findByEmail(email);
         if (response.isPresent()) {
-            return objectMapper.convertValue(response.get(), UsuarioResponseDTO.class);
+            Random random = new Random();
+            int codigo = 1000 + random.nextInt(9000);
+            UsuarioSenhaResponseDTO senhaResponseDTO = objectMapper.convertValue(response.get(), UsuarioSenhaResponseDTO.class);
+            senhaResponseDTO.setCodigo(String.valueOf(codigo));
+            return senhaResponseDTO;
         }
-        throw new ResourceNotFoundException("Usuário não encontrado com telefone: " + telefone);
+        throw new ResourceNotFoundException("Usuário não encontrado com e-mail: " + email);
     }
 
     @Transactional

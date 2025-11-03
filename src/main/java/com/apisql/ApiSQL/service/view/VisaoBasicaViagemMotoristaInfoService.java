@@ -33,14 +33,13 @@ public class VisaoBasicaViagemMotoristaInfoService {
 
             dto.setIdViagem(((Integer)obj[0]));
             dto.setIdMotorista((Integer)obj[1]);
-            dto.setIdSegmento((Integer)obj[2]);
-            dto.setSegmento((String)obj[3]);
-            dto.setIdUnidade((Integer)obj[4]);
-            dto.setUnidade((String)obj[5]);
-            dto.setIdLocalidade((Integer)obj[6]);
-            dto.setNomeMotorista( (String)obj[7]);
-            dto.setRiscoMotorista( (String)obj[8]);
-            dto.setUrlMidiaConcatenada( (String)obj[9]);
+            dto.setIdUnidade((Integer)obj[2]);
+            dto.setUnidade((String)obj[3]);
+            dto.setIdLocalidade((Integer)obj[4]);
+            dto.setNomeMotorista( (String)obj[5]);
+            dto.setRiscoMotorista( (String)obj[6]);
+            dto.setUrlMidiaConcatenada( (String)obj[7]);
+            dto.setUrlFotoMotorista((String)obj[8]);
 
             dtos.add(dto);
         }

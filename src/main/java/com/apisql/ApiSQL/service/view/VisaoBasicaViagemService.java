@@ -36,6 +36,7 @@ public class VisaoBasicaViagemService {
         dto.setDataInicioViagem((java.util.Date) obj[2]);
         dto.setDataFimViagem((java.util.Date) obj[3]);
         dto.setKmViagem((String) obj[4]);
+        dto.setSegmento((String) obj[5]);
         return Optional.of(dto);
     }
 }

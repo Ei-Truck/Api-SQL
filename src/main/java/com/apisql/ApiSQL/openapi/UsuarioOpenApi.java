@@ -2,6 +2,7 @@ package com.apisql.ApiSQL.openapi;
 
 import com.apisql.ApiSQL.dto.UsuarioResponseDTO;
 import com.apisql.ApiSQL.dto.UsuarioSenhaPatchDTO;
+import com.apisql.ApiSQL.dto.UsuarioSenhaResponseDTO;
 import com.apisql.ApiSQL.model.Usuario;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -33,13 +34,13 @@ public interface UsuarioOpenApi {
     })
     ResponseEntity<UsuarioResponseDTO> findById(@Parameter(description = "ID do Usuário") @PathVariable Integer id);
 
-    @Operation(summary = "Busca Usuário por telefone", description = "Retorna os detalhes de um usuário pelo telefone.")
+    @Operation(summary = "Busca Usuário por email", description = "Retorna os detalhes de um usuário pelo email.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Usuário encontrado com sucesso.",
-                    content = @Content(schema = @Schema(implementation = UsuarioResponseDTO.class))),
+                    content = @Content(schema = @Schema(implementation = UsuarioSenhaResponseDTO.class))),
             @ApiResponse(responseCode = "404", description = "Usuário não encontrado.")
     })
-    ResponseEntity<UsuarioResponseDTO> findByTelefone(@PathVariable String telefone);
+    ResponseEntity<UsuarioSenhaResponseDTO> findByEmail(@PathVariable String email);
 
     @Operation(summary = "Deleta um Usuário", description = "Remove um Usuário do banco de dados pelo seu ID.")
     @ApiResponses(value = {
