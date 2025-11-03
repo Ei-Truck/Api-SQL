@@ -16,7 +16,7 @@ public class MidiaInfracaoResponseDTO {
     private InfracaoResponseDTO infracao;
     private MotoristaResponseDTO motorista;
 
-    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSSSS")
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSSSSS")
     private LocalDateTime updatedAt;
 
     public MidiaInfracaoResponseDTO() {}

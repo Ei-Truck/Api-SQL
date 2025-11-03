@@ -13,11 +13,21 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
+import software.amazon.awssdk.auth.credentials.AwsBasicCredentials;
+import software.amazon.awssdk.auth.credentials.StaticCredentialsProvider;
+import software.amazon.awssdk.regions.Region;
+import software.amazon.awssdk.services.s3.S3Client;
+import software.amazon.awssdk.services.s3.model.PutObjectRequest;
+import software.amazon.awssdk.services.s3.model.PutObjectResponse;
 
+import software.amazon.awssdk.core.sync.RequestBody;
+
+import java.io.IOException;
+import java.nio.file.Path;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class MidiaConcatenadaService {
@@ -27,12 +37,18 @@ public class MidiaConcatenadaService {
     private final MotoristaRepository motoristaRepository;
     private final ObjectMapper objectMapper;
 
-    public MidiaConcatenadaService(MidiaConcatenadaRepository repository, ViagemRepository viagemRepository, MotoristaRepository motoristaRepository, ObjectMapper objectMapper) {
+
+    public MidiaConcatenadaService(
+            MidiaConcatenadaRepository repository,
+            ViagemRepository viagemRepository,
+            MotoristaRepository motoristaRepository,
+            ObjectMapper objectMapper
+    ) {
         this.repository = repository;
         this.viagemRepository = viagemRepository;
         this.motoristaRepository = motoristaRepository;
         this.objectMapper = objectMapper;
-    }
+        }
 
     public List<MidiaConcatenadaResponseDTO> findAll() {
         return repository.findAll().stream()
@@ -91,4 +107,6 @@ public class MidiaConcatenadaService {
         }
         repository.deleteById(id);
     }
+
+
 }
