@@ -27,6 +27,7 @@ public class TotalOcorrenciasService {
                     dto.setIdSegmento(((Number)obj[3]).intValue());
                     dto.setIdLocalidade(((Number)obj[4]).intValue());
                     dto.setTotal_ocorrencias(((Number)obj[5]).longValue());
+                    dto.setUfEstado((String)obj[6]);
                     return dto;
                 }).toList();
     }
