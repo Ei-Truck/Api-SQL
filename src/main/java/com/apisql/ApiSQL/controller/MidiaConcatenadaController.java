@@ -15,7 +15,6 @@ import java.util.List;
 public class MidiaConcatenadaController implements MidiaConcatenadaOpenApi {
 
     private final MidiaConcatenadaService service;
-
     public MidiaConcatenadaController(MidiaConcatenadaService service) {
         this.service = service;
     }

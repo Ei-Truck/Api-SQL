@@ -2,6 +2,7 @@ package com.apisql.ApiSQL.openapi;
 
 import com.apisql.ApiSQL.dto.MidiaConcatenadaRequestDTO;
 import com.apisql.ApiSQL.dto.MidiaConcatenadaResponseDTO;
+import com.apisql.ApiSQL.dto.MidiaUploadRequest;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -10,9 +11,10 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 @Tag(name = "Mídia Concatenada", description = "Gerenciamento de URLs de mídia (vídeos, etc.) de viagens concatenadas.")
@@ -53,4 +55,6 @@ public interface MidiaConcatenadaOpenApi {
             @ApiResponse(responseCode = "404", description = "Mídia não encontrada para exclusão.")
     })
     ResponseEntity<Void> deleteById(@Parameter(description = "ID da mídia a ser deletada") @PathVariable Integer id);
+
+
 }

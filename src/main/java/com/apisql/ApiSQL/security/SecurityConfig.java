@@ -53,11 +53,16 @@ public class SecurityConfig {
         http
                 .cors(cors -> cors.configurationSource(request -> {
                     var corsConfig = new CorsConfiguration();
-                    corsConfig.setAllowedOrigins(List.of("http://localhost:3000"));
+                    corsConfig.setAllowedOrigins(List.of(
+                            "http://localhost:3000",   // seu front-end React
+                            "http://localhost:8080"    // Swagger UI
+                    ));
                     corsConfig.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE"));
                     corsConfig.setAllowedHeaders(List.of("*"));
+                    corsConfig.setAllowCredentials(true);
                     return corsConfig;
                 }))
+
                 .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
